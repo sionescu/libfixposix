@@ -1,0 +1,82 @@
+dnl Process this file with autoconf to produce a configure script.
+dnl
+dnl This file is free software; as a special exception the author gives
+dnl unlimited permission to copy and/or distribute it, with or without
+dnl modifications, as long as this notice is preserved.
+dnl
+dnl This program is distributed in the hope that it will be useful, but
+dnl WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+dnl Minimum Autoconf version required.
+AC_PREREQ(2.60)
+AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
+        [libfixposix], [http://common-lisp.net/project/iolib/])
+
+dnl Must come before AM_INIT_AUTOMAKE.
+AC_CONFIG_AUX_DIR([build-aux])
+AM_INIT_AUTOMAKE([1.11 foreign silent-rules subdir-objects])
+
+dnl Have Kbuild-like build output
+AM_SILENT_RULES([yes])
+
+dnl Where to generate output; srcdir location.
+AC_CONFIG_SRCDIR([src/install_signalfd.c])
+# AC_CONFIG_HEADERS([config.h:config.h.in])
+
+dnl Auxiliary M4 macros
+AC_CONFIG_MACRO_DIR([m4])
+
+dnl Contains replacement functions
+# AC_CONFIG_LIBOBJ_DIR([lib])
+
+dnl Checks for programs.
+# We need a C compiler.
+AC_PROG_CC
+AC_PROG_CC_C99
+AC_USE_SYSTEM_EXTENSIONS
+# And we need libtool for building the shared library
+AC_PROG_LIBTOOL
+
+dnl Checks for C99 headers
+AC_HEADER_ASSERT
+AC_CHECK_HEADER_STRICT(stdlib.h)
+AC_CHECK_HEADER_STRICT(stdio.h)
+AC_CHECK_HEADER_STRICT(string.h)
+AC_CHECK_HEADER_STRICT(errno.h)
+
+dnl Checks for POSIX headers
+AC_CHECK_HEADER_STRICT(sys/types.h)
+AC_CHECK_HEADER_STRICT(unistd.h)
+AC_CHECK_HEADER_STRICT(fcntl.h)
+AC_CHECK_HEADER_STRICT(signal.h)
+AC_CHECK_HEADER(sys/signalfd.h)
+
+AC_ARG_ENABLE([emulated-signalfd],
+  [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],
+    [Use emulated signalfd @<:@default=check@:>@])],
+  [],
+  [enable_emulated_signalfd=check])
+
+AS_CASE($enable_emulated_signalfd,
+  [yes], [AC_DEFINE([HAVE_EMULATED_SIGNALFD], [1], [Whether to use signalfd emulation])],
+  [check], [if test x"$ac_cv_header_signalfd_h" != xyes ; then
+              AC_DEFINE([HAVE_EMULATED_SIGNALFD], [0], [Whether to use signalfd emulation])
+            else
+              AC_DEFINE([HAVE_EMULATED_SIGNALFD], [1], [Whether to use signalfd emulation])
+            fi],
+  [no], [if test x"$ac_cv_header_signalfd_h" != xyes ; then
+           AC_MSG_FAILURE([signalfd emulation was disabled although <sys/signalfd.h> is absent])
+         else
+           AC_DEFINE([HAVE_EMULATED_SIGNALFD], [0], [Whether to use signalfd emulation])
+         fi],
+  [AC_MSG_FAILURE(
+    [--enable-emulated-signalfd was given an illegal value: "$enable_emulated_signalfd"])])
+
+dnl Unused ATM, but it won't do harm to
+dnl have them empty
+AC_SUBST(LFP_DEP_CFLAGS)
+AC_SUBST(LFP_DEP_LIBS)
+
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT
