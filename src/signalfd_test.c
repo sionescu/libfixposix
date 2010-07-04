@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <sys/select.h>
 
 static inline void error_abort (const char* msg, int perrorp) {
         if (perrorp) {
@@ -15,7 +16,12 @@ static inline void error_abort (const char* msg, int perrorp) {
 
 static inline ssize_t do_read(int fd, void *buf, size_t count) {
         ssize_t s;
+        fd_set readfds;
+        FD_ZERO(&readfds);
+
 do_try_read:
+        FD_SET(fd,&readfds);
+        select(fd+1, &readfds, NULL, NULL, NULL);
         s = read(fd, buf, count);
         if (s != -1) {
                 return s;

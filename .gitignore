@@ -1,0 +1,14 @@
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache/
+build-aux/
+config.*
+configure
+libtool
+m4/
+src/.*
+*.lo
+*.o
+*.la
+src/signalfd_test
