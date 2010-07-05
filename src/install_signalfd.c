@@ -31,9 +31,9 @@ static inline
 int lfp_signalfd (int fd, const sigset_t *mask, int flags)
 {
     if (HAVE_EMULATED_SIGNALFD) {
-        return signalfd(fd, mask, flags);
-    } else {
         return -1;
+    } else {
+        return signalfd(fd, mask, flags);
     }
 }
 

@@ -60,15 +60,15 @@ AC_ARG_ENABLE([emulated-signalfd],
 
 AS_CASE($enable_emulated_signalfd,
   [yes], [AC_DEFINE([HAVE_EMULATED_SIGNALFD], [1], [Whether to use signalfd emulation])],
-  [check], [if test x"$ac_cv_header_signalfd_h" != xyes ; then
+  [check], [if test x"$ac_cv_header_sys_signalfd_h" = xyes ; then
               AC_DEFINE([HAVE_EMULATED_SIGNALFD], [0], [Whether to use signalfd emulation])
             else
               AC_DEFINE([HAVE_EMULATED_SIGNALFD], [1], [Whether to use signalfd emulation])
             fi],
-  [no], [if test x"$ac_cv_header_signalfd_h" != xyes ; then
-           AC_MSG_FAILURE([signalfd emulation was disabled although <sys/signalfd.h> is absent])
-         else
+  [no], [if test x"$ac_cv_header_sys_signalfd_h" = xyes ; then
            AC_DEFINE([HAVE_EMULATED_SIGNALFD], [0], [Whether to use signalfd emulation])
+         else
+           AC_MSG_FAILURE([signalfd emulation was disabled although <sys/signalfd.h> is absent])
          fi],
   [AC_MSG_FAILURE(
     [--enable-emulated-signalfd was given an illegal value: "$enable_emulated_signalfd"])])
