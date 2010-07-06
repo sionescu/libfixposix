@@ -4,28 +4,18 @@
 #include <assert.h>
 #include <errno.h>
 
+#include <unistd.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+#include "lfp_unistd.h"
 #include "install_signalfd.h"
 
 static struct signalfd_params {
     int read_fd;
     int write_fd;
 } *(signalfd_params[NSIG]);
-
-static inline
-int lfp_pipe (int pipefd[2], int flags)
-{
-    if (HAVE_EMULATED_SIGNALFD) {
-        return pipe2(pipefd, flags);
-    }
-    else {
-        int ret = pipe(pipefd);
-        if (ret != 0) { return -1; }
-        if (flags&O_NONBLOCK) {
-            return fcntl(pipefd[0], F_SETFL, O_NONBLOCK);
-        }
-        return 0;
-    }
-}
 
 static inline
 int lfp_signalfd (int fd, const sigset_t *mask, int flags)

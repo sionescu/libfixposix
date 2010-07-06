@@ -52,6 +52,9 @@ AC_CHECK_HEADER_STRICT(fcntl.h)
 AC_CHECK_HEADER_STRICT(signal.h)
 AC_CHECK_HEADER(sys/signalfd.h)
 
+dnl Checks for functions
+AC_CHECK_FUNCS([pipe2])
+
 AC_ARG_ENABLE([emulated-signalfd],
   [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],
     [Use emulated signalfd @<:@default=check@:>@])],

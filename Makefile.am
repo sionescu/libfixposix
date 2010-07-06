@@ -6,7 +6,7 @@ INCLUDES = $(LFP_DEP_CFLAGS)
 lib_LTLIBRARIES = src/libfixposix.la
 
 src_libfixposix_la_SOURCES = \
-	src/install_signalfd.c
+	src/pipe.c src/install_signalfd.c
 
 src_libfixposix_la_LIBADD = $(LFP_DEP_LIBS)
 
