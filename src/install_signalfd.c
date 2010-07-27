@@ -12,7 +12,7 @@ static struct signalfd_params {
 } *(signalfd_params[NSIG]);
 
 static inline
-int lfp_pipe (int pipefd[2], int flags)
+int lfp_pipe2 (int pipefd[2], int flags)
 {
     if (HAVE_EMULATED_SIGNALFD) {
         return pipe2(pipefd, flags);
@@ -88,15 +88,16 @@ void warning_signal_handler (int signum)
 {
     char msg[128];
     int i = snprintf(msg, sizeof(msg),
-                     "\nCaught signalfd-monitored signal %d, which shouldn't have happened.\n", signum);
+                     "\nCaught signalfd-monitored signal %d, which should have been blocked.\n", signum);
     write(2, msg, i);
 }
 
 extern
-int install_signalfd(int signum, int sa_flags)
+int install_signalfd(int signum, int sa_flags, int* blockp)
 {
     int pipefd[2];
     int ret;
+    int block;
     sigset_t sigmask;
     int emulate_signalfd;
     struct signalfd_params *params;
@@ -134,16 +135,18 @@ int install_signalfd(int signum, int sa_flags)
         sa.sa_handler = &warning_signal_handler; /* was SIG_DFL, but we want to catch bugs */
         params->read_fd = ret;
         params->write_fd = -1;
+        block = 1;
         goto signalfd_sigaction;
     }
 
     /* no success with signalfd (probably EINVAL), emulate! */
     emulate_signalfd = 1;
     sa.sa_handler = &signalfd_emulator;
-    ret = lfp_pipe(pipefd, O_CLOEXEC | O_NONBLOCK);
+    ret = lfp_pipe2(pipefd, O_CLOEXEC | O_NONBLOCK);
     if (ret != 0) { error_abort("install_signalfd pipe2 failed: ",1); }
     params->read_fd = pipefd[0];
     params->write_fd = pipefd[1];
+    block = 0;
 
   signalfd_sigaction:
     signalfd_params[signum] = params;
@@ -153,6 +156,7 @@ int install_signalfd(int signum, int sa_flags)
         ret = sigprocmask(SIG_UNBLOCK, &sigmask, NULL);
         if (ret != 0) { error_abort("install_signalfd signal unblocking failed.",0); }
     }
+    if (blockp) { *blockp = block; }
     return params->read_fd;
 }
 
