@@ -2,11 +2,12 @@ Makefile
 Makefile.in
 aclocal.m4
 autom4te.cache/
+build/
 build-aux/
 config.*
 configure
 libtool
-m4/
+m4/l*.m4
 src/.*
 *.lo
 *.o

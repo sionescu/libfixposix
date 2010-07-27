@@ -1,9 +1,12 @@
-#include "install_signalfd.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <errno.h>
+
+#include <unistd.h>
+#include <signal.h>
 #include <sys/select.h>
+
+#include "install_signalfd.h"
 
 static inline void error_abort (const char* msg, int perrorp) {
         if (perrorp) {
@@ -36,7 +39,7 @@ do_try_read:
 }
 
 extern int main (int argc, char *argv[]) {
-        int sfd = install_signalfd(SIGINT,0);
+        int sfd = install_signalfd(SIGINT,0,NULL);
         struct signalfd_siginfo fdsi;
         ssize_t s = argc+**argv;
 
@@ -50,7 +53,7 @@ extern int main (int argc, char *argv[]) {
                 error_abort("unexpected signal",0);
         }
         uninstall_signalfd(SIGINT,0);
-        install_signalfd(SIGINT,0);
+        install_signalfd(SIGINT,0,NULL);
         uninstall_signalfd(SIGINT,0);
         return 0;
 }
