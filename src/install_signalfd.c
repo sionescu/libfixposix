@@ -132,8 +132,8 @@ int install_signalfd(int signum, int sa_flags, int* blockp)
     /* no success with signalfd (probably EINVAL), emulate! */
     emulate_signalfd = 1;
     sa.sa_handler = &signalfd_emulator;
-    ret = lfp_pipe2(pipefd, O_CLOEXEC | O_NONBLOCK);
-    if (ret != 0) { error_abort("install_signalfd pipe2 failed: ",1); }
+    ret = lfp_pipe(pipefd, O_CLOEXEC | O_NONBLOCK);
+    if (ret != 0) { error_abort("install_signalfd pipe failed: ",1); }
     params->read_fd = pipefd[0];
     params->write_fd = pipefd[1];
     block = 0;

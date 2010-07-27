@@ -8,6 +8,6 @@
 # define O_CLOEXEC 0
 #endif
 
-int lfp_pipe2 (int pipefd[2], int flags);
+int lfp_pipe (int pipefd[2], int flags);
 
 #endif // _LFP_UNISTD_H_
