@@ -1,6 +1,7 @@
 #if !defined(_LFP_INSTALL_SIGNALFD_H_)
 #define _LFP_INSTALL_SIGNALFD_H_
 
+#include <stdbool.h>
 #include <signal.h>
 
 #if defined(__linux__)
@@ -11,7 +12,7 @@ struct signalfd_siginfo { unsigned int ssi_signo; };
 # endif
 #endif
 
-int install_signalfd(int signum, int sa_flags, int* blockp);
+int install_signalfd(int signum, int sa_flags, bool* blockp);
 void uninstall_signalfd(int signum, int block);
 
 #endif // _LFP_INSTALL_SIGNALFD_H_
