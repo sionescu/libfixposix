@@ -10,8 +10,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "lfp_unistd.h"
-#include "install_signalfd.h"
+#include <libfixposix.h>
 
 static struct signalfd_params {
     int read_fd;

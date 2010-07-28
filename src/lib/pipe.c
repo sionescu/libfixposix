@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "lfp_unistd.h"
+#include <libfixposix.h>
 
 extern inline
 int lfp_pipe (int pipefd[2], int flags)
