@@ -4,7 +4,7 @@
 #include "lfp_unistd.h"
 
 extern inline
-int lfp_pipe2 (int pipefd[2], int flags)
+int lfp_pipe (int pipefd[2], int flags)
 {
     if (HAVE_PIPE2) {
         return pipe2(pipefd, flags);

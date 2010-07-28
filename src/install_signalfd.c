@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -83,11 +84,11 @@ void warning_signal_handler (int signum)
 }
 
 extern
-int install_signalfd(int signum, int sa_flags, int* blockp)
+int install_signalfd(int signum, int sa_flags, bool* blockp)
 {
     int pipefd[2];
     int ret;
-    int block;
+    bool block;
     sigset_t sigmask;
     int emulate_signalfd;
     struct signalfd_params *params;
@@ -125,18 +126,18 @@ int install_signalfd(int signum, int sa_flags, int* blockp)
         sa.sa_handler = &warning_signal_handler; /* was SIG_DFL, but we want to catch bugs */
         params->read_fd = ret;
         params->write_fd = -1;
-        block = 1;
+        block = true;
         goto signalfd_sigaction;
     }
 
     /* no success with signalfd (probably EINVAL), emulate! */
     emulate_signalfd = 1;
     sa.sa_handler = &signalfd_emulator;
-    ret = lfp_pipe2(pipefd, O_CLOEXEC | O_NONBLOCK);
-    if (ret != 0) { error_abort("install_signalfd pipe2 failed: ",1); }
+    ret = lfp_pipe(pipefd, O_CLOEXEC | O_NONBLOCK);
+    if (ret != 0) { error_abort("install_signalfd pipe failed: ",1); }
     params->read_fd = pipefd[0];
     params->write_fd = pipefd[1];
-    block = 0;
+    block = false;
 
   signalfd_sigaction:
     signalfd_params[signum] = params;
