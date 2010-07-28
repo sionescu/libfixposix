@@ -16,7 +16,6 @@
   (dolist (i x)
     (c "#include <~A>" i)))
 
-
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun name->c-name (name)
     (etypecase name
@@ -35,10 +34,15 @@
   (defun p:c-name (stream name colon-p at-sign-p)
     (declare (ignore colon-p))
     (princ (funcall (if at-sign-p 'name->lfp-name 'name->c-name) name)  stream ))
+  (defun type-name (type)
+    (ecase type
+      (:int "int")
+      (:unsigned-int "unsigned int")))
   (defun p:c-type (stream type colon-p at-sign-p)
     (declare (ignore colon-p at-sign-p))
     (etypecase type
-      (keyword (princ (string-downcase type) stream))
+      (string (princ type stream))
+      (keyword (princ (type-name type) stream))
       #|(cons (ecase (car type)
               (:* ...)
               ...)|#))
@@ -51,7 +55,7 @@
       (string (princ expression stream))
       (symbol (princ (name->c-name expression) stream))
       (cons (etypecase (car expression)
-              ((eql :funcall)
+              ((eql funcall)
                (format stream "~/p:c-name/(~{~/p:c-expression/~^, ~})" (second expression) (cddr expression)))
               #|...|#))))
   (defun p:c-statement (stream statement colon-p at-sign-p)
@@ -59,7 +63,7 @@
     (etypecase statement
       (string (princ statement stream))
       (cons (etypecase (car statement)
-              ((eql :return)
+              ((eql return)
                (format stream "return ~/p:c-expression/;" (second statement)))
               #|...|#)))))
 
@@ -67,9 +71,9 @@
   (let* ((lfp-name (name->lfp-name name))
          (c-name (name->c-name name))
          (argument-names (mapcar 'car arguments))
-         (body (or body `((:return
+         (body (or body `((return
                             ,(if arguments
-                                 `(:funcall ,c-name ,@argument-names)
+                                 `(funcall ,c-name ,@argument-names)
                                  c-name))))))
     (c "~/p:c-type/ ~A (~/p:c-argument-list/) {~%~{  ~/p:c-statement/~%~}}"
        return-type lfp-name arguments body)))
@@ -134,7 +138,6 @@
 
 
 
-#|
 ;;;-------------------------------------------------------------------------
 ;;; Socket message readers
 ;;;-------------------------------------------------------------------------
@@ -142,19 +145,17 @@
 (include "stdlib.h") ; needed on FreeBSD to define NULL
 (include "sys/socket.h")
 
-(declaim (inline cmsg.space cmsg.len cmsg.firsthdr cmsg.data))
+(defwrapper "CMSG_SPACE" :unsigned-int
+  ((data-size :unsigned-int)))
 
-(defwrapper ("CMSG_SPACE" cmsg.space) :unsigned-int
-  (data-size :unsigned-int))
+(defwrapper "CMSG_LEN" :unsigned-int
+  ((data-size :unsigned-int)))
 
-(defwrapper ("CMSG_LEN" cmsg.len) :unsigned-int
-  (data-size :unsigned-int))
+(defwrapper "CMSG_FIRSTHDR" "struct cmsghdr*"
+  ((cmsg "struct cmsghdr*")))
 
-(defwrapper ("CMSG_FIRSTHDR" cmsg.firsthdr) :pointer
-  (msg ("struct msghdr*" :pointer)))
-
-(defwrapper ("CMSG_DATA" cmsg.data) :pointer
-  (cmsg ("struct cmsghdr*" :pointer)))
+(defwrapper "CMSG_DATA" "struct cmsghdr*"
+  ((cmsg "struct cmsghdr*")))
 
 
 ;;;-------------------------------------------------------------------------
@@ -163,12 +164,8 @@
 
 (include "sys/types.h" "dirent.h")
 
-(declaim (inline dirfd))
-
-(defwrapper (dirfd "dirfd") :int
-  (dirp ("DIR*" :pointer)))
-|#
+(defwrapper "dirfd" :int
+  ((dirp "DIR*")))
 
 #+sbcl (sb-ext:quit)
 #+ccl (ccl:quit)
-
