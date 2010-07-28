@@ -20,8 +20,8 @@ struct signalfd_siginfo { unsigned int ssi_signo; };
 # endif
 #endif
 
-int install_signalfd(int signum, int sa_flags, bool* blockp);
+int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 
-void uninstall_signalfd(int signum, int block);
+void lfp_uninstall_signalfd(int signum, bool block);
 
 #endif // _LIBFIXPOSIX_H_

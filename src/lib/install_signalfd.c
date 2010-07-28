@@ -83,7 +83,7 @@ void warning_signal_handler (int signum)
 }
 
 extern
-int install_signalfd(int signum, int sa_flags, bool* blockp)
+int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
 {
     int pipefd[2];
     int ret;
@@ -151,7 +151,7 @@ int install_signalfd(int signum, int sa_flags, bool* blockp)
 }
 
 extern
-void uninstall_signalfd(int signum, int block)
+void lfp_uninstall_signalfd(int signum, bool block)
 {
     int ret;
     sigset_t sigmask;
