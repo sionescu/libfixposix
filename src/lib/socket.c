@@ -1,12 +1,46 @@
-#include <stdlib.h>
+#include <stdbool.h>
 #include <sys/socket.h>
+#include <fcntl.h>
 
 #include <libfixposix.h>
+
+#if !defined(SOCK_CLOEXEC)
+#define SOCK_CLOEXEC 0
+#endif
+#if !defined(SOCK_NONBLOCK)
+#define SOCK_NONBLOCK 0
+#endif
 
 extern
 int lfp_socket(lfp_socket_domain_t domain,
                lfp_socket_type_t   type,
-               int protocol)
+               int                 protocol,
+               int                 flags,
+               bool                cloexec)
 {
-    return socket(domain, type, protocol);
+    int _flags = 0;
+
+    if ( SOCK_CLOEXEC && cloexec ) {
+        _flags |= SOCK_CLOEXEC;
+    }
+    if ( SOCK_NONBLOCK && ( flags & O_NONBLOCK ) ) {
+        _flags |= SOCK_NONBLOCK;
+    }
+
+    int fd = socket(domain, type | _flags, protocol);
+    if ( fd < 0 ) { goto error_return; };
+
+    if ( SOCK_CLOEXEC && cloexec ) {
+        int ret = fcntl(fd, F_SETFD, FD_CLOEXEC);
+        if ( ret < 0 ) { goto error_close; }
+    }
+    if ( SOCK_NONBLOCK && ( flags & O_NONBLOCK ) ) {
+        int ret = fcntl(fd, F_SETFL, O_NONBLOCK);
+        if ( ret < 0 ) { goto error_close; }
+    }
+
+  error_close:
+    close(fd);
+  error_return:
+    return -1;
 }

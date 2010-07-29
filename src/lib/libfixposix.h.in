@@ -86,6 +86,8 @@ typedef enum {
 
 int lfp_socket(lfp_socket_domain_t domain,
                lfp_socket_type_t   type,
-               int protocol);
+               int                 protocol,
+               int                 flags,
+               bool                cloexec);
 
 #endif // _LIBFIXPOSIX_H_
