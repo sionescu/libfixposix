@@ -24,4 +24,18 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 
 void lfp_uninstall_signalfd(int signum, bool block);
 
+#include <sys/select.h>
+
+int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
+               fd_set *exceptfds, const struct timespec *timeout,
+               const sigset_t *sigmask);
+
+void lfp_fd_clr(int fd, fd_set *set);
+
+bool lfp_fd_isset(int fd, fd_set *set);
+
+void lfp_fd_set(int fd, fd_set *set);
+
+void lfp_fd_zero(fd_set *set);
+
 #endif // _LIBFIXPOSIX_H_
