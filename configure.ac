@@ -54,6 +54,7 @@ AC_CHECK_HEADER(sys/signalfd.h)
 
 dnl Checks for functions
 AC_CHECK_FUNCS([pipe2])
+AC_ENSURE_FUNCS([pselect])
 
 AC_ARG_ENABLE([emulated-signalfd],
   [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],
