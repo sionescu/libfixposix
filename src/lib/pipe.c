@@ -3,7 +3,7 @@
 
 #include <libfixposix.h>
 
-extern inline
+extern
 int lfp_pipe (int pipefd[2], int flags)
 {
     if (HAVE_PIPE2) {
