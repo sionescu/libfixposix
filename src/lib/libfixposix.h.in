@@ -22,7 +22,7 @@ struct signalfd_siginfo { unsigned int ssi_signo; };
 
 int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 
-void lfp_uninstall_signalfd(int signum, bool block);
+int lfp_uninstall_signalfd(int signum, bool block);
 
 
 
