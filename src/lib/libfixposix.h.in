@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+
+
 #include <unistd.h>
 
 #if !defined(O_CLOEXEC)
@@ -11,6 +13,8 @@
 #endif
 
 int lfp_pipe (int pipefd[2], int flags);
+
+
 
 #if defined(__linux__)
 # if @HAVE_EMULATED_SIGNALFD@ // HAVE_EMULATED_SIGNALFD
@@ -23,6 +27,8 @@ struct signalfd_siginfo { unsigned int ssi_signo; };
 int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 
 void lfp_uninstall_signalfd(int signum, bool block);
+
+
 
 #include <sys/select.h>
 
