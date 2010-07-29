@@ -40,16 +40,16 @@ AC_PROG_LIBTOOL
 
 dnl Checks for C99 headers
 AC_HEADER_ASSERT
-AC_CHECK_HEADER_STRICT(stdlib.h)
-AC_CHECK_HEADER_STRICT(stdio.h)
-AC_CHECK_HEADER_STRICT(string.h)
-AC_CHECK_HEADER_STRICT(errno.h)
+AC_ENSURE_HEADER(stdlib.h)
+AC_ENSURE_HEADER(stdio.h)
+AC_ENSURE_HEADER(string.h)
+AC_ENSURE_HEADER(errno.h)
 
 dnl Checks for POSIX headers
-AC_CHECK_HEADER_STRICT(sys/types.h)
-AC_CHECK_HEADER_STRICT(unistd.h)
-AC_CHECK_HEADER_STRICT(fcntl.h)
-AC_CHECK_HEADER_STRICT(signal.h)
+AC_ENSURE_HEADER(sys/types.h)
+AC_ENSURE_HEADER(unistd.h)
+AC_ENSURE_HEADER(fcntl.h)
+AC_ENSURE_HEADER(signal.h)
 AC_CHECK_HEADER(sys/signalfd.h)
 
 dnl Checks for functions
