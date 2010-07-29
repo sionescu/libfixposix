@@ -21,7 +21,7 @@ dnl Have Kbuild-like build output
 AM_SILENT_RULES([yes])
 
 dnl Where to generate output; srcdir location.
-AC_CONFIG_SRCDIR([src/install_signalfd.c])
+AC_CONFIG_SRCDIR([src/lib/])
 # AC_CONFIG_HEADERS([config.h:config.h.in])
 
 dnl Auxiliary M4 macros
@@ -62,14 +62,19 @@ AC_ARG_ENABLE([emulated-signalfd],
   [enable_emulated_signalfd=check])
 
 AS_CASE($enable_emulated_signalfd,
-  [yes], [AC_DEFINE([HAVE_EMULATED_SIGNALFD], [1], [Whether to use signalfd emulation])],
+  [yes], [AC_DEFINE(HAVE_EMULATED_SIGNALFD, 1, [Whether to use signalfd emulation])
+          AC_SUBST(HAVE_EMULATED_SIGNALFD, 1)
+         ],
   [check], [if test x"$ac_cv_header_sys_signalfd_h" = xyes ; then
-              AC_DEFINE([HAVE_EMULATED_SIGNALFD], [0], [Whether to use signalfd emulation])
+              AC_DEFINE(HAVE_EMULATED_SIGNALFD, 0, [Whether to use signalfd emulation])
+              AC_SUBST(HAVE_EMULATED_SIGNALFD, 0)
             else
-              AC_DEFINE([HAVE_EMULATED_SIGNALFD], [1], [Whether to use signalfd emulation])
+              AC_DEFINE(HAVE_EMULATED_SIGNALFD, 1, [Whether to use signalfd emulation])
+              AC_SUBST(HAVE_EMULATED_SIGNALFD, 1)
             fi],
   [no], [if test x"$ac_cv_header_sys_signalfd_h" = xyes ; then
-           AC_DEFINE([HAVE_EMULATED_SIGNALFD], [0], [Whether to use signalfd emulation])
+           AC_DEFINE(HAVE_EMULATED_SIGNALFD, 0, [Whether to use signalfd emulation])
+           AC_SUBST(HAVE_EMULATED_SIGNALFD, 0)
          else
            AC_MSG_FAILURE([signalfd emulation was disabled although <sys/signalfd.h> is absent])
          fi],
@@ -81,5 +86,5 @@ dnl have them empty
 AC_SUBST(LFP_DEP_CFLAGS)
 AC_SUBST(LFP_DEP_LIBS)
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile src/lib/libfixposix.h])
 AC_OUTPUT

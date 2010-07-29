@@ -10,8 +10,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "lfp_unistd.h"
-#include "install_signalfd.h"
+#include <libfixposix.h>
 
 static struct signalfd_params {
     int read_fd;
@@ -84,7 +83,7 @@ void warning_signal_handler (int signum)
 }
 
 extern
-int install_signalfd(int signum, int sa_flags, bool* blockp)
+int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
 {
     int pipefd[2];
     int ret;
@@ -95,11 +94,11 @@ int install_signalfd(int signum, int sa_flags, bool* blockp)
     struct sigaction sa;
 
     if ( (signum < 0) || (signum >= NSIG) ) {
-        error_abort("install_signalfd called with bad signal number.",0);
+        error_abort("install_signalfd called with bad signal number.", 0);
     }
 
     /* Setup sigaction */
-    memset(&sa,0,sizeof(sa));
+    memset(&sa, 0, sizeof(sa));
     sa.sa_flags = (sa_flags & (SA_NOCLDSTOP | SA_NOCLDWAIT)) | SA_ONSTACK;
 
     /* Create mask with one signal */
@@ -108,16 +107,16 @@ int install_signalfd(int signum, int sa_flags, bool* blockp)
 
     /* Allocate parameters */
     if (signalfd_params[signum]) {
-        error_abort("install_signalfd already installed.",0);
+        error_abort("install_signalfd already installed.", 0);
     }
     params = malloc(sizeof(signalfd_params));
     if (params == NULL) {
-        error_abort("install_signalfd malloc failed.",0);
+        error_abort("install_signalfd malloc failed.", 0);
     }
 
     /* Before we touch the handler, block the signal */
     ret = sigprocmask(SIG_BLOCK, &sigmask, NULL);
-    if (ret != 0) { error_abort("install_signalfd signal blocking failed.",0); }
+    if (ret != 0) { error_abort("install_signalfd signal blocking failed.", 0); }
 
     /* First, try signalfd */
     ret = lfp_signalfd(-1, &sigmask, SFD_CLOEXEC | SFD_NONBLOCK);
@@ -134,7 +133,7 @@ int install_signalfd(int signum, int sa_flags, bool* blockp)
     emulate_signalfd = 1;
     sa.sa_handler = &signalfd_emulator;
     ret = lfp_pipe(pipefd, O_CLOEXEC | O_NONBLOCK);
-    if (ret != 0) { error_abort("install_signalfd pipe failed: ",1); }
+    if (ret != 0) { error_abort("install_signalfd pipe failed: ", 1); }
     params->read_fd = pipefd[0];
     params->write_fd = pipefd[1];
     block = false;
@@ -142,17 +141,17 @@ int install_signalfd(int signum, int sa_flags, bool* blockp)
   signalfd_sigaction:
     signalfd_params[signum] = params;
     ret = sigaction(signum,&sa,NULL);
-    if (ret != 0) { error_abort("install_signalfd failed sigaction: ",1); }
+    if (ret != 0) { error_abort("install_signalfd failed sigaction: ", 1); }
     if (emulate_signalfd) {
         ret = sigprocmask(SIG_UNBLOCK, &sigmask, NULL);
-        if (ret != 0) { error_abort("install_signalfd signal unblocking failed.",0); }
+        if (ret != 0) { error_abort("install_signalfd signal unblocking failed.", 0); }
     }
     if (blockp) { *blockp = block; }
     return params->read_fd;
 }
 
 extern
-void uninstall_signalfd(int signum, int block)
+void lfp_uninstall_signalfd(int signum, bool block)
 {
     int ret;
     sigset_t sigmask;
@@ -160,7 +159,7 @@ void uninstall_signalfd(int signum, int block)
     struct sigaction sa;
 
     if ( (signum < 0) || (signum >= NSIG) ) {
-        error_abort("install_signalfd called with bad signal number.",0);
+        error_abort("install_signalfd called with bad signal number.", 0);
     }
 
     /* Setup sigaction */
@@ -173,12 +172,12 @@ void uninstall_signalfd(int signum, int block)
 
     /* Before we touch the handler, block the signal */
     ret = sigprocmask(SIG_BLOCK, &sigmask, NULL);
-    if (ret != 0) { error_abort("uninstall_signalfd signal blocking failed.",0); }
+    if (ret != 0) { error_abort("uninstall_signalfd signal blocking failed.", 0); }
 
     /* Release parameters */
     params = signalfd_params[signum];
     if ( params == NULL) {
-        error_abort("uninstall_signalfd not installed.",0);
+        error_abort("uninstall_signalfd not installed.", 0);
     }
     close(params->read_fd);
     if (params->write_fd != -1) {
@@ -188,9 +187,9 @@ void uninstall_signalfd(int signum, int block)
     signalfd_params[signum] = NULL;
 
     ret = sigaction(signum, &sa, NULL);
-    if (ret != 0) { error_abort("uninstall_signalfd failed sigaction: ",1); }
+    if (ret != 0) { error_abort("uninstall_signalfd failed sigaction: ", 1); }
     if (!block) {
         ret = sigprocmask(SIG_UNBLOCK, &sigmask, NULL);
-        if (ret != 0) { error_abort("uninstall_signalfd signal unblocking failed.",0); }
+        if (ret != 0) { error_abort("uninstall_signalfd signal unblocking failed.", 0); }
     }
 }

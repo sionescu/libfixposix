@@ -1,0 +1,47 @@
+#if !defined(_LIBFIXPOSIX_H_)
+#define _LIBFIXPOSIX_H_
+
+#include <stdlib.h>
+#include <stdbool.h>
+
+
+
+#include <unistd.h>
+
+#if !defined(O_CLOEXEC)
+# define O_CLOEXEC 0
+#endif
+
+int lfp_pipe (int pipefd[2], int flags);
+
+
+
+#if defined(__linux__)
+# if @HAVE_EMULATED_SIGNALFD@ // HAVE_EMULATED_SIGNALFD
+struct signalfd_siginfo { unsigned int ssi_signo; };
+# else
+#  include <sys/signalfd.h>
+# endif
+#endif
+
+int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
+
+void lfp_uninstall_signalfd(int signum, bool block);
+
+
+
+#include <sys/select.h>
+
+int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
+               fd_set *exceptfds, const struct timespec *timeout,
+               const sigset_t *sigmask);
+
+void lfp_fd_clr(int fd, fd_set *set);
+
+bool lfp_fd_isset(int fd, fd_set *set);
+
+void lfp_fd_set(int fd, fd_set *set);
+
+void lfp_fd_zero(fd_set *set);
+
+#endif // _LIBFIXPOSIX_H_

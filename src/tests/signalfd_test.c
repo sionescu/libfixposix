@@ -6,7 +6,7 @@
 #include <signal.h>
 #include <sys/select.h>
 
-#include "install_signalfd.h"
+#include <libfixposix.h>
 
 static inline void error_abort (const char* msg, int perrorp) {
         if (perrorp) {
