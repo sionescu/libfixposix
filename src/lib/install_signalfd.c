@@ -69,7 +69,7 @@ void warning_signal_handler (int signum)
     char msg[128];
     int i = snprintf(msg, sizeof(msg),
                      "\nCaught signalfd-monitored signal %d, which should have been blocked.\n", signum);
-    write(2, msg, i);
+    write(STDERR_FILENO, msg, i);
 }
 
 extern
