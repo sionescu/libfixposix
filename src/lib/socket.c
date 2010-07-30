@@ -43,3 +43,37 @@ int lfp_socket(lfp_socket_domain_t domain,
   error_return:
     return -1;
 }
+
+extern
+int lfp_accept(int             sockfd,
+               struct sockaddr *addr,
+               socklen_t       *addrlen,
+               lfp_flags_t     flags);
+{
+    if (HAVE_ACCEPT4) {
+        int _flags = 0;
+        if (flags & O_CLOEXEC) {
+            _flags |= SOCK_CLOEXEC;
+        }
+        if (flags & O_NONBLOCK) {
+            _flags |= SOCK_NONBLOCK;
+        }
+        return accept4(pipefd, _flags);
+    } else {
+        int fd = accept(sockfd, addr, addrlen);
+        if (fd < 0) { goto error_return; }
+        if (flags & O_NONBLOCK) {
+            int ret = fcntl(fd, F_SETFD, FD_CLOEXEC);
+            if (ret < 0) { goto error_close; }
+        }
+        if (flags & O_NONBLOCK) {
+            int ret = fcntl(fd, F_SETFL, O_NONBLOCK);
+            if (ret < 0) { goto error_close; }
+        }
+        return fd;
+      error_close:
+        close(fd);
+      error_return:
+        return -1;
+    }
+}

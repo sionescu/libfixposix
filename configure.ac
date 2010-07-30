@@ -53,6 +53,7 @@ AC_ENSURE_HEADER([signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for functions
+AC_CHECK_FUNCS([accept4])
 AC_CHECK_FUNCS([pipe2])
 AC_ENSURE_FUNCS([pselect])
 

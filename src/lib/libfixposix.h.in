@@ -183,4 +183,9 @@ int lfp_socket(lfp_socket_domain_t domain,
                int                 protocol,
                lfp_flags_t         flags);
 
+int lfp_accept(int             sockfd,
+               struct sockaddr *addr,
+               socklen_t       *addrlen,
+               lfp_flags_t     flags);
+
 #endif // _LIBFIXPOSIX_H_
