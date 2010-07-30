@@ -17,13 +17,13 @@ int lfp_pipe (int pipefd[2], lfp_flags_t flags)
         }
 
         if ((flags & O_CLOEXEC) &&
-            (fcntl(pipefd[0], F_SETFD, FD_CLOEXEC) < 0 ||
-             fcntl(pipefd[1], F_SETFD, FD_CLOEXEC) < 0)) {
+            (lfp_set_fd_cloexec(pipefd[0]) < 0 ||
+             lfp_set_fd_cloexec(pipefd[1]) < 0)) {
             goto error_close;
         }
         if ((flags & O_NONBLOCK) &&
-            (fcntl(pipefd[0], F_SETFL, O_NONBLOCK) < 0 ||
-             fcntl(pipefd[1], F_SETFL, O_NONBLOCK) < 0)) {
+            (lfp_set_fd_nonblock(pipefd[0]) < 0 ||
+             lfp_set_fd_nonblock(pipefd[1]) < 0)) {
             goto error_close;
         }
 
