@@ -3,9 +3,10 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include <inttypes.h>
 
 
+
+#include <inttypes.h>
 
 typedef uint64_t lfp_flags_t;
 
