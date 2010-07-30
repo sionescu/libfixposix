@@ -29,13 +29,13 @@ int lfp_socket(lfp_socket_domain_t domain,
     int fd = socket(domain, type | _flags, protocol);
     if (fd < 0) { goto error_return; };
 
-    if (SOCK_CLOEXEC && (flags & O_CLOEXEC)) {
-        int ret = fcntl(fd, F_SETFD, FD_CLOEXEC);
-        if ( ret < 0 ) { goto error_close; }
+    if (SOCK_CLOEXEC && (flags & O_CLOEXEC) &&
+        fcntl(fd, F_SETFD, FD_CLOEXEC) < 0) {
+        goto error_close;
     }
-    if (SOCK_NONBLOCK && (flags & O_NONBLOCK)) {
-        int ret = fcntl(fd, F_SETFL, O_NONBLOCK);
-        if (ret < 0) { goto error_close; }
+    if (SOCK_NONBLOCK && (flags & O_NONBLOCK) &&
+        fcntl(fd, F_SETFL, O_NONBLOCK) < 0) {
+        goto error_close;
     }
 
   error_close:
