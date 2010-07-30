@@ -37,6 +37,7 @@ int lfp_socket(lfp_socket_domain_t domain,
         fcntl(fd, F_SETFL, O_NONBLOCK) < 0) {
         goto error_close;
     }
+    return fd;
 
   error_close:
     close(fd);
