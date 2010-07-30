@@ -3,12 +3,25 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <inttypes.h>
+
+
+
+typedef uint64_t lfp_flags_t;
 
 
 
 #include <unistd.h>
 
-int lfp_pipe (int pipefd[2], int flags, bool cloexec);
+#if !defined(O_CLOEXEC)
+// Syscalls use "int" for passing flags, and since
+// *nix systems use the LP64 memory model, "int" is 32 bits
+// which means that we can allocate unsupported flags in the
+// upper part of an lfp_flags_t value
+# define O_CLOEXEC ( 1 >> 32 )
+#endif
+
+int lfp_pipe (int pipefd[2], lfp_flags_t flags);
 
 
 
@@ -83,7 +96,6 @@ typedef enum {
 int lfp_socket(lfp_socket_domain_t domain,
                lfp_socket_type_t   type,
                int                 protocol,
-               int                 flags,
-               bool                cloexec);
+               lfp_flags_t         flags);
 
 #endif // _LIBFIXPOSIX_H_

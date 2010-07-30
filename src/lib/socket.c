@@ -15,26 +15,25 @@ extern
 int lfp_socket(lfp_socket_domain_t domain,
                lfp_socket_type_t   type,
                int                 protocol,
-               int                 flags,
-               bool                cloexec)
+               lfp_flags_t         flags)
 {
     int _flags = 0;
 
-    if ( SOCK_CLOEXEC && cloexec ) {
+    if ( SOCK_CLOEXEC && (flags & O_CLOEXEC) ) {
         _flags |= SOCK_CLOEXEC;
     }
-    if ( SOCK_NONBLOCK && ( flags & O_NONBLOCK ) ) {
+    if ( SOCK_NONBLOCK && (flags & O_NONBLOCK) ) {
         _flags |= SOCK_NONBLOCK;
     }
 
     int fd = socket(domain, type | _flags, protocol);
     if ( fd < 0 ) { goto error_return; };
 
-    if ( SOCK_CLOEXEC && cloexec ) {
+    if ( SOCK_CLOEXEC && (flags & O_CLOEXEC) ) {
         int ret = fcntl(fd, F_SETFD, FD_CLOEXEC);
         if ( ret < 0 ) { goto error_close; }
     }
-    if ( SOCK_NONBLOCK && ( flags & O_NONBLOCK ) ) {
+    if ( SOCK_NONBLOCK && (flags & O_NONBLOCK) ) {
         int ret = fcntl(fd, F_SETFL, O_NONBLOCK);
         if ( ret < 0 ) { goto error_close; }
     }

@@ -5,20 +5,17 @@
 #include <libfixposix.h>
 
 extern
-int lfp_pipe (int pipefd[2], int flags, bool cloexec)
+int lfp_pipe (int pipefd[2], lfp_flags_t flags)
 {
     if (HAVE_PIPE2) {
         // We assume that if pipe2() is defined then O_CLOEXEC too
-        // exists
-        if (cloexec) {
-            flags |= O_CLOEXEC;
-        }
-        return pipe2(pipefd, flags);
+        // exists, which means that it's in the lower part of "flags"
+        return pipe2(pipefd, flags & 0xFFFFFFFF);
     }
     else {
         int fd = pipe(pipefd);
         if (fd < 0) { goto error_return; }
-        if (cloexec) {
+        if (flags & O_NONBLOCK) {
             int ret = fcntl(pipefd[0], F_SETFD, FD_CLOEXEC);
             if (ret < 0) { goto error_close; }
         }
