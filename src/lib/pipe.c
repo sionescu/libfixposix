@@ -15,6 +15,7 @@ int lfp_pipe (int pipefd[2], lfp_flags_t flags)
         if (pipe(pipefd) < 0) {
             goto error_return;
         }
+
         if ((flags & O_CLOEXEC) &&
             (fcntl(pipefd[0], F_SETFD, FD_CLOEXEC) < 0 ||
              fcntl(pipefd[1], F_SETFD, FD_CLOEXEC) < 0)) {
@@ -25,7 +26,9 @@ int lfp_pipe (int pipefd[2], lfp_flags_t flags)
              fcntl(pipefd[1], F_SETFL, O_NONBLOCK) < 0)) {
             goto error_close;
         }
+
         return 0;
+
       error_close:
         close(pipefd[0]);
         close(pipefd[1]);

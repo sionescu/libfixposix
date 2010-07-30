@@ -53,23 +53,28 @@ int lfp_accept(int             sockfd,
 {
     if (HAVE_ACCEPT4) {
         int _flags = 0;
+
         if (flags & O_CLOEXEC) {
             _flags |= SOCK_CLOEXEC;
         }
         if (flags & O_NONBLOCK) {
             _flags |= SOCK_NONBLOCK;
         }
+
         return accept4(sockfd, addr, addrlen, _flags);
     } else {
         int fd = accept(sockfd, addr, addrlen);
         if (fd < 0) { goto error_return; }
+
         if ((flags & O_CLOEXEC) && fcntl(fd, F_SETFD, FD_CLOEXEC) < 0) {
             goto error_close;
         }
         if ((flags & O_NONBLOCK) && fcntl(fd, F_SETFL, O_NONBLOCK) < 0) {
             goto error_close;
         }
+
         return fd;
+
       error_close:
         close(fd);
       error_return:
