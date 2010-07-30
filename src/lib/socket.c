@@ -30,11 +30,11 @@ int lfp_socket(lfp_socket_domain_t domain,
     if (fd < 0) { goto error_return; };
 
     if (SOCK_CLOEXEC && (flags & O_CLOEXEC) &&
-        fcntl(fd, F_SETFD, FD_CLOEXEC) < 0) {
+        lfp_set_fd_cloexec(fd) < 0) {
         goto error_close;
     }
     if (SOCK_NONBLOCK && (flags & O_NONBLOCK) &&
-        fcntl(fd, F_SETFL, O_NONBLOCK) < 0) {
+        lfp_set_fd_nonblock(fd) < 0) {
         goto error_close;
     }
     return fd;
@@ -66,10 +66,10 @@ int lfp_accept(int             sockfd,
         int fd = accept(sockfd, addr, addrlen);
         if (fd < 0) { goto error_return; }
 
-        if ((flags & O_CLOEXEC) && fcntl(fd, F_SETFD, FD_CLOEXEC) < 0) {
+        if ((flags & O_CLOEXEC) && lfp_set_fd_cloexec(fd) < 0) {
             goto error_close;
         }
-        if ((flags & O_NONBLOCK) && fcntl(fd, F_SETFL, O_NONBLOCK) < 0) {
+        if ((flags & O_NONBLOCK) && lfp_set_fd_nonblock(fd) < 0) {
             goto error_close;
         }
 

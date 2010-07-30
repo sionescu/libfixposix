@@ -39,21 +39,21 @@ do_try_read:
 }
 
 extern int main (int argc, char *argv[]) {
-        int sfd = install_signalfd(SIGINT,0,NULL);
+        int sfd = lfp_install_signalfd(SIGINT, 0, NULL);
         struct signalfd_siginfo fdsi;
         ssize_t s = argc+**argv;
 
         s = do_read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
         if (s != sizeof(struct signalfd_siginfo)) {
-                error_abort("read",1);
+                error_abort("read", 1);
         }
         if (fdsi.ssi_signo == SIGINT) {
                 printf("\nGot SIGINT\n");
         } else {
-                error_abort("unexpected signal",0);
+                error_abort("unexpected signal", 0);
         }
-        uninstall_signalfd(SIGINT,0);
-        install_signalfd(SIGINT,0,NULL);
-        uninstall_signalfd(SIGINT,0);
+        lfp_uninstall_signalfd(SIGINT, 0);
+        lfp_install_signalfd(SIGINT, 0, NULL);
+        lfp_uninstall_signalfd(SIGINT, 0);
         return 0;
 }

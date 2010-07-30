@@ -188,4 +188,10 @@ int lfp_accept(int             sockfd,
                socklen_t       *addrlen,
                lfp_flags_t     flags);
 
+
+
+int lfp_set_fd_cloexec(int fd);
+
+int lfp_set_fd_nonblock(int fd);
+
 #endif // _LIBFIXPOSIX_H_
