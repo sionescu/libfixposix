@@ -113,16 +113,16 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
 
     /* First, try signalfd */
     ret = lfp_signalfd(-1, &sigmask, SFD_CLOEXEC | SFD_NONBLOCK);
-    if (ret != -1) { /* success with signalfd, instead default handler! */
+    if (ret != -1) { /* success with signalfd, block signal and install warning handler */
         emulate_signalfd = 0;
-        sa.sa_handler = &warning_signal_handler; /* was SIG_DFL, but we want to catch bugs */
+        sa.sa_handler = &warning_signal_handler; /* SIG_DFL would work but we want to catch bugs */
         params->read_fd = ret;
         params->write_fd = -1;
         block = true;
         goto signalfd_sigaction;
     }
 
-    /* no success with signalfd (probably EINVAL), emulate! */
+    /* no success with signalfd (probably ENOSYS), emulate! */
     emulate_signalfd = 1;
     sa.sa_handler = &signalfd_emulator;
     ret = lfp_pipe(pipefd, O_NONBLOCK | O_CLOEXEC);

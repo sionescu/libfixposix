@@ -20,10 +20,10 @@ static inline void error_abort (const char* msg, int perrorp) {
 static inline ssize_t do_read(int fd, void *buf, size_t count) {
         ssize_t s;
         fd_set readfds;
-        FD_ZERO(&readfds);
+        lfp_fd_zero(&readfds);
 
 do_try_read:
-        FD_SET(fd,&readfds);
+        lfp_fd_set(fd,&readfds);
         select(fd+1, &readfds, NULL, NULL, NULL);
         s = read(fd, buf, count);
         if (s != -1) {
