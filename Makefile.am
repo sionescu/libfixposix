@@ -15,7 +15,7 @@ lib_LTLIBRARIES = src/lib/libfixposix.la
 
 src_lib_libfixposix_la_SOURCES = \
 	src/lib/pipe.c src/lib/install_signalfd.c \
-	src/lib/select.c
+	src/lib/select.c src/lib/socket.c
 
 src_lib_libfixposix_la_LIBADD = $(LFP_DEP_LIBS)
 

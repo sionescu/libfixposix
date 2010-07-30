@@ -1,18 +1,112 @@
 #if !defined(_LIBFIXPOSIX_H_)
-#define _LIBFIXPOSIX_H_
+# define _LIBFIXPOSIX_H_
 
 #include <stdlib.h>
 #include <stdbool.h>
 
 
 
+#include <inttypes.h>
+
+typedef uint64_t lfp_flags_t;
+
+#include <errno.h>
+
+typedef enum {
+    LFP_E2BIG = E2BIG,
+    LFP_EACCES = EACCES,
+    LFP_EADDRINUSE = EADDRINUSE,
+    LFP_EADDRNOTAVAIL = EADDRNOTAVAIL,
+    LFP_EAFNOSUPPORT = EAFNOSUPPORT,
+    LFP_EAGAIN = EAGAIN,
+    LFP_EALREADY = EALREADY,
+    LFP_EBADF = EBADF,
+    LFP_EBADMSG = EBADMSG,
+    LFP_EBUSY = EBUSY,
+    LFP_ECANCELED = ECANCELED,
+    LFP_ECHILD = ECHILD,
+    LFP_ECONNABORTED = ECONNABORTED,
+    LFP_ECONNREFUSED = ECONNREFUSED,
+    LFP_ECONNRESET = ECONNRESET,
+    LFP_EDEADLK = EDEADLK,
+    LFP_EDESTADDRREQ = EDESTADDRREQ,
+    LFP_EDOM = EDOM,
+    LFP_EDQUOT = EDQUOT,
+    LFP_EEXIST = EEXIST,
+    LFP_EFAULT = EFAULT,
+    LFP_EFBIG = EFBIG,
+    LFP_EHOSTUNREACH = EHOSTUNREACH,
+    LFP_EIDRM = EIDRM,
+    LFP_EILSEQ = EILSEQ,
+    LFP_EINPROGRESS = EINPROGRESS,
+    LFP_EINTR = EINTR,
+    LFP_EINVAL = EINVAL,
+    LFP_EIO = EIO,
+    LFP_EISCONN = EISCONN,
+    LFP_EISDIR = EISDIR,
+    LFP_ELOOP = ELOOP,
+    LFP_EMFILE = EMFILE,
+    LFP_EMLINK = EMLINK,
+    LFP_EMSGSIZE = EMSGSIZE,
+    LFP_EMULTIHOP = EMULTIHOP,
+    LFP_ENAMETOOLONG = ENAMETOOLONG,
+    LFP_ENETDOWN = ENETDOWN,
+    LFP_ENETRESET = ENETRESET,
+    LFP_ENETUNREACH = ENETUNREACH,
+    LFP_ENFILE = ENFILE,
+    LFP_ENOBUFS = ENOBUFS,
+    LFP_ENODATA = ENODATA,
+    LFP_ENODEV = ENODEV,
+    LFP_ENOENT = ENOENT,
+    LFP_ENOEXEC = ENOEXEC,
+    LFP_ENOLCK = ENOLCK,
+    LFP_ENOLINK = ENOLINK,
+    LFP_ENOMEM = ENOMEM,
+    LFP_ENOMSG = ENOMSG,
+    LFP_ENOPROTOOPT = ENOPROTOOPT,
+    LFP_ENOSPC = ENOSPC,
+    LFP_ENOSR = ENOSR,
+    LFP_ENOSTR = ENOSTR,
+    LFP_ENOSYS = ENOSYS,
+    LFP_ENOTCONN = ENOTCONN,
+    LFP_ENOTDIR = ENOTDIR,
+    LFP_ENOTEMPTY = ENOTEMPTY,
+    LFP_ENOTSOCK = ENOTSOCK,
+    LFP_ENOTSUP = ENOTSUP,
+    LFP_ENOTTY = ENOTTY,
+    LFP_ENXIO = ENXIO,
+    LFP_EOPNOTSUPP = EOPNOTSUPP,
+    LFP_EOVERFLOW = EOVERFLOW,
+    LFP_EPERM = EPERM,
+    LFP_EPIPE = EPIPE,
+    LFP_EPROTO = EPROTO,
+    LFP_EPROTONOSUPPORT = EPROTONOSUPPORT,
+    LFP_EPROTOTYPE = EPROTOTYPE,
+    LFP_ERANGE = ERANGE,
+    LFP_EROFS = EROFS,
+    LFP_ESPIPE = ESPIPE,
+    LFP_ESRCH = ESRCH,
+    LFP_ESTALE = ESTALE,
+    LFP_ETIME = ETIME,
+    LFP_ETIMEDOUT = ETIMEDOUT,
+    LFP_ETXTBSY = ETXTBSY,
+    LFP_EWOULDBLOCK = EWOULDBLOCK,
+    LFP_EXDEV = EXDEV,
+} lfp_errno_t;
+
+
+
 #include <unistd.h>
 
 #if !defined(O_CLOEXEC)
-# define O_CLOEXEC 0
+// Syscalls use "int" for passing flags, and since
+// *nix systems use the LP64 data model, "int" is 32 bits
+// which means that we can allocate unsupported flags in the
+// upper part of an lfp_flags_t value
+# define O_CLOEXEC ( 1 >> 32 )
 #endif
 
-int lfp_pipe (int pipefd[2], int flags);
+int lfp_pipe (int pipefd[2], lfp_flags_t flags);
 
 
 
@@ -26,7 +120,7 @@ struct signalfd_siginfo { unsigned int ssi_signo; };
 
 int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 
-void lfp_uninstall_signalfd(int signum, bool block);
+int lfp_uninstall_signalfd(int signum, bool block);
 
 
 
@@ -43,5 +137,55 @@ bool lfp_fd_isset(int fd, fd_set *set);
 void lfp_fd_set(int fd, fd_set *set);
 
 void lfp_fd_zero(fd_set *set);
+
+
+
+#include <sys/socket.h>
+
+typedef enum {
+#if defined(AF_UNIX)
+    LFP_AF_UNIX = AF_UNIX,
+#endif
+#if defined(AF_LOCAL)
+    LFP_AF_LOCAL = AF_LOCAL,
+#endif
+#if defined(AF_INET)
+    LFP_AF_INET = AF_INET,
+#endif
+#if defined(AF_INET6)
+    LFP_AF_INET6 = AF_INET6,
+#endif
+#if defined(AF_PACKET)
+    LFP_AF_PACKET = AF_PACKET,
+#endif
+} lfp_socket_domain_t;
+
+typedef enum {
+#if defined(SOCK_STREAM)
+    LFP_SOCK_STREAM = SOCK_STREAM,
+#endif
+#if defined(SOCK_DGRAM)
+    LFP_SOCK_DGRAM = SOCK_DGRAM,
+#endif
+#if defined(SOCK_SEQPACKET)
+    LFP_SOCK_SEQPACKET = SOCK_SEQPACKET,
+#endif
+#if defined(SOCK_RDM)
+    LFP_SOCK_RDM = SOCK_RDM,
+#endif
+#if defined(SOCK_RAW)
+    LFP_SOCK_RAW = SOCK_RAW,
+#endif
+} lfp_socket_type_t;
+
+int lfp_socket(lfp_socket_domain_t domain,
+               lfp_socket_type_t   type,
+               int                 protocol,
+               lfp_flags_t         flags);
+
+int lfp_accept(int             sockfd,
+               struct sockaddr *addr,
+               socklen_t       *addrlen,
+               lfp_flags_t     flags);
 
 #endif // _LIBFIXPOSIX_H_
