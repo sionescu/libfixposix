@@ -1,5 +1,5 @@
 #if !defined(_LIBFIXPOSIX_H_)
-#define _LIBFIXPOSIX_H_
+# define _LIBFIXPOSIX_H_
 
 #include <stdlib.h>
 #include <stdbool.h>

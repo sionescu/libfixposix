@@ -5,10 +5,10 @@
 #include <libfixposix.h>
 
 #if !defined(SOCK_CLOEXEC)
-#define SOCK_CLOEXEC 0
+# define SOCK_CLOEXEC 0
 #endif
 #if !defined(SOCK_NONBLOCK)
-#define SOCK_NONBLOCK 0
+# define SOCK_NONBLOCK 0
 #endif
 
 extern
