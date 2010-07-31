@@ -194,4 +194,15 @@ int lfp_set_fd_cloexec(int fd);
 
 int lfp_set_fd_nonblock(int fd);
 
+
+
+/* errno.c */
+
+#include <errno.h>
+
+int lfp_errno (void);
+
+int lfp_set_errno (int value);
+
+
 #endif // _LIBFIXPOSIX_H_

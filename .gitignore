@@ -13,3 +13,8 @@ src/.*
 *.o
 *.la
 src/signalfd_test
+.deps/
+.dirstamp
+.libs/
+src/lib/libfixposix.h
+src/tests/signalfd_test
