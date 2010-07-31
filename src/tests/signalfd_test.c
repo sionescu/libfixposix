@@ -24,7 +24,7 @@ static inline ssize_t do_read(int fd, void *buf, size_t count) {
 
 do_try_read:
         lfp_fd_set(fd,&readfds);
-        select(fd+1, &readfds, NULL, NULL, NULL);
+        lfp_select(fd+1, &readfds, NULL, NULL, NULL);
         s = read(fd, buf, count);
         if (s != -1) {
                 return s;
