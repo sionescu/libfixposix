@@ -21,7 +21,7 @@ static inline
 int lfp_signalfd (int fd, const sigset_t *mask, int flags)
 {
     if (HAVE_EMULATED_SIGNALFD) {
-        lfp_set_errno(ENOSYS);
+        lfp_set_errno(LFP_ENOSYS);
         return -1;
     } else {
         return signalfd(fd, mask, flags);
@@ -84,7 +84,7 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
     struct sigaction sa;
 
     if ( (signum < 0) || (signum >= NSIG) ) {
-        lfp_set_errno(EINVAL);
+        lfp_set_errno(LFP_EINVAL);
         return -1;
     }
 
@@ -98,12 +98,12 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
 
     /* Allocate parameters */
     if (signalfd_params[signum]) {
-        lfp_set_errno(EALREADY);
+        lfp_set_errno(LFP_EALREADY);
         return -1;
     }
     params = malloc(sizeof(signalfd_params));
     if (params == NULL) {
-        lfp_set_errno(ENOMEM);
+        lfp_set_errno(LFP_ENOMEM);
         return -1;
     }
 
@@ -152,7 +152,7 @@ int lfp_uninstall_signalfd(int signum, bool block)
     struct sigaction sa;
 
     if ( (signum < 0) || (signum >= NSIG) ) {
-        lfp_set_errno(EINVAL);
+        lfp_set_errno(LFP_EINVAL);
         return -1;
     }
 

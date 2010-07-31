@@ -204,5 +204,35 @@ int lfp_errno (void);
 
 int lfp_set_errno (int value);
 
+
 
+/* For waitpid.c */
+
+#include <sys/types.h>
+#include <sys/wait.h>
+
+typedef enum {
+    LFP_WNOHANG = WNOHANG,
+    LFP_WUNTRACED = WUNTRACED,
+    LFP_WCONTINUED = WCONTINUED
+    LFP_WNOWAIT = WNOWAIT
+} lfp_waitpid_option_t;
+
+int lfp_wifexited (int status);
+
+int lfp_wexitstatus (int status);
+
+int lfp_wifsignaled (int status);
+
+int lfp_wtermsig (int status);
+
+int lfp_wcoredump (int status);
+
+int lfp_wifstopped (int status);
+
+int lfp_wstopsig (int status);
+
+int lfp_wifcontinued (int status);
+
+
 #endif // _LIBFIXPOSIX_H_
