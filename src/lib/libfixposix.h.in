@@ -206,7 +206,7 @@ int lfp_set_errno (int value);
 
 
 
-/* For waitpid.c */
+/* For wait.c */
 
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -214,9 +214,9 @@ int lfp_set_errno (int value);
 typedef enum {
     LFP_WNOHANG = WNOHANG,
     LFP_WUNTRACED = WUNTRACED,
-    LFP_WCONTINUED = WCONTINUED
+    LFP_WCONTINUED = WCONTINUED,
     LFP_WNOWAIT = WNOWAIT
-} lfp_waitpid_option_t;
+} lfp_wait_option_t;
 
 int lfp_wifexited (int status);
 
