@@ -1,3 +1,5 @@
+#include <sys/wait.h>
+
 #include <libfixposix.h>
 
 int lfp_wifexited (int status) {

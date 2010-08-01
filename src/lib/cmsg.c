@@ -1,3 +1,5 @@
+#include <sys/socket.h>
+
 #include <libfixposix.h>
 
 struct cmsghdr* lfp_cmsg_firsthdr (struct msghdr* msgh) {
