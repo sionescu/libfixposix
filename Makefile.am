@@ -17,7 +17,8 @@ src_lib_libfixposix_la_SOURCES = \
 	src/lib/fcntl.c \
 	src/lib/pipe.c src/lib/install_signalfd.c \
 	src/lib/select.c src/lib/socket.c src/lib/cmsg.c \
-	src/lib/errno.c src/lib/wait.c
+	src/lib/errno.c src/lib/wait.c \
+	src/lib/spawn.c
 
 src_lib_libfixposix_la_LIBADD = $(LFP_DEP_LIBS)
 
