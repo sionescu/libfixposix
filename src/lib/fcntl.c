@@ -2,7 +2,6 @@
 
 #include <libfixposix.h>
 
-extern
 int lfp_set_fd_cloexec(int fd)
 {
     int current_flags = fcntl(fd, F_GETFD);
@@ -13,7 +12,6 @@ int lfp_set_fd_cloexec(int fd)
     }
 }
 
-extern
 int lfp_set_fd_nonblock(int fd)
 {
     int current_flags = fcntl(fd, F_GETFL);

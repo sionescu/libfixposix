@@ -2,7 +2,6 @@
 
 #include <libfixposix.h>
 
-extern
 int lfp_spawn(pid_t *pid,
               const char *path,
               const lfp_spawn_file_actions_t *file_actions,

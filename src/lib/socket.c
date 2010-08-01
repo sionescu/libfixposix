@@ -11,7 +11,6 @@
 # define SOCK_NONBLOCK 0
 #endif
 
-extern
 int lfp_socket(lfp_socket_domain_t domain,
                lfp_socket_type_t   type,
                int                 protocol,
@@ -45,7 +44,6 @@ int lfp_socket(lfp_socket_domain_t domain,
     return -1;
 }
 
-extern
 int lfp_accept(int             sockfd,
                struct sockaddr *addr,
                socklen_t       *addrlen,
