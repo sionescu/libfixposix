@@ -1,9 +1,10 @@
+#include <stdbool.h>
 #include <sys/wait.h>
 
 #include <libfixposix.h>
 
 extern
-int lfp_wifexited (int status)
+bool lfp_wifexited (int status)
 {
   return WIFEXITED(status);
 }
@@ -15,7 +16,7 @@ int lfp_wexitstatus (int status)
 }
 
 extern
-int lfp_wifsignaled (int status)
+bool lfp_wifsignaled (int status)
 {
   return WIFSIGNALED(status);
 }
@@ -37,7 +38,7 @@ int lfp_wcoredump (int status)
 }
 
 extern
-int lfp_wifstopped (int status)
+bool lfp_wifstopped (int status)
 {
   return WIFSTOPPED(status);
 }
@@ -49,7 +50,7 @@ int lfp_wstopsig (int status)
 }
 
 extern
-int lfp_wifcontinued (int status)
+bool lfp_wifcontinued (int status)
 {
   return WIFCONTINUED(status);
 }

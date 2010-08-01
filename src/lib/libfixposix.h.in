@@ -204,21 +204,21 @@ typedef enum {
     LFP_WNOWAIT = WNOWAIT
 } lfp_wait_option_t;
 
-int lfp_wifexited (int status);
+bool lfp_wifexited (int status);
 
 int lfp_wexitstatus (int status);
 
-int lfp_wifsignaled (int status);
+bool lfp_wifsignaled (int status);
 
 int lfp_wtermsig (int status);
 
 int lfp_wcoredump (int status);
 
-int lfp_wifstopped (int status);
+bool lfp_wifstopped (int status);
 
 int lfp_wstopsig (int status);
 
-int lfp_wifcontinued (int status);
+bool lfp_wifcontinued (int status);
 
 
 
