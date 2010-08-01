@@ -177,6 +177,18 @@ int lfp_accept(int             sockfd,
                socklen_t       *addrlen,
                lfp_flags_t     flags);
 
+struct cmsghdr* lfp_cmsg_firsthdr (struct msghdr* msgh);
+
+struct cmsghdr* lfp_cmsg_nxthdr (struct msghdr* msgh, struct cmsghdr* cmsg);
+
+size_t lfp_cmsg_align (size_t length);
+
+size_t lfp_cmsg_space (size_t length);
+
+size_t lfp_cmsg_len (size_t length);
+
+void* lfp_cmsg_data (struct cmsghdr* cmsg);
+
 
 
 int lfp_set_fd_cloexec(int fd);
@@ -184,8 +196,6 @@ int lfp_set_fd_cloexec(int fd);
 int lfp_set_fd_nonblock(int fd);
 
 
-
-/* errno.c */
 
 #include <errno.h>
 
@@ -222,17 +232,5 @@ bool lfp_wifcontinued (int status);
 
 
 
-struct cmsghdr* lfp_cmsg_firsthdr (struct msghdr* msgh);
 
-struct cmsghdr* lfp_cmsg_nxthdr (struct msghdr* msgh, struct cmsghdr* cmsg);
-
-size_t lfp_cmsg_align (size_t length);
-
-size_t lfp_cmsg_space (size_t length);
-
-size_t lfp_cmsg_len (size_t length);
-
-void* lfp_cmsg_data (struct cmsghdr* cmsg);
-
-
 #endif // _LIBFIXPOSIX_H_
