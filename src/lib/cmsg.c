@@ -33,7 +33,7 @@ size_t lfp_cmsg_len (size_t length)
 }
 
 extern
-unsigned char* lfp_cmsg_data (struct cmsghdr* cmsg)
+void* lfp_cmsg_data (struct cmsghdr* cmsg)
 {
   return CMSG_DATA(cmsg);
 }

@@ -232,7 +232,7 @@ size_t lfp_cmsg_space (size_t length);
 
 size_t lfp_cmsg_len (size_t length);
 
-unsigned char* lfp_cmsg_data (struct cmsghdr* cmsg);
+void* lfp_cmsg_data (struct cmsghdr* cmsg);
 
 
 #endif // _LIBFIXPOSIX_H_
