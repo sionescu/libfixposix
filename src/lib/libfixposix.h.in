@@ -97,6 +97,7 @@ typedef enum {
 
 
 #include <unistd.h>
+#include <fcntl.h>
 
 #if !defined(O_CLOEXEC)
 // Syscalls use "int" for passing flags, and since
@@ -206,9 +207,6 @@ int lfp_set_errno (int value);
 
 
 
-/* For wait.c */
-
-#include <sys/types.h>
 #include <sys/wait.h>
 
 typedef enum {
@@ -235,8 +233,6 @@ int lfp_wstopsig (int status);
 int lfp_wifcontinued (int status);
 
 
-
-/* cmsg.c */
 
 struct cmsghdr* lfp_cmsg_firsthdr (struct msghdr* msgh);
 
