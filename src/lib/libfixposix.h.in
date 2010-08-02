@@ -296,7 +296,7 @@ typedef enum {
 ,
   LFP_SIGUSR1 = SIGUSR1,
   LFP_SIGUSR2 = SIGUSR2
-} lfp_signal_number_t;
+} lfp_signal_t;
 
 int lfp_sigrtmin (void);
 
