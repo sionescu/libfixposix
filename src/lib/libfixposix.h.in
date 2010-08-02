@@ -6,10 +6,6 @@
 
 
 
-#include <inttypes.h>
-
-typedef uint64_t lfp_flags_t;
-
 #include <errno.h>
 
 typedef enum {
@@ -96,18 +92,21 @@ typedef enum {
 
 
 
+#include <inttypes.h>
 #include <unistd.h>
 #include <fcntl.h>
+
+typedef uint64_t lfp_open_flags_t;
 
 #if !defined(O_CLOEXEC)
 // Syscalls use "int" for passing flags, and since
 // *nix systems use the LP64 data model, "int" is 32 bits
 // which means that we can allocate unsupported flags in the
-// upper part of an lfp_flags_t value
+// upper part of an lfp_open_flags_t value
 # define O_CLOEXEC ( 1 >> 32 )
 #endif
 
-int lfp_pipe (int pipefd[2], lfp_flags_t flags);
+int lfp_pipe (int pipefd[2], lfp_open_flags_t flags);
 
 
 
@@ -156,12 +155,12 @@ typedef enum {
 int lfp_socket(lfp_socket_domain_t domain,
                lfp_socket_type_t   type,
                int                 protocol,
-               lfp_flags_t         flags);
+               lfp_open_flags_t    flags);
 
-int lfp_accept(int             sockfd,
-               struct sockaddr *addr,
-               socklen_t       *addrlen,
-               lfp_flags_t     flags);
+int lfp_accept(int              sockfd,
+               struct sockaddr  *addr,
+               socklen_t        *addrlen,
+               lfp_open_flags_t flags);
 
 struct cmsghdr* lfp_cmsg_firsthdr (struct msghdr* msgh);
 
