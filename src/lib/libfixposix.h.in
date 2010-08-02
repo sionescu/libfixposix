@@ -240,8 +240,6 @@ int lfp_spawnp(pid_t *pid,
 
 
 
-/* signal.c */
-
 #include <signal.h>
 
 sighandler_t lfp_sig_ign (void);
@@ -261,13 +259,9 @@ typedef enum {
   LFP_SIGHUP = SIGHUP,
   LFP_SIGQUIT = SIGQUIT,
   LFP_SIGTRAP = SIGTRAP,
-  LFP_SIGEMT =
-    #ifdef SIGEMT
-      SIGEMT
-    #else
-      0
-    #endif
-,
+#if defined(SIGEMT)
+  LFP_SIGEMT = SIGEMT,
+#endif
   LFP_SIGKILL = SIGKILL,
   LFP_SIGBUS = SIGBUS,
   LFP_SIGSYS = SIGSYS,
@@ -287,13 +281,9 @@ typedef enum {
   LFP_SIGVTALRM = SIGVTALRM,
   LFP_SIGPROF = SIGPROF,
   LFP_SIGWINCH = SIGWINCH,
-  LFP_SIGINFO =
-    #ifdef SIGINFO
-      SIGINFO
-    #else
-      0
-    #endif
-,
+#if defined(SIGINFO)
+  LFP_SIGINFO = SIGINFO,
+#endif
   LFP_SIGUSR1 = SIGUSR1,
   LFP_SIGUSR2 = SIGUSR2
 } lfp_signal_t;
