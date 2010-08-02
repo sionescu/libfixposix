@@ -111,20 +111,6 @@ int lfp_pipe (int pipefd[2], lfp_flags_t flags);
 
 
 
-#if defined(__linux__)
-# if @HAVE_EMULATED_SIGNALFD@ // HAVE_EMULATED_SIGNALFD
-struct signalfd_siginfo { unsigned int ssi_signo; };
-# else
-#  include <sys/signalfd.h>
-# endif
-#endif
-
-int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
-
-int lfp_uninstall_signalfd(int signum, bool block);
-
-
-
 #include <sys/select.h>
 
 int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
@@ -360,7 +346,18 @@ typedef enum {
   LFP_TRAP_TRACE = TRAP_TRACE
 } lfp_si_code_t;
 
-
 
+
+#if defined(__linux__)
+# if @HAVE_EMULATED_SIGNALFD@ // HAVE_EMULATED_SIGNALFD
+struct signalfd_siginfo { unsigned int ssi_signo; };
+# else
+#  include <sys/signalfd.h>
+# endif
+#endif
+
+int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
+
+int lfp_uninstall_signalfd(int signum, bool block);
 
 #endif // _LIBFIXPOSIX_H_
