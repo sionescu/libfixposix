@@ -72,7 +72,6 @@ void warning_signal_handler (int signum)
     write(STDERR_FILENO, msg, i);
 }
 
-extern
 int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
 {
     int pipefd[2];
@@ -143,7 +142,6 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
     return params->read_fd;
 }
 
-extern
 int lfp_uninstall_signalfd(int signum, bool block)
 {
     int ret;

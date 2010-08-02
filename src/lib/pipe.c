@@ -4,7 +4,6 @@
 
 #include <libfixposix.h>
 
-extern
 int lfp_pipe (int pipefd[2], lfp_flags_t flags)
 {
     if (HAVE_PIPE2) {

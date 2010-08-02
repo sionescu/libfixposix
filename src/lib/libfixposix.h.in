@@ -97,6 +97,7 @@ typedef enum {
 
 
 #include <unistd.h>
+#include <fcntl.h>
 
 #if !defined(O_CLOEXEC)
 // Syscalls use "int" for passing flags, and since
@@ -143,30 +144,18 @@ void lfp_fd_zero(fd_set *set);
 #include <sys/socket.h>
 
 typedef enum {
-#if defined(AF_UNIX)
     LFP_AF_UNIX = AF_UNIX,
-#endif
-#if defined(AF_LOCAL)
     LFP_AF_LOCAL = AF_LOCAL,
-#endif
-#if defined(AF_INET)
     LFP_AF_INET = AF_INET,
-#endif
-#if defined(AF_INET6)
     LFP_AF_INET6 = AF_INET6,
-#endif
 #if defined(AF_PACKET)
     LFP_AF_PACKET = AF_PACKET,
 #endif
 } lfp_socket_domain_t;
 
 typedef enum {
-#if defined(SOCK_STREAM)
     LFP_SOCK_STREAM = SOCK_STREAM,
-#endif
-#if defined(SOCK_DGRAM)
     LFP_SOCK_DGRAM = SOCK_DGRAM,
-#endif
 #if defined(SOCK_SEQPACKET)
     LFP_SOCK_SEQPACKET = SOCK_SEQPACKET,
 #endif
@@ -188,56 +177,6 @@ int lfp_accept(int             sockfd,
                socklen_t       *addrlen,
                lfp_flags_t     flags);
 
-
-
-int lfp_set_fd_cloexec(int fd);
-
-int lfp_set_fd_nonblock(int fd);
-
-
-
-/* errno.c */
-
-#include <errno.h>
-
-int lfp_errno (void);
-
-int lfp_set_errno (int value);
-
-
-
-/* For wait.c */
-
-#include <sys/types.h>
-#include <sys/wait.h>
-
-typedef enum {
-    LFP_WNOHANG = WNOHANG,
-    LFP_WUNTRACED = WUNTRACED,
-    LFP_WCONTINUED = WCONTINUED,
-    LFP_WNOWAIT = WNOWAIT
-} lfp_wait_option_t;
-
-int lfp_wifexited (int status);
-
-int lfp_wexitstatus (int status);
-
-int lfp_wifsignaled (int status);
-
-int lfp_wtermsig (int status);
-
-int lfp_wcoredump (int status);
-
-int lfp_wifstopped (int status);
-
-int lfp_wstopsig (int status);
-
-int lfp_wifcontinued (int status);
-
-
-
-/* cmsg.c */
-
 struct cmsghdr* lfp_cmsg_firsthdr (struct msghdr* msgh);
 
 struct cmsghdr* lfp_cmsg_nxthdr (struct msghdr* msgh, struct cmsghdr* cmsg);
@@ -248,7 +187,70 @@ size_t lfp_cmsg_space (size_t length);
 
 size_t lfp_cmsg_len (size_t length);
 
-unsigned char* lfp_cmsg_data (struct cmsghdr* cmsg);
+void* lfp_cmsg_data (struct cmsghdr* cmsg);
+
+
+
+int lfp_set_fd_cloexec(int fd);
+
+int lfp_set_fd_nonblock(int fd);
+
+
+
+#include <errno.h>
+
+int lfp_errno (void);
+
+int lfp_set_errno (int value);
+
+
+
+#include <sys/wait.h>
+
+typedef enum {
+    LFP_WNOHANG = WNOHANG,
+    LFP_WUNTRACED = WUNTRACED,
+    LFP_WCONTINUED = WCONTINUED,
+    LFP_WNOWAIT = WNOWAIT
+} lfp_wait_option_t;
+
+bool lfp_wifexited (int status);
+
+int lfp_wexitstatus (int status);
+
+bool lfp_wifsignaled (int status);
+
+int lfp_wtermsig (int status);
+
+int lfp_wcoredump (int status);
+
+bool lfp_wifstopped (int status);
+
+int lfp_wstopsig (int status);
+
+bool lfp_wifcontinued (int status);
+
+
+
+typedef struct {
+} lfp_spawn_file_actions_t;
+
+typedef struct {
+} lfp_spawnattr_t;
+
+int lfp_spawn(pid_t *pid,
+              const char *path,
+              const lfp_spawn_file_actions_t *file_actions,
+              const lfp_spawnattr_t *attrp,
+              char *const argv[],
+              char *const envp[]);
+
+int lfp_spawnp(pid_t *pid,
+               const char *file,
+               const lfp_spawn_file_actions_t *file_actions,
+               const lfp_spawnattr_t *attrp,
+               char *const argv[],
+               char *const envp[]);
 
 
 
@@ -360,4 +362,5 @@ typedef enum {
 
 
 
+
 #endif // _LIBFIXPOSIX_H_
