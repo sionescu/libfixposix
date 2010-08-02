@@ -28,15 +28,17 @@ int lfp_spawn(pid_t *pid,
     if (child_pid < 0) {
         return -1;
     } else if (child_pid == 0) { // child
+        close(pipes[0]);
         execve(path, argv, envp);
         int child_errno = lfp_errno();
         write(pipes[1], &child_errno, sizeof(int));
         _exit(255);
     } else {                 // parent
         int child_errno, read_errno, status;
+        close(pipes[1]);
         ret = read(pipes[0], &child_errno, sizeof(int));
         read_errno = lfp_errno();
-        close(pipes[0]); close(pipes[1]);
+        close(pipes[0]);
         switch (ret) {
         case -1:
             lfp_set_errno(read_errno);
