@@ -14,7 +14,7 @@
 int lfp_socket(lfp_socket_domain_t domain,
                lfp_socket_type_t   type,
                int                 protocol,
-               lfp_flags_t         flags)
+               lfp_open_flags_t    flags)
 {
     int _flags = 0;
 
@@ -44,10 +44,10 @@ int lfp_socket(lfp_socket_domain_t domain,
     return -1;
 }
 
-int lfp_accept(int             sockfd,
-               struct sockaddr *addr,
-               socklen_t       *addrlen,
-               lfp_flags_t     flags)
+int lfp_accept(int              sockfd,
+               struct sockaddr  *addr,
+               socklen_t        *addrlen,
+               lfp_open_flags_t flags)
 {
     if (HAVE_ACCEPT4) {
         int _flags = 0;

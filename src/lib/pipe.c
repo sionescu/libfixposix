@@ -4,7 +4,7 @@
 
 #include <libfixposix.h>
 
-int lfp_pipe (int pipefd[2], lfp_flags_t flags)
+int lfp_pipe (int pipefd[2], lfp_open_flags_t flags)
 {
     if (HAVE_PIPE2) {
         // We assume that if pipe2() is defined then O_CLOEXEC too
