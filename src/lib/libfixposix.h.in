@@ -218,10 +218,57 @@ bool lfp_wifcontinued (int status);
 
 
 typedef struct {
+    struct lfp_spawn_action *actions;
 } lfp_spawn_file_actions_t;
 
+int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions);
+
+int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions);
+
+int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
+                                   int fd, const char *path,
+                                   lfp_open_flags_t oflags, mode_t mode);
+
+int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
+                                    int fd);
+
+int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
+                                   int fd, int newfd);
+
 typedef struct {
+    uint32_t flags;
+    pid_t    pgroup;
+    uid_t    uid;
+    gid_t    gid;
+    sigset_t sigdefault;
+    sigset_t sigmask;
 } lfp_spawnattr_t;
+
+typedef enum {
+    LFP_SPAWN_RESETIDS      = 1 << 0,
+    LFP_SPAWN_SETUGID       = 1 << 1,
+    LFP_SPAWN_SETPGROUP     = 1 << 2,
+    LFP_SPAWN_SETSIGMASK    = 1 << 3,
+    LFP_SPAWN_SETSIGDEFAULT = 1 << 4
+} lfp_spawnattr_flags;
+
+int lfp_spawnattr_init(lfp_spawnattr_t *attr);
+int lfp_spawnattr_destroy(lfp_spawnattr_t *attr);
+
+int lfp_spawnattr_getflags(lfp_spawnattr_t *attr, uint32_t *flags);
+int lfp_spawnattr_setflags(lfp_spawnattr_t *attr, const uint32_t flags);
+
+int lfp_spawnattr_getpgroup(lfp_spawnattr_t *attr, pid_t *pgroup);
+int lfp_spawnattr_setpgroup(lfp_spawnattr_t *attr, const pid_t pgroup);
+
+int lfp_spawnattr_getsigmask(lfp_spawnattr_t *attr, sigset_t *sigmask);
+int lfp_spawnattr_setsigmask(lfp_spawnattr_t *attr, const sigset_t *sigmask);
+
+int lfp_spawnattr_getsigdefault(lfp_spawnattr_t *attr, sigset_t *sigdefault);
+int lfp_spawnattr_setsigdefault(lfp_spawnattr_t *attr, const sigset_t *sigdefault);
+
+int lfp_spawnattr_getugid(lfp_spawnattr_t *attr, uid_t *uid, gid_t *gid);
+int lfp_spawnattr_setugid(lfp_spawnattr_t *attr, const uid_t uid, const gid_t gid);
 
 int lfp_spawn(pid_t *pid,
               const char *path,

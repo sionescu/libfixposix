@@ -1,6 +1,20 @@
+#include <string.h>
 #include <unistd.h>
+#include <signal.h>
 
 #include <libfixposix.h>
+
+int lfp_apply_spawnattr(const lfp_spawnattr_t *attr);
+int lfp_apply_spawn_file_actions(const lfp_spawn_file_actions_t *file_actions);
+
+void child_exit(int pipe, int child_errno)
+{
+    int noctets = write(pipe, &child_errno, sizeof(int));
+    if (noctets == sizeof(int))
+        _exit(255);
+    else
+        _exit(254);
+}
 
 int lfp_spawn(pid_t *pid,
               const char *path,
@@ -30,10 +44,11 @@ int lfp_spawn(pid_t *pid,
         return -1;
     } else if (child_pid == 0) { // child
         close(pipes[0]);
+        int child_errno = lfp_apply_spawnattr(attr);
+        if (child_errno != 0)
+            child_exit(pipes[1], child_errno);;
         execve(path, argv, envp);
-        int child_errno = lfp_errno();
-        write(pipes[1], &child_errno, sizeof(int));
-        _exit(255);
+        child_exit(pipes[1], lfp_errno());
     } else {                 // parent
         int child_errno, read_errno, status;
         close(pipes[1]);
@@ -58,4 +73,5 @@ int lfp_spawn(pid_t *pid,
             return -1;
         }
     }
+    return 0;
 }
