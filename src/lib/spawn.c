@@ -4,10 +4,11 @@
 
 int lfp_spawn(pid_t *pid,
               const char *path,
-              const lfp_spawn_file_actions_t *file_actions,
-              const lfp_spawnattr_t *attrp,
               char *const argv[],
-              char *const envp[])
+              char *const envp[],
+              const lfp_spawn_file_actions_t *file_actions,
+              const lfp_spawnattr_t *attr,
+              bool search)
 {
     if (pid == NULL) {
         lfp_set_errno(EINVAL);
