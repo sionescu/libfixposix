@@ -11,6 +11,7 @@
 #include <fcntl.h>
 
 #include <libfixposix.h>
+#include "utils.h"
 
 static struct signalfd_params {
     int read_fd;
@@ -21,11 +22,9 @@ static inline
 int lfp_signalfd (int fd, const sigset_t *mask, int flags)
 {
     if (HAVE_EMULATED_SIGNALFD) {
-        lfp_set_errno(LFP_ENOSYS);
-        return -1;
-    } else {
+        SYSERR(LFP_ENOSYS);
+    } else
         return signalfd(fd, mask, flags);
-    }
 }
 
 static
@@ -75,17 +74,13 @@ void warning_signal_handler (int signum)
 int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
 {
     int pipefd[2];
-    int ret;
     bool block;
     sigset_t sigmask;
     int emulate_signalfd;
     struct signalfd_params *params;
     struct sigaction sa;
 
-    if ( (signum < 0) || (signum >= NSIG) ) {
-        lfp_set_errno(LFP_EINVAL);
-        return -1;
-    }
+    SYSCHECK(EINVAL, signum < 0 || signum >= NSIG);
 
     /* Setup sigaction */
     memset(&sa, 0, sizeof(sa));
@@ -96,26 +91,21 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
     sigaddset(&sigmask, signum);
 
     /* Allocate parameters */
-    if (signalfd_params[signum]) {
-        lfp_set_errno(LFP_EALREADY);
-        return -1;
-    }
+    SYSCHECK(EALREADY, signalfd_params[signum]);
     params = malloc(sizeof(signalfd_params));
-    if (params == NULL) {
-        lfp_set_errno(LFP_ENOMEM);
-        return -1;
-    }
+    SYSCHECK(ENOMEM, params == NULL);
 
     /* Before we touch the handler, block the signal */
-    ret = sigprocmask(SIG_BLOCK, &sigmask, NULL);
-    if (ret < 0) { return -1; }
+    if (sigprocmask(SIG_BLOCK, &sigmask, NULL) < 0)
+        return -1;
 
     /* First, try signalfd */
-    ret = lfp_signalfd(-1, &sigmask, SFD_CLOEXEC | SFD_NONBLOCK);
-    if (ret != -1) { /* success with signalfd, block signal and install warning handler */
+    int sigfd = lfp_signalfd(-1, &sigmask, SFD_CLOEXEC | SFD_NONBLOCK);
+    if (sigfd != -1) {
+        /* success with signalfd, block signal and install warning handler */
         emulate_signalfd = 0;
         sa.sa_handler = &warning_signal_handler; /* SIG_DFL would work but we want to catch bugs */
-        params->read_fd = ret;
+        params->read_fd = sigfd;
         params->write_fd = -1;
         block = true;
         goto signalfd_sigaction;
@@ -124,35 +114,29 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
     /* no success with signalfd (probably ENOSYS), emulate! */
     emulate_signalfd = 1;
     sa.sa_handler = &signalfd_emulator;
-    ret = lfp_pipe(pipefd, O_NONBLOCK | O_CLOEXEC);
-    if (ret < 0) { return -1; }
+    if (lfp_pipe(pipefd, O_NONBLOCK | O_CLOEXEC) < 0)
+        return -1;
     params->read_fd = pipefd[0];
     params->write_fd = pipefd[1];
     block = false;
 
   signalfd_sigaction:
     signalfd_params[signum] = params;
-    ret = sigaction(signum,&sa,NULL);
-    if (ret < 0) { return -1; }
-    if (emulate_signalfd) {
-        ret = sigprocmask(SIG_UNBLOCK, &sigmask, NULL);
-        if (ret < 0) { return -1; }
-    }
+    if (sigaction(signum,&sa,NULL) < 0) 
+        return -1;
+    if (emulate_signalfd && sigprocmask(SIG_UNBLOCK, &sigmask, NULL) < 0)
+        return -1;
     if (blockp) { *blockp = block; }
     return params->read_fd;
 }
 
 int lfp_uninstall_signalfd(int signum, bool block)
 {
-    int ret;
     sigset_t sigmask;
     struct signalfd_params *params;
     struct sigaction sa;
 
-    if ( (signum < 0) || (signum >= NSIG) ) {
-        lfp_set_errno(LFP_EINVAL);
-        return -1;
-    }
+    SYSCHECK(EINVAL, signum < 0 || signum >= NSIG);
 
     /* Setup sigaction */
     memset(&sa, 0, sizeof(sa));
@@ -163,26 +147,22 @@ int lfp_uninstall_signalfd(int signum, bool block)
     sigaddset(&sigmask, signum);
 
     /* Before we touch the handler, block the signal */
-    ret = sigprocmask(SIG_BLOCK, &sigmask, NULL);
-    if (ret != 0) { return -1; }
+    if (sigprocmask(SIG_BLOCK, &sigmask, NULL) != 0)
+        return -1;
 
     /* Release parameters */
     params = signalfd_params[signum];
-    if ( params == NULL) {
+    if ( params == NULL)
         return 0;
-    }
     close(params->read_fd);
-    if (params->write_fd != -1) {
+    if (params->write_fd != -1)
         close(params->write_fd);
-    }
     free(params);
     signalfd_params[signum] = NULL;
 
-    ret = sigaction(signum, &sa, NULL);
-    if (ret < 0) { return -1; }
-    if (!block) {
-        ret = sigprocmask(SIG_UNBLOCK, &sigmask, NULL);
-        if (ret != 0) { return -1; }
-    }
+    if (sigaction(signum, &sa, NULL) < 0)
+        return -1;
+    if (!block && sigprocmask(SIG_UNBLOCK, &sigmask, NULL) != 0)
+        return -1;
     return 0;
 }

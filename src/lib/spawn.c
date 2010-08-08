@@ -3,6 +3,7 @@
 #include <signal.h>
 
 #include <libfixposix.h>
+#include "utils.h"
 
 int lfp_apply_spawnattr(const lfp_spawnattr_t *attr);
 int lfp_apply_spawn_file_actions(const lfp_spawn_file_actions_t *file_actions);
@@ -24,19 +25,14 @@ int lfp_spawn(pid_t *pid,
               const lfp_spawnattr_t *attr,
               bool search)
 {
-    if (pid == NULL) {
-        lfp_set_errno(EINVAL);
-        return -1;
-    }
+    SYSCHECK(EINVAL, pid == NULL)
 
     int ret, pipes[2];
 
     // Used for passing the error code from child to parent in case
     // some of the syscalls executed in the child fail
-    ret = lfp_pipe(pipes, O_CLOEXEC | O_NONBLOCK);
-    if (ret < 0) {
+    if (lfp_pipe(pipes, O_CLOEXEC | O_NONBLOCK) < 0)
         return -1;
-    }
 
     pid_t child_pid = fork();
 
@@ -57,20 +53,17 @@ int lfp_spawn(pid_t *pid,
         close(pipes[0]);
         switch (ret) {
         case -1:
-            lfp_set_errno(read_errno);
-            return -1;
+            SYSERR(read_errno);
         case 0:
             *pid = child_pid;
             return 0;
         case 4:
             waitpid(child_pid, &status, WNOHANG);
-            lfp_set_errno(child_errno);
-            return -1;
+            SYSERR(child_errno);
         default:
             // This is not suppose to happen because all 4 octets
             // of the child's errno should get here with one write
-            lfp_set_errno(EDOM);
-            return -1;
+            SYSERR(EDOM);
         }
     }
     return 0;

@@ -1,6 +1,7 @@
 #include <unistd.h>
 
 #include <libfixposix.h>
+#include "utils.h"
 
 typedef enum {
     LFP_SPAWN_FILE_ACTION_OPEN,
@@ -19,20 +20,14 @@ typedef struct lfp_spawn_action {
 
 int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 {
-    if (file_actions == NULL) {
-        lfp_set_errno(EINVAL);
-        return -1;
-    }
+    SYSCHECK(EINVAL, file_actions == NULL);
     file_actions->actions = NULL;
     return 0;
 }
 
 int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 {
-    if (file_actions == NULL) {
-        lfp_set_errno(EINVAL);
-        return -1;
-    }
+    SYSCHECK(EINVAL, file_actions == NULL);
     // TODO: free file_actions->actions
     return 0;
 }
