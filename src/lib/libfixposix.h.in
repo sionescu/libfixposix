@@ -87,7 +87,8 @@ typedef enum {
     LFP_ETIMEDOUT       = ETIMEDOUT,
     LFP_ETXTBSY         = ETXTBSY,
     LFP_EWOULDBLOCK     = EWOULDBLOCK,
-    LFP_EXDEV           = EXDEV
+    LFP_EXDEV           = EXDEV,
+    LFP_EBUG            = 10000
 } lfp_errno_t;
 
 

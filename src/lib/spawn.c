@@ -66,5 +66,5 @@ int lfp_spawn(pid_t *pid,
             SYSERR(EDOM);
         }
     }
-    return 0;
+    SYSERR(LFP_EBUG);
 }
