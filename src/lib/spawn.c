@@ -79,6 +79,7 @@ int lfp_spawn(pid_t *pid,
         return -1;
     case 0:
         handle_child(path, argv, envp, file_actions, attr, pipes);
+        // Flow reaches this point only if child_exit() mysteriously fails
         SYSERR(LFP_EBUG);
     default:
         return handle_parent(pid, child_pid, pipes);
