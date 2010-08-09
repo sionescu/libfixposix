@@ -25,7 +25,7 @@ int lfp_spawn(pid_t *pid,
               const lfp_spawnattr_t *attr,
               bool search)
 {
-    SYSCHECK(EINVAL, pid == NULL)
+    SYSCHECK(EINVAL, pid == NULL);
 
     int ret, pipes[2];
 

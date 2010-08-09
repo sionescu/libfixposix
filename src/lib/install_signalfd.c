@@ -21,9 +21,9 @@ static struct signalfd_params {
 static inline
 int lfp_signalfd (int fd, const sigset_t *mask, int flags)
 {
-    if (HAVE_EMULATED_SIGNALFD) {
+    if (HAVE_EMULATED_SIGNALFD)
         SYSERR(LFP_ENOSYS);
-    } else
+    else
         return signalfd(fd, mask, flags);
 }
 
