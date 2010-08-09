@@ -13,7 +13,7 @@
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr)
 {
-    SYSCHECK(EINVAL, attr == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL);
     memset(attr, 0, sizeof(lfp_spawnattr_t));
     sigemptyset(&attr->sigdefault);
     return 0;
@@ -21,34 +21,34 @@ int lfp_spawnattr_init(lfp_spawnattr_t *attr)
 
 int lfp_spawnattr_destroy(lfp_spawnattr_t *attr)
 {
-    SYSCHECK(EINVAL, attr == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL);
     return 0;
 }
 
 int lfp_spawnattr_getflags(lfp_spawnattr_t *attr, uint32_t *flags)
 {
-    SYSCHECK(EINVAL, attr == NULL || flags == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL || flags == NULL);
     *flags = attr->flags;
     return 0;
 }
 
 int lfp_spawnattr_setflags(lfp_spawnattr_t *attr, const uint32_t flags)
 {
-    SYSCHECK(EINVAL, attr == NULL || (flags & ~LFP_SPAWN_ALLFLAGS) != 0);
+    SYSCHECK(LFP_EINVAL, attr == NULL || (flags & ~LFP_SPAWN_ALLFLAGS) != 0);
     attr->flags = flags;
     return 0;
 }
 
 int lfp_spawnattr_getpgroup(lfp_spawnattr_t *attr, pid_t *pgroup)
 {
-    SYSCHECK(EINVAL, attr == NULL || pgroup == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL || pgroup == NULL);
     *pgroup = attr->pgroup;
     return 0;
 }
 
 int lfp_spawnattr_setpgroup(lfp_spawnattr_t *attr, const pid_t pgroup)
 {
-    SYSCHECK(EINVAL, attr == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL);
     attr->flags |= LFP_SPAWN_SETPGROUP;
     attr->pgroup = pgroup;
     return 0;
@@ -56,14 +56,14 @@ int lfp_spawnattr_setpgroup(lfp_spawnattr_t *attr, const pid_t pgroup)
 
 int lfp_spawnattr_getsigmask(lfp_spawnattr_t *attr, sigset_t *sigmask)
 {
-    SYSCHECK(EINVAL, attr == NULL || sigmask == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL || sigmask == NULL);
     *sigmask = attr->sigmask;
     return 0;
 }
 
 int lfp_spawnattr_setsigmask(lfp_spawnattr_t *attr, const sigset_t *sigmask)
 {
-    SYSCHECK(EINVAL, attr == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL);
     attr->flags |= LFP_SPAWN_SETSIGMASK;
     attr->sigmask = *sigmask;
     return 0;
@@ -71,14 +71,14 @@ int lfp_spawnattr_setsigmask(lfp_spawnattr_t *attr, const sigset_t *sigmask)
 
 int lfp_spawnattr_getsigdefault(lfp_spawnattr_t *attr, sigset_t *sigdefault)
 {
-    SYSCHECK(EINVAL, attr == NULL || sigdefault == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL || sigdefault == NULL);
     *sigdefault = attr->sigdefault;
     return 0;
 }
 
 int lfp_spawnattr_setsigdefault(lfp_spawnattr_t *attr, const sigset_t *sigdefault)
 {
-    SYSCHECK(EINVAL, attr == NULL || sigdefault == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL || sigdefault == NULL);
     attr->flags |= LFP_SPAWN_SETSIGDEFAULT;
     attr->sigdefault = *sigdefault;
     return 0;
@@ -86,7 +86,7 @@ int lfp_spawnattr_setsigdefault(lfp_spawnattr_t *attr, const sigset_t *sigdefaul
 
 int lfp_spawnattr_getugid(lfp_spawnattr_t *attr, uid_t *uid, gid_t *gid)
 {
-    SYSCHECK(EINVAL, attr == NULL || uid == NULL || gid == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL || uid == NULL || gid == NULL);
     *uid = attr->uid;
     *gid = attr->gid;
     return 0;
@@ -94,7 +94,7 @@ int lfp_spawnattr_getugid(lfp_spawnattr_t *attr, uid_t *uid, gid_t *gid)
 
 int lfp_spawnattr_setugid(lfp_spawnattr_t *attr, const uid_t uid, const gid_t gid)
 {
-    SYSCHECK(EINVAL, attr == NULL);
+    SYSCHECK(LFP_EINVAL, attr == NULL);
     attr->flags |= LFP_SPAWN_SETUGID;
     attr->uid = uid;
     attr->gid = gid;

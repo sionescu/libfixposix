@@ -45,7 +45,7 @@ void signalfd_emulator (int signum)
     }
     if (ret == -1) {
         switch (lfp_errno()) {
-        case EAGAIN:
+        case LFP_EAGAIN:
             /* The pipe buffer is full, therefore there's already
                a notification in the pipe pending reception.
                We can drop the redundant signal notification.
@@ -53,7 +53,7 @@ void signalfd_emulator (int signum)
                dropped anyway, and signals may have been dropped
                on our way already if the system was busy. */
             return;
-        case EINTR:
+        case LFP_EINTR:
             /* Some other signal trumped us; try again! */
             goto notify_listener;
         }
@@ -80,7 +80,7 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
     struct signalfd_params *params;
     struct sigaction sa;
 
-    SYSCHECK(EINVAL, signum < 0 || signum >= NSIG);
+    SYSCHECK(LFP_EINVAL, signum < 0 || signum >= NSIG);
 
     /* Setup sigaction */
     memset(&sa, 0, sizeof(sa));
@@ -91,9 +91,9 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
     sigaddset(&sigmask, signum);
 
     /* Allocate parameters */
-    SYSCHECK(EALREADY, signalfd_params[signum]);
+    SYSCHECK(LFP_EALREADY, signalfd_params[signum]);
     params = malloc(sizeof(signalfd_params));
-    SYSCHECK(ENOMEM, params == NULL);
+    SYSCHECK(LFP_ENOMEM, params == NULL);
 
     /* Before we touch the handler, block the signal */
     if (sigprocmask(SIG_BLOCK, &sigmask, NULL) < 0)
@@ -136,7 +136,7 @@ int lfp_uninstall_signalfd(int signum, bool block)
     struct signalfd_params *params;
     struct sigaction sa;
 
-    SYSCHECK(EINVAL, signum < 0 || signum >= NSIG);
+    SYSCHECK(LFP_EINVAL, signum < 0 || signum >= NSIG);
 
     /* Setup sigaction */
     memset(&sa, 0, sizeof(sa));

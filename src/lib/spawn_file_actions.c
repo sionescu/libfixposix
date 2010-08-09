@@ -20,14 +20,14 @@ typedef struct lfp_spawn_action {
 
 int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 {
-    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(LFP_EINVAL, file_actions == NULL);
     file_actions->actions = NULL;
     return 0;
 }
 
 int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 {
-    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(LFP_EINVAL, file_actions == NULL);
     // TODO: free file_actions->actions
     return 0;
 }
