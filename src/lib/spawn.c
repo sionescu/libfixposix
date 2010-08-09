@@ -8,6 +8,7 @@
 int lfp_apply_spawnattr(const lfp_spawnattr_t *attr);
 int lfp_apply_spawn_file_actions(const lfp_spawn_file_actions_t *file_actions);
 
+static
 void child_exit(int pipe, int child_errno)
 {
     int noctets = write(pipe, &child_errno, sizeof(int));
@@ -17,6 +18,7 @@ void child_exit(int pipe, int child_errno)
         _exit(254);
 }
 
+static
 void handle_child(const char *path,
                   char *const argv[],
                   char *const envp[],
@@ -32,6 +34,7 @@ void handle_child(const char *path,
     child_exit(pipes[1], lfp_errno());
 }
 
+static
 int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
 {
     close(pipes[1]);
