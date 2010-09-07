@@ -119,7 +119,7 @@ typedef uint64_t lfp_open_flags_t;
 // *nix systems use the LP64 data model, "int" is 32 bits
 // which means that we can allocate unsupported flags in the
 // upper part of an lfp_open_flags_t value
-# define O_CLOEXEC ( 1 >> 32 )
+# define O_CLOEXEC ( 1 << 32 )
 #endif
 
 int lfp_pipe (int pipefd[2], lfp_open_flags_t flags);
