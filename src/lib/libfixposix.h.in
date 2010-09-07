@@ -46,6 +46,9 @@ typedef enum {
     LFP_EEXIST          = EEXIST,
     LFP_EFAULT          = EFAULT,
     LFP_EFBIG           = EFBIG,
+#if defined(EHOSTDOWN)
+    LFP_EHOSTDOWN       = EHOSTDOWN,
+#endif
     LFP_EHOSTUNREACH    = EHOSTUNREACH,
     LFP_EIDRM           = EIDRM,
     LFP_EILSEQ          = EILSEQ,
@@ -74,6 +77,9 @@ typedef enum {
     LFP_ENOLINK         = ENOLINK,
     LFP_ENOMEM          = ENOMEM,
     LFP_ENOMSG          = ENOMSG,
+#if defined(ENONET)
+    LFP_ENONET          = ENONET,
+#endif
     LFP_ENOPROTOOPT     = ENOPROTOOPT,
     LFP_ENOSPC          = ENOSPC,
     LFP_ENOSR           = ENOSR,
@@ -95,6 +101,9 @@ typedef enum {
     LFP_EPROTOTYPE      = EPROTOTYPE,
     LFP_ERANGE          = ERANGE,
     LFP_EROFS           = EROFS,
+#if defined(ESHUTDOWN)
+    LFP_ESHUTDOWN       = ESHUTDOWN,
+#endif
     LFP_ESPIPE          = ESPIPE,
     LFP_ESRCH           = ESRCH,
     LFP_ESTALE          = ESTALE,
