@@ -197,7 +197,6 @@ typedef enum {
     LFP_WNOHANG    = WNOHANG,
     LFP_WUNTRACED  = WUNTRACED,
     LFP_WCONTINUED = WCONTINUED,
-    LFP_WNOWAIT    = WNOWAIT
 } lfp_wait_option_t;
 
 bool lfp_wifexited (int status);
