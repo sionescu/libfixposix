@@ -1,2 +1,17 @@
+-*- outline -*-
+
 The purpose of libfixposix is to offer replacements for parts of POSIX
 whose behaviour is inconsistent across *NIX flavours.
+
+* Compilation
+
+If you've downloaded this library through git, you'll first need to
+generate the ./configure script; in order to do that you need to have
+at least autoconf-2.65 and automake-1.11 and to run this inside the
+top directory:
+> autoreconf -i
+
+For best results use a dedicated build directory instead of running
+the configure script directly in the source tree:
+> mkdir build
+> ../libfixposix/configure
