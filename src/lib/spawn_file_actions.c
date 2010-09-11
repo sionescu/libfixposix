@@ -4,10 +4,6 @@
 #include <libfixposix.h>
 #include "utils.h"
 
-#ifndef OPEN_MAX
-#  define OPEN_MAX (sysconf(_SC_OPEN_MAX))
-#endif
-
 typedef enum {
     LFP_SPAWN_FILE_ACTION_OPEN,
     LFP_SPAWN_FILE_ACTION_CLOSE,
@@ -41,6 +37,7 @@ int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
     // lfp_spawn_file_actions_init(file_actions);
     return 0;
 }
+
 lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file_actions)
 {
     int index = file_actions->initialized++;
@@ -75,7 +72,6 @@ int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(LFP_EINVAL, file_actions == NULL);
-    SYSCHECK(LFP_EBADF, (fd<0) || (fd>=OPEN_MAX));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(LFP_ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_OPEN;
@@ -92,7 +88,6 @@ int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(LFP_EINVAL, file_actions == NULL);
-    SYSCHECK(LFP_EBADF, (fd<0) || (fd>=OPEN_MAX));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(LFP_ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_CLOSE;
@@ -106,8 +101,6 @@ int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(LFP_EINVAL, file_actions == NULL);
-    SYSCHECK(LFP_EBADF, (fd<0) || (fd>=OPEN_MAX));
-    SYSCHECK(LFP_EBADF, (newfd<0) || (newfd>=OPEN_MAX));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(LFP_ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_DUP2;
@@ -159,4 +152,3 @@ int lfp_apply_spawn_file_actions(const lfp_spawn_file_actions_t *file_actions)
     }
     return 0;
 }
-
