@@ -28,8 +28,13 @@ void handle_child(const char *path,
 {
     close(pipes[0]);
     int child_errno = lfp_apply_spawnattr(attr);
-    if (child_errno != 0)
-        child_exit(pipes[1], child_errno);;
+    if (child_errno != 0) {
+        child_exit(pipes[1], child_errno);
+    }
+    child_errno = lfp_apply_spawn_file_actions(file_actions);
+    if (child_errno != 0) {
+        child_exit(pipes[1], child_errno);
+    }
     execve(path, argv, envp);
     child_exit(pipes[1], lfp_errno());
 }
