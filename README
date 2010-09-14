@@ -15,3 +15,6 @@ For best results use a dedicated build directory instead of running
 the configure script directly in the source tree:
 > mkdir build
 > ../libfixposix/configure
+
+On Linux, you might need to run «ldconfig» as superuser after
+installing, otherwise the *nix linker won't be able to find the library
