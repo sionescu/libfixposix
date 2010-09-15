@@ -49,7 +49,7 @@ lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file
     if (index >= allocated) {
         /* Note: this code assumes we run out of memory before we overflow. */
         new_allocated = 4 + (allocated*3)/2;
-        new_actions = malloc(new_allocated*sizeof(lfp_spawn_action));
+        new_actions = calloc(new_allocated,sizeof(lfp_spawn_action));
         if (!new_actions) {
             return NULL;
         }
@@ -59,7 +59,7 @@ lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file
         }
         actions = new_actions;
         file_actions->actions = actions;
-        file_actions->allocated = allocated;
+        file_actions->allocated = new_allocated;
         memset(actions+index, 0, (new_allocated-index)*sizeof(lfp_spawn_action));
     }
     return actions+index;
@@ -72,6 +72,7 @@ int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(LFP_EINVAL, file_actions == NULL);
+    SYSCHECK(LFP_EBADF, !VALID_FD(fd));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(LFP_ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_OPEN;
@@ -88,6 +89,7 @@ int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(LFP_EINVAL, file_actions == NULL);
+    SYSCHECK(LFP_EBADF, !VALID_FD(fd));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(LFP_ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_CLOSE;
@@ -101,6 +103,8 @@ int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(LFP_EINVAL, file_actions == NULL);
+    SYSCHECK(LFP_EBADF, !VALID_FD(fd));
+    SYSCHECK(LFP_EBADF, !VALID_FD(newfd));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(LFP_ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_DUP2;
@@ -136,7 +140,6 @@ int lfp_apply_spawn_file_action(const lfp_spawn_action *action)
     default:
         return LFP_EINVAL;
     }
-    return errno;
 }
 
 int lfp_apply_spawn_file_actions(const lfp_spawn_file_actions_t *file_actions)
@@ -146,9 +149,7 @@ int lfp_apply_spawn_file_actions(const lfp_spawn_file_actions_t *file_actions)
 
     for ( int count = file_actions->initialized; count > 0; count-- ) {
         err = lfp_apply_spawn_file_action (action++);
-        if (err) {
-            return err;
-        }
+        if (err) { return err; }
     }
     return 0;
 }

@@ -34,8 +34,12 @@ include_HEADERS = \
 #
 ########################################################################
 
-check_PROGRAMS = src/tests/signalfd_test
+check_PROGRAMS = src/tests/signalfd_test src/tests/spawn_test
 
 src_tests_signalfd_test_SOURCES = src/tests/signalfd_test.c
 
 src_tests_signalfd_test_LDADD = src/lib/libfixposix.la
+
+src_tests_spawn_test_SOURCES = src/tests/spawn_test.c
+
+src_tests_spawn_test_LDADD = src/lib/libfixposix.la
