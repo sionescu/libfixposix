@@ -72,7 +72,7 @@ extern int main (int argc, char *argv[]) {
 	err = read(tempfd2,buf,sizeof(buf));
 	if (err == -1) { error_abort("failed to read the output file",1); }
 	if (err != (sizeof(expected)-1)) {
-		fprintf(stderr,"expected %ld bytes, got %d\n",sizeof(expected)-1,err);
+		fprintf(stderr,"expected %u bytes, got %d\n",sizeof(expected)-1,err);
 		error_abort("found the wrong number of bytes", 0);
 	}
         err = strncmp(expected,buf,err);
