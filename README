@@ -13,7 +13,7 @@ top directory:
 
 For best results use a dedicated build directory instead of running
 the configure script directly in the source tree:
-> mkdir build
+> mkdir build ; cd build
 > ../libfixposix/configure
 > make
 > make install
