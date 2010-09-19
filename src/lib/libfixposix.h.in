@@ -137,6 +137,10 @@ typedef uint64_t lfp_open_flags_t;
 
 int lfp_pipe (int pipefd[2], lfp_open_flags_t flags);
 
+ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset);
+
+ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset);
+
 
 
 #include <sys/select.h>

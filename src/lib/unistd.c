@@ -35,3 +35,15 @@ int lfp_pipe (int pipefd[2], lfp_open_flags_t flags)
         return -1;
     }
 }
+
+
+
+ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset)
+{
+    return pread(fd, buf, count, offset);
+}
+
+ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset)
+{
+    return pwrite(fd, buf, count, offset);
+}
