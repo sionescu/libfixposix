@@ -14,12 +14,14 @@ INCLUDES = $(LFP_DEP_CFLAGS) -I$(top_builddir)/src/lib
 lib_LTLIBRARIES = src/lib/libfixposix.la
 
 src_lib_libfixposix_la_SOURCES = \
-	src/lib/string.c src/lib/fcntl.c \
-	src/lib/unistd.c src/lib/install_signalfd.c \
+	src/lib/stdlib.c src/lib/string.c src/lib/fcntl.c \
+	src/lib/unistd.c src/lib/mman.c \
+	src/lib/install_signalfd.c \
 	src/lib/select.c src/lib/socket.c \
 	src/lib/errno.c src/lib/wait.c \
 	src/lib/signal.c \
-	src/lib/spawnattr.c src/lib/spawn_file_actions.c src/lib/spawn.c
+	src/lib/spawnattr.c src/lib/spawn_file_actions.c src/lib/spawn.c \
+	src/lib/dirent.c src/lib/resource.c
 
 src_lib_libfixposix_la_LIBADD = $(LFP_DEP_LIBS)
 

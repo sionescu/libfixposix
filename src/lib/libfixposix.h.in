@@ -19,6 +19,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+int lfp_mkstemp(char *template);
+
 
 
 #include <errno.h>
@@ -122,6 +124,7 @@ int lfp_strerror (int errnum, char *buf, size_t buflen);
 
 
 #include <inttypes.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -135,11 +138,54 @@ typedef uint64_t lfp_open_flags_t;
 # define O_CLOEXEC ( 1 << 32 )
 #endif
 
+int lfp_open(const char *pathname, lfp_open_flags_t flags, ...);
+
+int lfp_creat(const char *pathname, mode_t mode);
+
 int lfp_pipe (int pipefd[2], lfp_open_flags_t flags);
+
+int lfp_set_fd_cloexec(int fd);
+
+int lfp_set_fd_nonblock(int fd);
+
+int lfp_truncate(const char *path, off_t length);
+
+int lfp_ftruncate(int fd, off_t length);
 
 ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset);
 
 ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset);
+
+off_t lfp_lseek(int fd, off_t offset, int whence);
+
+int lfp_stat(const char *path, struct stat *buf);
+
+int lfp_fstat(int fd, struct stat *buf);
+
+int lfp_lstat(const char *path, struct stat *buf);
+
+bool lfp_isreg(mode_t mode);
+
+bool lfp_isdir(mode_t mode);
+
+bool lfp_ischr(mode_t mode);
+
+bool lfp_isblk(mode_t mode);
+
+bool lfp_isfifo(mode_t mode);
+
+bool lfp_islnk(mode_t mode);
+
+bool lfp_issock(mode_t mode);
+
+
+
+#include <sys/mman.h>
+
+void *lfp_mmap(void *addr, size_t length, int prot,
+               int flags, int fd, off_t offset);
+
+int lfp_munmap(void *addr, size_t length);
 
 
 
@@ -206,12 +252,6 @@ size_t lfp_cmsg_space (size_t length);
 size_t lfp_cmsg_len (size_t length);
 
 void* lfp_cmsg_data (struct cmsghdr* cmsg);
-
-
-
-int lfp_set_fd_cloexec(int fd);
-
-int lfp_set_fd_nonblock(int fd);
 
 
 
@@ -429,5 +469,19 @@ struct signalfd_siginfo { unsigned int ssi_signo; };
 int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 
 int lfp_uninstall_signalfd(int signum, bool block);
+
+
+
+#include <dirent.h>
+
+int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
+
+
+
+#include <sys/resource.h>
+
+int lfp_getrlimit(int resource, struct rlimit *rlim);
+
+int lfp_setrlimit(int resource, const struct rlimit *rlim);
 
 #endif // _LIBFIXPOSIX_H_

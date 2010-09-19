@@ -4,6 +4,13 @@
 
 #include <libfixposix.h>
 
+off_t lfp_lseek(int fd, off_t offset, int whence)
+{
+    return lseek(fd, offset, whence);
+}
+
+
+
 int lfp_pipe (int pipefd[2], lfp_open_flags_t flags)
 {
     if (HAVE_PIPE2) {
@@ -46,4 +53,68 @@ ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset)
 ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset)
 {
     return pwrite(fd, buf, count, offset);
+}
+
+
+
+int lfp_truncate(const char *path, off_t length)
+{
+    return truncate(path, length);
+}
+
+int lfp_ftruncate(int fd, off_t length)
+{
+    return ftruncate(fd, length);
+}
+
+
+
+int lfp_stat(const char *path, struct stat *buf)
+{
+    return stat(path, buf);
+}
+
+int lfp_fstat(int fd, struct stat *buf)
+{
+    return fstat(fd, buf);
+}
+
+int lfp_lstat(const char *path, struct stat *buf)
+{
+    return lstat(path, buf);
+}
+
+bool lfp_isreg(mode_t mode)
+{
+    return (bool) S_ISREG(mode);
+}
+
+bool lfp_isdir(mode_t mode)
+{
+    return (bool) S_ISDIR(mode);
+}
+
+bool lfp_ischr(mode_t mode)
+{
+    return (bool) S_ISCHR(mode);
+}
+
+bool lfp_isblk(mode_t mode)
+{
+    return (bool) S_ISBLK(mode);
+}
+
+bool lfp_isfifo(mode_t mode)
+{
+    return (bool) S_ISFIFO(mode);
+}
+
+bool lfp_islnk(mode_t mode)
+{
+    return (bool) S_ISLNK(mode);
+}
+
+bool lfp_issock(mode_t mode)
+{
+    return (bool) S_ISSOCK(mode);
 }
