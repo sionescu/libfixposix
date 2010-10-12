@@ -41,7 +41,11 @@ int lfp_set_fd_cloexec (int fd, bool enabled)
     } else {
         int new_flags = enabled ? current_flags | FD_CLOEXEC \
                                 : current_flags & ~FD_CLOEXEC;
-        return fcntl(fd, F_SETFD, new_flags);
+        if ( new_flags != current_flags ) {
+            return fcntl(fd, F_SETFD, new_flags);
+        } else {
+            return 0;
+        }
     }
 }
 
@@ -63,6 +67,10 @@ int lfp_set_fd_nonblock (int fd, bool enabled)
     } else {
         int new_flags = enabled ? current_flags | O_NONBLOCK \
                                 : current_flags & ~O_NONBLOCK;
-        return fcntl(fd, F_SETFL, new_flags);
+        if ( new_flags != current_flags ) {
+            return fcntl(fd, F_SETFL, new_flags);
+        } else {
+            return 0;
+        }
     }
 }
