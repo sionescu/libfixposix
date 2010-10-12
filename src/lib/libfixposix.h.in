@@ -144,7 +144,9 @@ int lfp_creat(const char *pathname, mode_t mode);
 
 int lfp_pipe (int pipefd[2], lfp_open_flags_t flags);
 
-int lfp_set_fd_cloexec(int fd);
+int lfp_is_fd_cloexec(int fd);
+
+int lfp_set_fd_cloexec(int fd, bool enabled);
 
 int lfp_is_fd_nonblock(int fd);
 

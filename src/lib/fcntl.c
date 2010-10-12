@@ -23,13 +23,25 @@ int lfp_creat (const char *pathname, mode_t mode)
 
 
 
-int lfp_set_fd_cloexec (int fd)
+int lfp_is_fd_cloexec (int fd)
 {
     int current_flags = fcntl(fd, F_GETFD);
     if (current_flags < 0) {
         return -1;
     } else {
-        return fcntl(fd, F_SETFD, current_flags | FD_CLOEXEC);
+        return (current_flags & FD_CLOEXEC) ? true : false;
+    }
+}
+
+int lfp_set_fd_cloexec (int fd, bool enabled)
+{
+    int current_flags = fcntl(fd, F_GETFD);
+    if (current_flags < 0) {
+        return -1;
+    } else {
+        int new_flags = enabled ? current_flags | FD_CLOEXEC \
+                                : current_flags & ~FD_CLOEXEC;
+        return fcntl(fd, F_SETFD, new_flags);
     }
 }
 
