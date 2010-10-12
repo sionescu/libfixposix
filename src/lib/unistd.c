@@ -28,8 +28,8 @@ int lfp_pipe (int pipefd[2], lfp_open_flags_t flags)
             goto error_close;
         }
         if ((flags & O_NONBLOCK) &&
-            (lfp_set_fd_nonblock(pipefd[0]) < 0 ||
-             lfp_set_fd_nonblock(pipefd[1]) < 0)) {
+            (lfp_set_fd_nonblock(pipefd[0], true) < 0 ||
+             lfp_set_fd_nonblock(pipefd[1], true) < 0)) {
             goto error_close;
         }
 

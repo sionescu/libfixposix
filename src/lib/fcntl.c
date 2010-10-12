@@ -33,12 +33,24 @@ int lfp_set_fd_cloexec (int fd)
     }
 }
 
-int lfp_set_fd_nonblock (int fd)
+int lfp_is_fd_nonblock (int fd)
 {
     int current_flags = fcntl(fd, F_GETFL);
     if (current_flags < 0) {
         return -1;
     } else {
-        return fcntl(fd, F_SETFL, current_flags | O_NONBLOCK);
+        return (current_flags & O_NONBLOCK) ? true : false;
+    }
+}
+
+int lfp_set_fd_nonblock (int fd, bool enabled)
+{
+    int current_flags = fcntl(fd, F_GETFL);
+    if (current_flags < 0) {
+        return -1;
+    } else {
+        int new_flags = enabled ? current_flags | O_NONBLOCK \
+                                : current_flags & ~O_NONBLOCK;
+        return fcntl(fd, F_SETFL, new_flags);
     }
 }

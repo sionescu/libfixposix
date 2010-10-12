@@ -33,7 +33,7 @@ int lfp_socket(lfp_socket_domain_t domain,
         goto error_close;
     }
     if (SOCK_NONBLOCK && (flags & O_NONBLOCK) &&
-        lfp_set_fd_nonblock(fd) < 0) {
+        lfp_set_fd_nonblock(fd, true) < 0) {
         goto error_close;
     }
     return fd;
@@ -67,7 +67,7 @@ int lfp_accept(int              sockfd,
         if ((flags & O_CLOEXEC) && lfp_set_fd_cloexec(fd) < 0) {
             goto error_close;
         }
-        if ((flags & O_NONBLOCK) && lfp_set_fd_nonblock(fd) < 0) {
+        if ((flags & O_NONBLOCK) && lfp_set_fd_nonblock(fd, true) < 0) {
             goto error_close;
         }
 
