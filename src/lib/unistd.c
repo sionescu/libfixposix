@@ -84,6 +84,21 @@ int lfp_lstat(const char *path, struct stat *buf)
     return lstat(path, buf);
 }
 
+int lfp_fd_is_open(int fd)
+{
+    struct stat buf;
+    int ret = fstat(fd, &buf);
+    if ( ret < 0 ) {
+        if ( lfp_errno() == LFP_EBADF ) {
+            return false;
+        } else {
+            return -1;
+        }
+    } else {
+        return true;
+    }
+}
+
 bool lfp_isreg(mode_t mode)
 {
     return (bool) S_ISREG(mode);
