@@ -32,7 +32,6 @@ dnl Contains replacement functions
 
 dnl Checks for programs.
 # We need a C compiler.
-AC_PROG_CC
 AC_PROG_CC_C99
 # And we need libtool for building the shared library
 AC_PROG_LIBTOOL
