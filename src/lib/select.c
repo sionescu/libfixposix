@@ -8,6 +8,7 @@ int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
                fd_set *exceptfds, const struct timespec *timeout,
                const sigset_t *sigmask)
 {
+    // FIXME: use select & sigsetmask if 1 HAVE_PSELECT
     return pselect(nfds, readfds, writefds, exceptfds, timeout, sigmask);
 }
 

@@ -1,7 +1,12 @@
 ACLOCAL_AMFLAGS = -I m4
 
 AM_CFLAGS = -std=c99 -Wall -Wstrict-prototypes
-INCLUDES = $(LFP_DEP_CFLAGS) -I$(top_builddir)/src/lib
+INCLUDES = $(LFP_CPPFLAGS) $(LFP_CFLAGS) -I$(top_builddir)/src/lib
+
+
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libfixposix.pc
 
 
 
@@ -23,7 +28,7 @@ src_lib_libfixposix_la_SOURCES = \
 	src/lib/spawnattr.c src/lib/spawn_file_actions.c src/lib/spawn.c \
 	src/lib/dirent.c src/lib/resource.c
 
-src_lib_libfixposix_la_LIBADD = $(LFP_DEP_LIBS)
+src_lib_libfixposix_la_LIBADD = $(LFP_LIBS)
 
 include_HEADERS = \
 	src/lib/libfixposix.h

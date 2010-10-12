@@ -1,21 +1,6 @@
 #if !defined(_LIBFIXPOSIX_H_)
 # define _LIBFIXPOSIX_H_
 
-// FIXME: this is a kludge meant to ensure that
-// this library and programs using it are build with the
-// same CFLAGS, but it should be replaced with something
-// like pkgconfig
-#if defined(__linux__)
-# undef _XOPEN_SOURCE
-# define _XOPEN_SOURCE 600
-# undef _LARGEFILE_SOURCE
-# define _LARGEFILE_SOURCE
-# undef _FILE_OFFSET_BITS
-# define _FILE_OFFSET_BITS 64
-# undef _GNU_SOURCE
-# define _GNU_SOURCE
-#endif
-
 #include <stdlib.h>
 #include <stdbool.h>
 
