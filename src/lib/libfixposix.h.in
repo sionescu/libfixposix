@@ -347,11 +347,15 @@ int lfp_spawn(pid_t *pid,
 
 #include <signal.h>
 
-sighandler_t lfp_sig_ign (void);
+typedef void (*lfp_sighandler_t) (int);
 
-sighandler_t lfp_sig_dfl (void);
+lfp_sighandler_t lfp_sig_dfl (void);
 
-sighandler_t lfp_sig_err (void);
+lfp_sighandler_t lfp_sig_err (void);
+
+lfp_sighandler_t lfp_sig_hold (void);
+
+lfp_sighandler_t lfp_sig_ign (void);
 
 typedef enum {
   LFP_SIG_BLOCK   = SIG_BLOCK,
