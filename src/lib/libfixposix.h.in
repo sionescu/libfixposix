@@ -1,10 +1,14 @@
 #if !defined(_LIBFIXPOSIX_H_)
 # define _LIBFIXPOSIX_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdlib.h>
 #include <stdbool.h>
 
-int lfp_mkstemp(char *template);
+int lfp_mkstemp(char *tmplate);
 
 
 
@@ -478,5 +482,9 @@ int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
 int lfp_getrlimit(int resource, struct rlimit *rlim);
 
 int lfp_setrlimit(int resource, const struct rlimit *rlim);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // _LIBFIXPOSIX_H_
