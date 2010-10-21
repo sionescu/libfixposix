@@ -86,7 +86,7 @@ int _lfp_spawn(void (*execfun)(const char*, char *const[], char *const[]),
 
     // Used for passing the error code from child to parent in case
     // some of the syscalls executed in the child fail
-    if (lfp_pipe(pipes, O_CLOEXEC | O_NONBLOCK) < 0)
+    if (lfp_pipe(pipes, O_CLOEXEC) < 0)
         return -1;
 
     pid_t child_pid = fork();
