@@ -56,7 +56,7 @@ extern int main (int argc, char *argv[]) {
         err = lfp_spawn_file_actions_addclose(&file_actions,10);
         err = lfp_spawn_file_actions_addopen(&file_actions,1,tempnam2,O_WRONLY|O_APPEND,0);
         err = lfp_spawn_file_actions_adddup2(&file_actions,1,2);
-        err = lfp_spawn(&pid,path,myargv,environ,&file_actions,&attr,false);
+        err = lfp_spawn(&pid,path,myargv,environ,&file_actions,&attr);
         if (err) { error_abort("failed to spawn", 1); }
         fprintf(stderr,"spawned child %d\n",pid);
         err = lfp_spawn_file_actions_destroy(&file_actions);

@@ -344,8 +344,14 @@ int lfp_spawn(pid_t *pid,
               char *const argv[],
               char *const envp[],
               const lfp_spawn_file_actions_t *file_actions,
-              const lfp_spawnattr_t *attr,
-              bool search);
+              const lfp_spawnattr_t *attr);
+
+int lfp_spawnp(pid_t *pid,
+               const char *file,
+               char *const argv[],
+               char *const envp[],
+               const lfp_spawn_file_actions_t *file_actions,
+               const lfp_spawnattr_t *attr);
 
 
 
