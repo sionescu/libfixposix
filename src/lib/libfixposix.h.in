@@ -379,7 +379,7 @@ typedef enum {
 #if defined(NSIG)
   LFP_NSIG = NSIG,
 #else
-# error "Cannot determing number of signals"
+# error "Cannot determine number of signals"
 #endif
   LFP_SIGHUP    = SIGHUP,
   LFP_SIGQUIT   = SIGQUIT,
