@@ -27,8 +27,8 @@ extern int main (int argc, char *argv[]) {
     lfp_spawn_file_actions_t file_actions;
     lfp_spawnattr_t attr;
     int err, status;
-    char tempnam1[] = {"/tmp/lfp_spawn_test_1_XXXXXX\0"};
-    char tempnam2[] = {"/tmp/lfp_spawn_test_2_XXXXXX\0"};
+    char tempnam1[] = {"/tmp/lfp_spawn_test_1_XXXXXX"};
+    char tempnam2[] = {"/tmp/lfp_spawn_test_2_XXXXXX"};
     int tempfd1, tempfd2;
     char buf[256];
     char expected[] = {"foo\nbar\nquux\n"};
