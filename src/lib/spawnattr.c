@@ -4,6 +4,7 @@
 
 #include <libfixposix.h>
 #include "utils.h"
+#include "spawn.h"
 
 #define LFP_SPAWN_ALLFLAGS ( LFP_SPAWN_SETSIGMASK    | \
                              LFP_SPAWN_SETSIGDEFAULT | \
@@ -103,7 +104,7 @@ int lfp_spawnattr_setugid(lfp_spawnattr_t *attr, const uid_t uid, const gid_t gi
 
 
 
-int lfp_apply_spawnattr(const lfp_spawnattr_t *attr)
+int lfp_spawnattr_apply(const lfp_spawnattr_t *attr)
 {
     if(attr == NULL)
         return 0;

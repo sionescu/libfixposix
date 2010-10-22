@@ -4,9 +4,7 @@
 
 #include <libfixposix.h>
 #include "utils.h"
-
-int lfp_apply_spawnattr(const lfp_spawnattr_t *attr);
-int lfp_apply_spawn_file_actions(const lfp_spawn_file_actions_t *file_actions);
+#include "spawn.h"
 
 static
 void child_exit(int pipe, int child_errno)
@@ -28,11 +26,11 @@ void handle_child(void (*execfun)(const char*, char *const[], char *const[]),
                   int pipes[2])
 {
     close(pipes[0]);
-    int child_errno = lfp_apply_spawnattr(attr);
+    int child_errno = lfp_spawnattr_apply(attr);
     if (child_errno != 0) {
         child_exit(pipes[1], child_errno);
     }
-    child_errno = lfp_apply_spawn_file_actions(file_actions);
+    child_errno = lfp_spawn_apply_file_actions(file_actions);
     if (child_errno != 0) {
         child_exit(pipes[1], child_errno);
     }
@@ -64,16 +62,19 @@ int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
     }
 }
 
+static
 void _lfp_execve(const char *path, char *const argv[], char *const envp[])
 {
     execve(path, argv, envp);
 }
 
+static
 void _lfp_execvpe(const char *path, char *const argv[], char *const envp[])
 {
     execvpe(path, argv, envp);
 }
 
+static
 int _lfp_spawn(void (*execfun)(const char*, char *const[], char *const[]),
                pid_t *pid,
                const char *path,

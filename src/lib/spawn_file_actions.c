@@ -3,6 +3,7 @@
 
 #include <libfixposix.h>
 #include "utils.h"
+#include "spawn.h"
 
 typedef enum {
     LFP_SPAWN_FILE_ACTION_OPEN,
@@ -38,6 +39,7 @@ int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
     return 0;
 }
 
+static
 lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file_actions)
 {
     int index = file_actions->initialized++;
@@ -113,7 +115,8 @@ int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
     return 0;
 }
 
-int lfp_apply_spawn_file_action(const lfp_spawn_action *action)
+static
+int lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 {
     int err;
     int fd;
@@ -142,13 +145,13 @@ int lfp_apply_spawn_file_action(const lfp_spawn_action *action)
     }
 }
 
-int lfp_apply_spawn_file_actions(const lfp_spawn_file_actions_t *file_actions)
+int lfp_spawn_apply_file_actions(const lfp_spawn_file_actions_t *file_actions)
 {
     lfp_spawn_action *action = file_actions->actions;
     int err;
 
     for ( int count = file_actions->initialized; count > 0; count-- ) {
-        err = lfp_apply_spawn_file_action (action++);
+        err = lfp_spawn_apply_one_file_action (action++);
         if (err) { return err; }
     }
     return 0;
