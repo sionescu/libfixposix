@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -195,10 +196,10 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     while ((bindir = strsep(&tmpath, ":")) != NULL)
         if ( bindir[0] != '\0' ) {
             size_t dirlen = strnlen(bindir, PATH_MAX);
-            size_t pathlen = dirlen + filelen + 1 + 1;
+            size_t pathlen = dirlen + 1 + filelen + 1;
             SYSCHECK(LFP_ENAMETOOLONG, pathlen > PATH_MAX);
-            path[0] = '\0';
-            strcat(path, bindir); strcat(path, "/"); strcat(path, file);
+            memset(path, 0, PATH_MAX);
+            snprintf(path, PATH_MAX, "%s/%s", bindir, file);
             lfp_execve(path, argv, envp);
             if ( errno == E2BIG || errno == ENOEXEC ||
                  errno == ENOMEM || errno == ETXTBSY )
