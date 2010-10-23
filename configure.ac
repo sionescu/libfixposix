@@ -39,7 +39,8 @@ AC_PROG_LIBTOOL
 dnl Set compiler & linker flags
 case "$host" in
      *-*-linux*)
-       LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE=1" ;;
+       LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
+       LFP_INTERNAL_CPPFLAGS="-D_GNU_SOURCE=1" ;;
      *-*-solaris*)
        LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64" ;;
 esac
@@ -92,6 +93,7 @@ AS_CASE($enable_emulated_signalfd,
     [--enable-emulated-signalfd was given an illegal value: "$enable_emulated_signalfd"])])
 
 AC_SUBST(LFP_CPPFLAGS)
+AC_SUBST(LFP_INTERNAL_CPPFLAGS)
 AC_SUBST(LFP_CFLAGS)
 AC_SUBST(LFP_LIBS)
 
