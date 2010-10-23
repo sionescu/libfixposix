@@ -182,7 +182,7 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     SYSCHECK(LFP_EINVAL, file == NULL);
     SYSCHECK(LFP_ENOENT, file[0] == '\0');
 
-    if (memchr(file, '/', PATH_MAX))
+    if (strchr(file, '/'))
         return execve(file, argv, envp);
 
     size_t filelen = strnlen(file, NAME_MAX);
