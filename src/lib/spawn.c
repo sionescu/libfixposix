@@ -17,7 +17,7 @@ void child_exit(int pipe, int child_errno)
 }
 
 static
-void handle_child(void (*execfun)(const char*, char *const[], char *const[]),
+void handle_child(int (*execfun)(const char*, char *const[], char *const[]),
                   const char *path,
                   char *const argv[],
                   char *const envp[],
@@ -63,19 +63,7 @@ int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
 }
 
 static
-void _lfp_execve(const char *path, char *const argv[], char *const envp[])
-{
-    execve(path, argv, envp);
-}
-
-static
-void _lfp_execvpe(const char *path, char *const argv[], char *const envp[])
-{
-    execvpe(path, argv, envp);
-}
-
-static
-int _lfp_spawn(void (*execfun)(const char*, char *const[], char *const[]),
+int _lfp_spawn(int (*execfun)(const char*, char *const[], char *const[]),
                pid_t *pid,
                const char *path,
                char *const argv[],
@@ -113,7 +101,7 @@ int lfp_spawn(pid_t *pid,
 {
     SYSCHECK(LFP_EINVAL, pid == NULL);
 
-    return _lfp_spawn(&_lfp_execve, pid, path, argv, envp, file_actions, attr);
+    return _lfp_spawn(&lfp_execve, pid, path, argv, envp, file_actions, attr);
 }
 
 int lfp_spawnp(pid_t *pid,
@@ -125,5 +113,5 @@ int lfp_spawnp(pid_t *pid,
 {
     SYSCHECK(LFP_EINVAL, pid == NULL);
 
-    return _lfp_spawn(&_lfp_execvpe, pid, file, argv, envp, file_actions, attr);
+    return _lfp_spawn(&lfp_execvpe, pid, file, argv, envp, file_actions, attr);
 }

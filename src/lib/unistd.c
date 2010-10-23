@@ -1,8 +1,10 @@
 #include <stdbool.h>
+#include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 
 #include <libfixposix.h>
+#include "utils.h"
 
 off_t lfp_lseek(int fd, off_t offset, int whence)
 {
@@ -132,4 +134,78 @@ bool lfp_islnk(mode_t mode)
 bool lfp_issock(mode_t mode)
 {
     return (bool) S_ISSOCK(mode);
+}
+
+
+
+static
+char* _lfp_getenv(const char *name, unsigned short len, char *const envp[])
+{
+    if (envp == NULL) return NULL;
+    do {
+        if (strlen(*envp) > len && strncmp(name, *envp, len) == 0)
+            return (char*)*envp+len;
+    } while(++envp);
+    return NULL;
+}
+
+// FIXME: add autoconf check that confstr(_CS_PATH) returns sane values
+static
+char* _lfp_default_path(void)
+{
+    size_t default_path_size = confstr(_CS_PATH, NULL, 0);
+    char *default_path = malloc(default_path_size);
+    confstr(_CS_PATH, default_path, default_path_size);
+    return default_path;
+}
+
+char* lfp_getpath(char *const envp[])
+{
+    char *envpath = _lfp_getenv("PATH=", sizeof("PATH=")-1, envp);
+    if (envpath != NULL) {
+        return strdup(envpath);
+    } else {
+        return _lfp_default_path();
+    }
+}
+
+int lfp_execve(const char *path, char *const argv[], char *const envp[])
+{
+    SYSCHECK(LFP_EINVAL, path == NULL);
+    SYSCHECK(LFP_ENOENT, path[0] == '\0');
+
+    return execve(path, argv, envp);
+}
+
+int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
+{
+    SYSCHECK(LFP_EINVAL, file == NULL);
+    SYSCHECK(LFP_ENOENT, file[0] == '\0');
+
+    if (memchr(file, '/', PATH_MAX))
+        return execve(file, argv, envp);
+
+    size_t filelen = strnlen(file, NAME_MAX);
+    SYSCHECK(LFP_ENAMETOOLONG, filelen >= NAME_MAX);
+
+    char path[PATH_MAX], *searchpath, *tmpath, *bindir;
+
+    tmpath = searchpath = lfp_getpath(envp);
+
+    while ((bindir = strsep(&tmpath, ":")) != NULL)
+        if ( bindir[0] != '\0' ) {
+            size_t dirlen = strnlen(bindir, PATH_MAX);
+            size_t pathlen = dirlen + filelen + 1 + 1;
+            SYSCHECK(LFP_ENAMETOOLONG, pathlen > PATH_MAX);
+            path[0] = '\0';
+            strcat(path, bindir); strcat(path, "/"); strcat(path, file);
+            lfp_execve(path, argv, envp);
+            if ( errno == E2BIG || errno == ENOEXEC ||
+                 errno == ENOMEM || errno == ETXTBSY )
+                break;
+        }
+
+    free(searchpath);
+
+    return -1;
 }
