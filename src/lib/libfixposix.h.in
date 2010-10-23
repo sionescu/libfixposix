@@ -211,8 +211,14 @@ void lfp_fd_zero(fd_set *set);
 #include <sys/socket.h>
 
 typedef enum {
+#if defined(AF_UNIX)
     LFP_AF_UNIX   = AF_UNIX,
-    LFP_AF_LOCAL  = AF_LOCAL,
+#elif defined(AF_LOCAL)
+    LFP_AF_UNIX  = AF_LOCAL,
+#else
+# error "Can't find neither AF_UNIX nor AF_LOCAL"
+#endif
+    LFP_AF_LOCAL  = LFP_AF_UNIX,
     LFP_AF_INET   = AF_INET,
     LFP_AF_INET6  = AF_INET6,
 #if defined(AF_PACKET)
