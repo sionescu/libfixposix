@@ -373,6 +373,7 @@ typedef enum {
   LFP_SIG_SETMASK = SIG_SETMASK
 } lfp_sigmask_how_t;
 
+// FIXME: inline NSIG
 // NSIG is nowhere in POSIX, so some systems might not have it
 // Linux and FreeBSD do, and that's enough for the moment
 typedef enum {

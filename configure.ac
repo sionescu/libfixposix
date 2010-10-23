@@ -39,8 +39,7 @@ AC_PROG_LIBTOOL
 dnl Set compiler & linker flags
 case "$host" in
      *-*-linux*)
-       LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
-       LFP_INTERNAL_CPPFLAGS="-D_GNU_SOURCE=1" ;;
+       LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE=1" ;;
      *-*-solaris*)
        LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64" ;;
 esac
