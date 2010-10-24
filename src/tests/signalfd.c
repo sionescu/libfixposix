@@ -8,52 +8,55 @@
 
 #include <libfixposix.h>
 
-static inline void error_abort (const char* msg, int perrorp) {
-        if (perrorp) {
-                perror(msg);
-        } else {
-                fprintf(stderr,"%s\n",msg);
-        }
-        abort();
+static
+void error_abort (const char* msg, int perrorp) {
+    if (perrorp) {
+        perror(msg);
+    } else {
+        fprintf(stderr,"%s\n",msg);
+    }
+    abort();
 }
 
-static inline ssize_t do_read(int fd, void *buf, size_t count) {
-        ssize_t s;
-        fd_set readfds;
-        lfp_fd_zero(&readfds);
+static
+ssize_t do_read(int fd, void *buf, size_t count) {
+    ssize_t s;
+    fd_set readfds;
+    lfp_fd_zero(&readfds);
 
-do_try_read:
-        lfp_fd_set(fd,&readfds);
-        lfp_select(fd+1, &readfds, NULL, NULL, NULL, NULL);
-        s = read(fd, buf, count);
-        if (s != -1) {
-                return s;
-        }
-        switch (errno) {
-        case EAGAIN:
-        case ERESTART:
-        case EINTR:
-                goto do_try_read;
-        }
-        return -1;
+  do_try_read:
+    lfp_fd_set(fd,&readfds);
+    lfp_select(fd+1, &readfds, NULL, NULL, NULL, NULL);
+    s = read(fd, buf, count);
+    if (s != -1) {
+        return s;
+    }
+    switch (errno) {
+    case EAGAIN:
+    case ERESTART:
+    case EINTR:
+        goto do_try_read;
+    }
+    return -1;
 }
 
-extern int main (int argc, char *argv[]) {
-        int sfd = lfp_install_signalfd(SIGINT, 0, NULL);
-        struct signalfd_siginfo fdsi;
-        ssize_t s = argc+**argv;
+int main (int argc, char *argv[])
+{
+    int sfd = lfp_install_signalfd(SIGINT, 0, NULL);
+    struct signalfd_siginfo fdsi;
+    ssize_t s = argc+**argv;
 
-        s = do_read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
-        if (s != sizeof(struct signalfd_siginfo)) {
-                error_abort("read", 1);
-        }
-        if (fdsi.ssi_signo == SIGINT) {
-                printf("\nGot SIGINT\n");
-        } else {
-                error_abort("unexpected signal", 0);
-        }
-        lfp_uninstall_signalfd(SIGINT, 0);
-        lfp_install_signalfd(SIGINT, 0, NULL);
-        lfp_uninstall_signalfd(SIGINT, 0);
-        return 0;
+    s = do_read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
+    if (s != sizeof(struct signalfd_siginfo)) {
+        error_abort("read", 1);
+    }
+    if (fdsi.ssi_signo == SIGINT) {
+        printf("\nGot SIGINT\n");
+    } else {
+        error_abort("unexpected signal", 0);
+    }
+    lfp_uninstall_signalfd(SIGINT, 0);
+    lfp_install_signalfd(SIGINT, 0, NULL);
+    lfp_uninstall_signalfd(SIGINT, 0);
+    return 0;
 }

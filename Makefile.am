@@ -1,11 +1,26 @@
+# -*- makefile-automake -*-
+
+########################################################################
+#                                                                      #
+#                        Global Automake variables                     #
+#                                                                      #
+########################################################################
+
 ACLOCAL_AMFLAGS = -I m4
 
 AM_CFLAGS = -std=c99 -Wall -Wextra -Wmissing-prototypes \
 	    -Wmissing-declarations -Wmissing-field-initializers
+
 INCLUDES = $(LFP_CPPFLAGS) $(LFP_INTERNAL_CPPFLAGS) $(LFP_CFLAGS) \
 	   -I$(top_builddir)/src/lib
 
 
+
+########################################################################
+#                                                                      #
+#                              PKG-CONFIG                              #
+#                                                                      #
+########################################################################
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libfixposix.pc
@@ -13,9 +28,9 @@ pkgconfig_DATA = libfixposix.pc
 
 
 ########################################################################
-#
-#                             libfixposix.so
-#
+#                                                                      #
+#                             libfixposix.so                           #
+#                                                                      #
 ########################################################################
 
 lib_LTLIBRARIES = src/lib/libfixposix.la
@@ -38,13 +53,18 @@ include_HEADERS = \
 
 
 ########################################################################
-#
-#                             signalfd_test
-#
+#                                                                      #
+#                                TESTS                                 #
+#                                                             	       #
 ########################################################################
 
-check_PROGRAMS = src/tests/signalfd src/tests/spawn \
-	src/tests/select
+check_PROGRAMS	= src/tests/signalfd src/tests/spawn src/tests/select
+
+check_SCRIPTS	=
+
+TESTS		= ${check_PROGRAMS} ${check_SCRIPTS}
+XFAIL_TESTS	=
+
 
 src_tests_signalfd_SOURCES = src/tests/signalfd.c
 

@@ -2,7 +2,7 @@
 
 #include <libfixposix.h>
 
-int main(int argc, char *argv[])
+int main()
 {
     fd_set rset, wset, eset;
 

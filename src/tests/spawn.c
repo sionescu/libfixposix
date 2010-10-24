@@ -10,7 +10,9 @@
 
 #include <libfixposix.h>
 
-static inline void error_abort (const char* msg, int perrorp) {
+static
+void error_abort (const char* msg, int perrorp)
+{
     if (perrorp) {
         perror(msg);
     } else {
@@ -19,7 +21,8 @@ static inline void error_abort (const char* msg, int perrorp) {
     abort();
 }
 
-extern int main (int argc, char *argv[]) {
+int main ()
+{
     // Not implemented yet
     pid_t pid;
     char *path = "/bin/sh";
