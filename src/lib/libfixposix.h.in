@@ -391,12 +391,13 @@ typedef enum {
 // FIXME: inline NSIG
 // NSIG is nowhere in POSIX, so some systems might not have it
 // Linux and FreeBSD do, and that's enough for the moment
-typedef enum {
 #if defined(NSIG)
-  LFP_NSIG = NSIG,
+#define LFP_NSIG NSIG
 #else
 # error "Cannot determine number of signals"
 #endif
+
+typedef enum {
   LFP_SIGHUP    = SIGHUP,
   LFP_SIGQUIT   = SIGQUIT,
   LFP_SIGTRAP   = SIGTRAP,
