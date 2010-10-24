@@ -211,6 +211,7 @@ void lfp_fd_zero(fd_set *set);
 #include <sys/socket.h>
 
 typedef enum {
+    LFP_AF_UNSPEC = AF_UNSPEC,
 #if defined(AF_UNIX)
     LFP_AF_UNIX   = AF_UNIX,
 #elif defined(AF_LOCAL)
