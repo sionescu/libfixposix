@@ -44,7 +44,6 @@ int lfp_pipe (int pipefd[2], lfp_open_flags_t flags)
     close(pipefd[1]);
   error_return:
     return -1;
-}
 #endif // HAVE_PIPE2
 }
 
