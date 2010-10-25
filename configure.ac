@@ -42,6 +42,8 @@ case "$host" in
        LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE=1" ;;
      *-*-solaris*)
        LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64" ;;
+     *-apple-darwin-*)
+       LFP_CPPFLAGS="-D_DARWIN_C_SOURCE";;
 esac
 LFP_CPPFLAGS="-D_XOPEN_SOURCE=700 $LFP_CPPFLAGS"
 
