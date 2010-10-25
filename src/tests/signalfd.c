@@ -40,13 +40,13 @@ ssize_t do_read(int fd, void *buf, size_t count) {
     return -1;
 }
 
-int main (int argc, char *argv[])
+int main ()
 {
-    int sfd = lfp_install_signalfd(SIGINT, 0, NULL);
     struct signalfd_siginfo fdsi;
-    ssize_t s = argc+**argv;
 
-    s = do_read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
+    int sfd = lfp_install_signalfd(SIGINT, 0, NULL);
+
+    size_t s = do_read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
     if (s != sizeof(struct signalfd_siginfo)) {
         error_abort("read", 1);
     }
@@ -55,8 +55,10 @@ int main (int argc, char *argv[])
     } else {
         error_abort("unexpected signal", 0);
     }
+
     lfp_uninstall_signalfd(SIGINT, 0);
     lfp_install_signalfd(SIGINT, 0, NULL);
     lfp_uninstall_signalfd(SIGINT, 0);
+
     return 0;
 }
