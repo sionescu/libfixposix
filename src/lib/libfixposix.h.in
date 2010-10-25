@@ -445,13 +445,19 @@ typedef enum {
 
 typedef enum {
   LFP_SI_USER     = SI_USER,
-  LFP_SI_KERNEL   = SI_KERNEL,
   LFP_SI_QUEUE    = SI_QUEUE,
   LFP_SI_TIMER    = SI_TIMER,
   LFP_SI_MESGQ    = SI_MESGQ,
   LFP_SI_ASYNCIO  = SI_ASYNCIO,
+#if defined(SI_KERNEL)
+  LFP_SI_KERNEL   = SI_KERNEL,
+#endif
+#if defined(SI_SIGIO)
   LFP_SI_SIGIO    = SI_SIGIO,
+#endif
+#if defined(SI_TKILL)
   LFP_SI_TKILL    = SI_TKILL,
+#endif
   LFP_ILL_ILLOPC  = ILL_ILLOPC,
   LFP_ILL_ILLOPN  = ILL_ILLOPN,
   LFP_ILL_ILLADR  = ILL_ILLADR,
