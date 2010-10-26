@@ -16,3 +16,13 @@ int lfp_strerror (int errnum, char *buf, size_t buflen)
     return strerror_r(errnum, buf, buflen);
 #endif // HAVE___XPG_STRERROR_R
 }
+
+size_t lfp_strnlen(const char *s, size_t maxlen)
+{
+    for (size_t i = 0; i < maxlen; i++) {
+        if (s[i] == '\0') {
+            return i;
+        }
+    }
+    return maxlen;
+}

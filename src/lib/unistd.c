@@ -187,7 +187,7 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     if (strchr(file, '/'))
         return execve(file, argv, envp);
 
-    size_t filelen = strnlen(file, NAME_MAX);
+    size_t filelen = lfp_strnlen(file, NAME_MAX);
     SYSCHECK(LFP_ENAMETOOLONG, filelen >= NAME_MAX);
 
     char path[PATH_MAX], *searchpath, *tmpath, *bindir;
@@ -196,7 +196,7 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 
     while ((bindir = strsep(&tmpath, ":")) != NULL)
         if ( bindir[0] != '\0' ) {
-            size_t dirlen = strnlen(bindir, PATH_MAX);
+            size_t dirlen = lfp_strnlen(bindir, PATH_MAX);
             size_t pathlen = dirlen + 1 + filelen + 1;
             SYSCHECK(LFP_ENAMETOOLONG, pathlen > PATH_MAX);
             memset(path, 0, PATH_MAX);

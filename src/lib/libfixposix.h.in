@@ -110,6 +110,8 @@ typedef enum {
 
 int lfp_strerror (int errnum, char *buf, size_t buflen);
 
+size_t lfp_strnlen(const char *s, size_t maxlen);
+
 
 
 #include <inttypes.h>
