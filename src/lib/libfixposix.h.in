@@ -119,6 +119,8 @@ size_t lfp_strnlen(const char *s, size_t maxlen);
 #include <unistd.h>
 #include <fcntl.h>
 
+extern char **environ;
+
 typedef uint64_t lfp_open_flags_t;
 
 #if !defined(O_CLOEXEC)
