@@ -1,6 +1,7 @@
-#include <libfixposix.h>
-
 #include <signal.h>
+
+#include <libfixposix.h>
+#include "utils.h"
 
 lfp_sighandler_t lfp_sig_dfl (void)
 {
