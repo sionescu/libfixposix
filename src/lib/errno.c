@@ -2,12 +2,12 @@
 
 #include <libfixposix.h>
 
-int lfp_errno ()
+lfp_errno_t lfp_errno ()
 {
   return errno;
 }
 
-int lfp_set_errno (int value)
+lfp_errno_t lfp_set_errno (lfp_errno_t value)
 {
   errno = value;
   return errno;

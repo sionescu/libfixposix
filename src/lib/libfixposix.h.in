@@ -267,9 +267,9 @@ void* lfp_cmsg_data (struct cmsghdr* cmsg);
 
 #include <errno.h>
 
-int lfp_errno (void);
+lfp_errno_t lfp_errno (void);
 
-int lfp_set_errno (int value);
+lfp_errno_t lfp_set_errno (lfp_errno_t value);
 
 
 

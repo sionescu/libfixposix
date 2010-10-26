@@ -42,9 +42,10 @@ static
 int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
 {
     close(pipes[1]);
-    int child_errno, status;
+    int status;
+    lfp_errno_t child_errno;
     int noctets = read(pipes[0], &child_errno, sizeof(int));
-    int read_errno = lfp_errno();
+    lfp_errno_t read_errno = lfp_errno();
     close(pipes[0]);
     switch (noctets) {
     case -1:
