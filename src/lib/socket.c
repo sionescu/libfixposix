@@ -52,10 +52,10 @@ int lfp_accept(int              sockfd,
 #if defined(HAVE_ACCEPT4)
     int _flags = 0;
 
-    if (flags & O_CLOEXEC) {
+    if (flags & (uint64_t)O_CLOEXEC) {
         _flags |= SOCK_CLOEXEC;
     }
-    if (flags & O_NONBLOCK) {
+    if (flags & (uint64_t)O_NONBLOCK) {
         _flags |= SOCK_NONBLOCK;
     }
 
@@ -64,10 +64,12 @@ int lfp_accept(int              sockfd,
     int fd = accept(sockfd, addr, addrlen);
     if (fd < 0) { goto error_return; }
 
-    if ((flags & O_CLOEXEC) && lfp_set_fd_cloexec(fd, true) < 0) {
+    if ((flags & (uint64_t)O_CLOEXEC) &&
+        lfp_set_fd_cloexec(fd, true) < 0) {
         goto error_close;
     }
-    if ((flags & O_NONBLOCK) && lfp_set_fd_nonblock(fd, true) < 0) {
+    if ((flags & (uint64_t)O_NONBLOCK) &&
+        lfp_set_fd_nonblock(fd, true) < 0) {
         goto error_close;
     }
 
