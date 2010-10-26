@@ -8,7 +8,7 @@ int lfp_open (const char *pathname, lfp_open_flags_t flags, ...)
     if (flags & O_CREAT) {
         va_list args;
         va_start(args, flags);
-        mode_t mode = va_arg(args, mode_t);
+        mode_t mode = va_arg(args, int);
         va_end(args);
         return open(pathname, flags & 0xFFFFFFFF, mode);
     } else {
