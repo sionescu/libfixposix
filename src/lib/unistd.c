@@ -26,12 +26,12 @@ int lfp_pipe (int pipefd[2], lfp_open_flags_t flags)
         goto error_return;
     }
 
-    if ((flags & (uint64_t)O_CLOEXEC) &&
+    if ((flags & O_CLOEXEC) &&
         (lfp_set_fd_cloexec(pipefd[0], true) < 0 ||
          lfp_set_fd_cloexec(pipefd[1], true) < 0)) {
         goto error_close;
     }
-    if ((flags & (uint64_t)O_NONBLOCK) &&
+    if ((flags & O_NONBLOCK) &&
         (lfp_set_fd_nonblock(pipefd[0], true) < 0 ||
          lfp_set_fd_nonblock(pipefd[1], true) < 0)) {
         goto error_close;
