@@ -92,11 +92,6 @@ struct cmsghdr* lfp_cmsg_nxthdr (struct msghdr* msgh, struct cmsghdr* cmsg)
   return CMSG_NXTHDR(msgh, cmsg);
 }
 
-size_t lfp_cmsg_align (size_t length)
-{
-  return CMSG_ALIGN(length);
-}
-
 size_t lfp_cmsg_space (size_t length)
 {
   return CMSG_SPACE(length);
