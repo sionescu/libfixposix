@@ -202,7 +202,7 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
             memset(path, 0, PATH_MAX);
             snprintf(path, PATH_MAX, "%s/%s", bindir, file);
             lfp_execve(path, argv, envp);
-            if ( errno == E2BIG || errno == ENOEXEC ||
+            if ( errno == E2BIG  || errno == ENOEXEC ||
                  errno == ENOMEM || errno == ETXTBSY )
                 break;
         }
