@@ -1,15 +1,26 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <sys/select.h>
+#include <signal.h>
 
 #include <libfixposix.h>
+#include "utils.h"
 
 int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
                fd_set *exceptfds, const struct timespec *timeout,
                const sigset_t *sigmask)
 {
-    // FIXME: use select & sigsetmask if 1 HAVE_PSELECT
+#if defined(HAVE_PSELECT)
     return pselect(nfds, readfds, writefds, exceptfds, timeout, sigmask);
+#else
+    sigset_t oldmask;
+    struct timeval tv;
+    _lfp_timespec_to_timeval(timeout, &tv);
+    pthread_sigmask(SIG_SETMASK, sigmask, &oldmask);
+    int ret = select(nfds, readfds, writefds, exceptfds, timeout);
+    pthread_sigmask(SIG_SETMASK, &oldmask, NULL);
+    return ret;
+#endif
 }
 
 void lfp_fd_clr(int fd, fd_set *set)
