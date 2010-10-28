@@ -10,7 +10,7 @@ int main()
     lfp_fd_zero(&wset);
     lfp_fd_zero(&eset);
 
-    for(int i = 0; i < FD_SETSIZE; i++) {
+    for(unsigned i = 0; i < FD_SETSIZE; i++) {
         if(lfp_fd_isset(i, &rset)) {
             printf("%d ", i);
         }
