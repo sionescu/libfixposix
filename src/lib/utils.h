@@ -2,6 +2,7 @@
 # define _LFP_UTILS_H_
 
 #include <sys/types.h>
+#include <sys/time.h>
 
 void _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv);
 

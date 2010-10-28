@@ -60,7 +60,9 @@ typedef enum {
     LFP_ENETUNREACH     = ENETUNREACH,
     LFP_ENFILE          = ENFILE,
     LFP_ENOBUFS         = ENOBUFS,
+#if defined(ENODATA)
     LFP_ENODATA         = ENODATA,
+#endif
     LFP_ENODEV          = ENODEV,
     LFP_ENOENT          = ENOENT,
     LFP_ENOEXEC         = ENOEXEC,
@@ -73,8 +75,12 @@ typedef enum {
 #endif
     LFP_ENOPROTOOPT     = ENOPROTOOPT,
     LFP_ENOSPC          = ENOSPC,
+#if defined(ENOSR)
     LFP_ENOSR           = ENOSR,
+#endif
+#if defined(ENOSTR)
     LFP_ENOSTR          = ENOSTR,
+#endif
     LFP_ENOSYS          = ENOSYS,
     LFP_ENOTCONN        = ENOTCONN,
     LFP_ENOTDIR         = ENOTDIR,
@@ -98,7 +104,9 @@ typedef enum {
     LFP_ESPIPE          = ESPIPE,
     LFP_ESRCH           = ESRCH,
     LFP_ESTALE          = ESTALE,
+#if defined(ETIME)
     LFP_ETIME           = ETIME,
+#endif
     LFP_ETIMEDOUT       = ETIMEDOUT,
     LFP_ETXTBSY         = ETXTBSY,
     LFP_EWOULDBLOCK     = EWOULDBLOCK,
