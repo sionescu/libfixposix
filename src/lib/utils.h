@@ -1,6 +1,10 @@
 #if !defined(_LFP_UTILS_H_)
 # define _LFP_UTILS_H_
 
+#include <sys/types.h>
+
+void _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv);
+
 #define SYSERR(errcode) do { lfp_set_errno(errcode); return -1; } while(0)
 
 #define SYSCHECK(errcode,expr) do { if(expr) SYSERR(errcode); } while(0)

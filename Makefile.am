@@ -36,6 +36,7 @@ pkgconfig_DATA = libfixposix.pc
 lib_LTLIBRARIES = src/lib/libfixposix.la
 
 src_lib_libfixposix_la_SOURCES = \
+	src/lib/utils.c \
 	src/lib/stdlib.c src/lib/string.c src/lib/fcntl.c \
 	src/lib/unistd.c src/lib/mman.c \
 	src/lib/select.c src/lib/socket.c \
