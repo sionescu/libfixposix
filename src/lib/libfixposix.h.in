@@ -1,7 +1,7 @@
 #if !defined(_LIBFIXPOSIX_H_)
 # define _LIBFIXPOSIX_H_
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
