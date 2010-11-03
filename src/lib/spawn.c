@@ -41,7 +41,7 @@ void handle_child(execfun *execfun,
 }
 
 static
-int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
+int handle_parent(pid_t child_pid, int pipes[2])
 {
     close(pipes[1]);
     int status, child_errno;
@@ -52,7 +52,6 @@ int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
     case -1:
         SYSERR(read_errno);
     case 0:
-        *pid = child_pid;
         return 0;
     case 4:
         waitpid(child_pid, &status, WNOHANG);
@@ -80,9 +79,9 @@ int _lfp_spawn(execfun *execfun,
     if (lfp_pipe(pipes, O_CLOEXEC) < 0)
         return -1;
 
-    pid_t child_pid = fork();
+    *pid = fork();
 
-    switch (child_pid) {
+    switch (*pid) {
     case -1:
         return -1;
     case 0:
@@ -90,7 +89,7 @@ int _lfp_spawn(execfun *execfun,
         // Flow reaches this point only if child_exit() mysteriously fails
         SYSERR(EBUG);
     default:
-        return handle_parent(pid, child_pid, pipes);
+        return handle_parent(*pid, pipes);
     }
 }
 
