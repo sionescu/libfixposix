@@ -11,10 +11,7 @@
 # define SOCK_NONBLOCK 0
 #endif
 
-int lfp_socket(int              domain,
-               int              type,
-               int              protocol,
-               lfp_open_flags_t flags)
+int lfp_socket(int domain, int type, int protocol, uint64_t flags)
 {
     int _flags = 0;
 
@@ -44,10 +41,10 @@ int lfp_socket(int              domain,
     return -1;
 }
 
-int lfp_accept(int              sockfd,
-               struct sockaddr  *addr,
-               socklen_t        *addrlen,
-               lfp_open_flags_t flags)
+int lfp_accept(int             sockfd,
+               struct sockaddr *addr,
+               socklen_t       *addrlen,
+               uint64_t        flags)
 {
 #if defined(HAVE_ACCEPT4)
     int _flags = 0;

@@ -31,21 +31,19 @@ size_t lfp_strnlen(const char *s, size_t maxlen);
 
 extern char **environ;
 
-typedef uint64_t lfp_open_flags_t;
-
 #if !defined(O_CLOEXEC)
 // Syscalls use "int" for passing flags, and since
 // *nix systems use the LP64 data model, "int" is 32 bits
 // which means that we can allocate unsupported flags in the
-// upper part of an lfp_open_flags_t value
+// upper part of an uint64_t value
 # define O_CLOEXEC ( 1ULL << 32 )
 #endif
 
-int lfp_open(const char *pathname, lfp_open_flags_t flags, ...);
+int lfp_open(const char *pathname, uint64_t flags, ...);
 
 int lfp_creat(const char *pathname, mode_t mode);
 
-int lfp_pipe(int pipefd[2], lfp_open_flags_t flags);
+int lfp_pipe(int pipefd[2], uint64_t flags);
 
 int lfp_is_fd_cloexec(int fd);
 
@@ -124,15 +122,12 @@ void lfp_fd_zero(fd_set *set);
 
 #include <sys/socket.h>
 
-int lfp_socket(int              domain,
-               int              type,
-               int              protocol,
-               lfp_open_flags_t flags);
+int lfp_socket(int domain, int type, int protocol, uint64_t flags);
 
-int lfp_accept(int              sockfd,
-               struct sockaddr  *addr,
-               socklen_t        *addrlen,
-               lfp_open_flags_t flags);
+int lfp_accept(int             sockfd,
+               struct sockaddr *addr,
+               socklen_t       *addrlen,
+               uint64_t        flags);
 
 struct cmsghdr* lfp_cmsg_firsthdr(struct msghdr* msgh);
 
@@ -186,7 +181,7 @@ int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions);
 
 int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
                                    int fd, const char *path,
-                                   lfp_open_flags_t oflags, mode_t mode);
+                                   uint64_t oflags, mode_t mode);
 
 int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
                                     int fd);
