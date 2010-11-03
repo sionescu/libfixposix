@@ -6,6 +6,8 @@
 #include "utils.h"
 #include "spawn.h"
 
+typedef int (execfun)(const char*, char *const[], char *const[]);
+
 static
 void child_exit(int pipe, int child_errno)
 {
@@ -17,7 +19,7 @@ void child_exit(int pipe, int child_errno)
 }
 
 static
-void handle_child(int (*execfun)(const char*, char *const[], char *const[]),
+void handle_child(execfun *execfun,
                   const char *path,
                   char *const argv[],
                   char *const envp[],
@@ -63,7 +65,7 @@ int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
 }
 
 static
-int _lfp_spawn(int (*execfun)(const char*, char *const[], char *const[]),
+int _lfp_spawn(execfun *execfun,
                pid_t *pid,
                const char *path,
                char *const argv[],
