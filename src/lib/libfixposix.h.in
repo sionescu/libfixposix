@@ -26,6 +26,8 @@
 # define _LIBFIXPOSIX_H_
 
 #if defined(__cplusplus)
+// C++ doesn't have restricted pointers (yet)
+# define restrict
 extern "C" {
 #endif
 
