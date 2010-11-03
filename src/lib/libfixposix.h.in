@@ -229,19 +229,19 @@ int lfp_spawnattr_setsigdefault(lfp_spawnattr_t *attr, const sigset_t *sigdefaul
 int lfp_spawnattr_getugid(lfp_spawnattr_t *attr, uid_t *uid, gid_t *gid);
 int lfp_spawnattr_setugid(lfp_spawnattr_t *attr, const uid_t uid, const gid_t gid);
 
-int lfp_spawn(pid_t *pid,
-              const char *path,
-              char *const argv[],
-              char *const envp[],
-              const lfp_spawn_file_actions_t *file_actions,
-              const lfp_spawnattr_t *attr);
+int lfp_spawn(pid_t *restrict pid,
+              const char *restrict path,
+              char *const argv[restrict],
+              char *const envp[restrict],
+              const lfp_spawn_file_actions_t *restrict file_actions,
+              const lfp_spawnattr_t *restrict attr);
 
-int lfp_spawnp(pid_t *pid,
-               const char *file,
-               char *const argv[],
-               char *const envp[],
-               const lfp_spawn_file_actions_t *file_actions,
-               const lfp_spawnattr_t *attr);
+int lfp_spawnp(pid_t *restrict pid,
+               const char *restrict file,
+               char *const argv[restrict],
+               char *const envp[restrict],
+               const lfp_spawn_file_actions_t *restrict file_actions,
+               const lfp_spawnattr_t *restrict attr);
 
 
 
