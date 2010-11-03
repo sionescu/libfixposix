@@ -22,7 +22,7 @@ static inline
 int lfp_signalfd (int fd, const sigset_t *mask, int flags)
 {
     if (HAVE_EMULATED_SIGNALFD)
-        SYSERR(LFP_ENOSYS);
+        SYSERR(ENOSYS);
     else
         return signalfd(fd, mask, flags);
 }
@@ -45,7 +45,7 @@ void signalfd_emulator (int signum)
     }
     if (ret == -1) {
         switch (lfp_errno()) {
-        case LFP_EAGAIN:
+        case EAGAIN:
             /* The pipe buffer is full, therefore there's already
                a notification in the pipe pending reception.
                We can drop the redundant signal notification.
@@ -53,7 +53,7 @@ void signalfd_emulator (int signum)
                dropped anyway, and signals may have been dropped
                on our way already if the system was busy. */
             return;
-        case LFP_EINTR:
+        case EINTR:
             /* Some other signal trumped us; try again! */
             goto notify_listener;
         }
@@ -80,7 +80,7 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
     struct signalfd_params *params;
     struct sigaction sa;
 
-    SYSCHECK(LFP_EINVAL, signum < 0 || signum >= NSIG);
+    SYSCHECK(EINVAL, signum < 0 || signum >= NSIG);
 
     /* Setup sigaction */
     memset(&sa, 0, sizeof(sa));
@@ -91,9 +91,9 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp)
     sigaddset(&sigmask, signum);
 
     /* Allocate parameters */
-    SYSCHECK(LFP_EALREADY, signalfd_params[signum]);
+    SYSCHECK(EALREADY, signalfd_params[signum]);
     params = malloc(sizeof(signalfd_params));
-    SYSCHECK(LFP_ENOMEM, params == NULL);
+    SYSCHECK(ENOMEM, params == NULL);
 
     /* Before we touch the handler, block the signal */
     if (sigprocmask(SIG_BLOCK, &sigmask, NULL) < 0)
@@ -136,7 +136,7 @@ int lfp_uninstall_signalfd(int signum, bool block)
     struct signalfd_params *params;
     struct sigaction sa;
 
-    SYSCHECK(LFP_EINVAL, signum < 0 || signum >= NSIG);
+    SYSCHECK(EINVAL, signum < 0 || signum >= NSIG);
 
     /* Setup sigaction */
     memset(&sa, 0, sizeof(sa));

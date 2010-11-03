@@ -22,7 +22,7 @@ typedef struct lfp_spawn_action {
 
 int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 {
-    SYSCHECK(LFP_EINVAL, file_actions == NULL);
+    SYSCHECK(EINVAL, file_actions == NULL);
     file_actions->initialized = 0;
     file_actions->allocated = 0;
     file_actions->actions = NULL;
@@ -31,7 +31,7 @@ int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 
 int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 {
-    SYSCHECK(LFP_EINVAL, file_actions == NULL);
+    SYSCHECK(EINVAL, file_actions == NULL);
     if (file_actions->actions) {
             free(file_actions->actions);
     }
@@ -73,10 +73,10 @@ int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
 {
     lfp_spawn_action *action;
 
-    SYSCHECK(LFP_EINVAL, file_actions == NULL);
-    SYSCHECK(LFP_EBADF, !VALID_FD(fd));
+    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EBADF, !VALID_FD(fd));
     action = lfp_spawn_file_actions_allocate(file_actions);
-    SYSCHECK(LFP_ENOMEM, !action);
+    SYSCHECK(ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_OPEN;
     action->fd = fd;
     action->path = path;
@@ -90,10 +90,10 @@ int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
 {
     lfp_spawn_action *action;
 
-    SYSCHECK(LFP_EINVAL, file_actions == NULL);
-    SYSCHECK(LFP_EBADF, !VALID_FD(fd));
+    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EBADF, !VALID_FD(fd));
     action = lfp_spawn_file_actions_allocate(file_actions);
-    SYSCHECK(LFP_ENOMEM, !action);
+    SYSCHECK(ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_CLOSE;
     action->fd = fd;
     return 0;
@@ -104,11 +104,11 @@ int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
 {
     lfp_spawn_action *action;
 
-    SYSCHECK(LFP_EINVAL, file_actions == NULL);
-    SYSCHECK(LFP_EBADF, !VALID_FD(fd));
-    SYSCHECK(LFP_EBADF, !VALID_FD(newfd));
+    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EBADF, !VALID_FD(fd));
+    SYSCHECK(EBADF, !VALID_FD(newfd));
     action = lfp_spawn_file_actions_allocate(file_actions);
-    SYSCHECK(LFP_ENOMEM, !action);
+    SYSCHECK(ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_DUP2;
     action->fd = fd;
     action->newfd = newfd;
@@ -141,7 +141,7 @@ int lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
         if (err == -1) { return errno; }
         return 0;
     default:
-        return LFP_EINVAL;
+        return EINVAL;
     }
 }
 

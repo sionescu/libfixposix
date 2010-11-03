@@ -28,7 +28,7 @@ int lfp_sigrtmin (void)
 #if defined(SIGRTMIN)
   return SIGRTMIN;
 #else
-  SYSERR(LFP_ENOSYS);
+  SYSERR(ENOSYS);
 #endif // SIGRTMIN
 }
 
@@ -37,6 +37,6 @@ int lfp_sigrtmax (void)
 #if defined(SIGRTMAX)
   return SIGRTMAX;
 #else
-  SYSERR(LFP_ENOSYS);
+  SYSERR(ENOSYS);
 #endif // SIGRTMAX
 }

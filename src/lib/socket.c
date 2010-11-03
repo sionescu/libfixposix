@@ -11,10 +11,10 @@
 # define SOCK_NONBLOCK 0
 #endif
 
-int lfp_socket(lfp_socket_domain_t domain,
-               lfp_socket_type_t   type,
-               int                 protocol,
-               lfp_open_flags_t    flags)
+int lfp_socket(int              domain,
+               int              type,
+               int              protocol,
+               lfp_open_flags_t flags)
 {
     int _flags = 0;
 

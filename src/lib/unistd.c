@@ -93,7 +93,7 @@ int lfp_fd_is_open(int fd)
     struct stat buf;
     int ret = fstat(fd, &buf);
     if ( ret < 0 ) {
-        if ( lfp_errno() == LFP_EBADF ) {
+        if ( lfp_errno() == EBADF ) {
             return false;
         } else {
             return -1;
@@ -173,22 +173,22 @@ char* lfp_getpath(char *const envp[])
 
 int lfp_execve(const char *path, char *const argv[], char *const envp[])
 {
-    SYSCHECK(LFP_EINVAL, path == NULL);
-    SYSCHECK(LFP_ENOENT, path[0] == '\0');
+    SYSCHECK(EINVAL, path == NULL);
+    SYSCHECK(ENOENT, path[0] == '\0');
 
     return execve(path, argv, envp);
 }
 
 int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 {
-    SYSCHECK(LFP_EINVAL, file == NULL);
-    SYSCHECK(LFP_ENOENT, file[0] == '\0');
+    SYSCHECK(EINVAL, file == NULL);
+    SYSCHECK(ENOENT, file[0] == '\0');
 
     if (strchr(file, '/'))
         return execve(file, argv, envp);
 
     size_t filelen = lfp_strnlen(file, NAME_MAX);
-    SYSCHECK(LFP_ENAMETOOLONG, filelen >= NAME_MAX);
+    SYSCHECK(ENAMETOOLONG, filelen >= NAME_MAX);
 
     char path[PATH_MAX], *searchpath, *tmpath, *bindir;
 
@@ -198,7 +198,7 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
         if ( bindir[0] != '\0' ) {
             size_t dirlen = lfp_strnlen(bindir, PATH_MAX);
             size_t pathlen = dirlen + 1 + filelen + 1;
-            SYSCHECK(LFP_ENAMETOOLONG, pathlen > PATH_MAX);
+            SYSCHECK(ENAMETOOLONG, pathlen > PATH_MAX);
             memset(path, 0, PATH_MAX);
             snprintf(path, PATH_MAX, "%s/%s", bindir, file);
             lfp_execve(path, argv, envp);

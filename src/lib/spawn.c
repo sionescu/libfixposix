@@ -42,10 +42,9 @@ static
 int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
 {
     close(pipes[1]);
-    int status;
-    lfp_errno_t child_errno;
+    int status, child_errno;
     int noctets = read(pipes[0], &child_errno, sizeof(int));
-    lfp_errno_t read_errno = lfp_errno();
+    int read_errno = lfp_errno();
     close(pipes[0]);
     switch (noctets) {
     case -1:
@@ -59,7 +58,7 @@ int handle_parent(pid_t *pid, pid_t child_pid, int pipes[2])
     default:
         // This is not suppose to happen because all 4 octets
         // of the child's errno should get here with one write
-        SYSERR(LFP_EBUG);
+        SYSERR(EBUG);
     }
 }
 
@@ -87,7 +86,7 @@ int _lfp_spawn(int (*execfun)(const char*, char *const[], char *const[]),
     case 0:
         handle_child(execfun, path, argv, envp, file_actions, attr, pipes);
         // Flow reaches this point only if child_exit() mysteriously fails
-        SYSERR(LFP_EBUG);
+        SYSERR(EBUG);
     default:
         return handle_parent(pid, child_pid, pipes);
     }
@@ -100,7 +99,7 @@ int lfp_spawn(pid_t *pid,
               const lfp_spawn_file_actions_t *file_actions,
               const lfp_spawnattr_t *attr)
 {
-    SYSCHECK(LFP_EINVAL, pid == NULL);
+    SYSCHECK(EINVAL, pid == NULL);
 
     return _lfp_spawn(&lfp_execve, pid, path, argv, envp, file_actions, attr);
 }
@@ -112,7 +111,7 @@ int lfp_spawnp(pid_t *pid,
                const lfp_spawn_file_actions_t *file_actions,
                const lfp_spawnattr_t *attr)
 {
-    SYSCHECK(LFP_EINVAL, pid == NULL);
+    SYSCHECK(EINVAL, pid == NULL);
 
     return _lfp_spawn(&lfp_execvpe, pid, file, argv, envp, file_actions, attr);
 }
