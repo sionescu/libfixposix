@@ -15,7 +15,7 @@ off_t lfp_lseek(int fd, off_t offset, int whence)
 
 
 
-int lfp_pipe (int pipefd[2], lfp_open_flags_t flags)
+int lfp_pipe (int pipefd[2], uint64_t flags)
 {
 #if defined(HAVE_PIPE2)
     // We assume that if pipe2() is defined then O_CLOEXEC too

@@ -16,7 +16,7 @@ typedef struct lfp_spawn_action {
     int fd;
     int newfd;
     const char *path;
-    lfp_open_flags_t flags;
+    uint64_t flags;
     mode_t mode;
 } lfp_spawn_action;
 
@@ -69,7 +69,7 @@ lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file
 
 int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
                                    int fd, const char *path,
-                                   lfp_open_flags_t oflags, mode_t mode)
+                                   uint64_t oflags, mode_t mode)
 {
     lfp_spawn_action *action;
 

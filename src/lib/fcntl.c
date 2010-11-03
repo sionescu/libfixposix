@@ -3,7 +3,7 @@
 
 #include <libfixposix.h>
 
-int lfp_open (const char *pathname, lfp_open_flags_t flags, ...)
+int lfp_open (const char *pathname, uint64_t flags, ...)
 {
     if (flags & O_CREAT) {
         va_list args;
