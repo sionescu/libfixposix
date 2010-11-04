@@ -46,6 +46,8 @@ src_lib_libfixposix_la_SOURCES = \
 	src/lib/dirent.c src/lib/resource.c
 # src/lib/install_signalfd.c
 
+noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
+
 src_lib_libfixposix_la_LIBADD = $(LFP_LIBS)
 
 include_HEADERS = \
