@@ -142,8 +142,7 @@ int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
 static
 int lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 {
-    int err;
-    int fd;
+    int err, fd;
 
     switch (action->type) {
     case LFP_SPAWN_FILE_ACTION_OPEN:

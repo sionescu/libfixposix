@@ -52,7 +52,7 @@ void handle_child(execfun *execfun,
                   int pipes[2])
 {
     close(pipes[0]);
-    int child_errno = lfp_spawnattr_apply(attr);
+    int child_errno = lfp_spawn_apply_attributes(attr);
     if (child_errno != 0) {
         child_exit(pipes[1], child_errno);
     }

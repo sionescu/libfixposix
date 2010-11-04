@@ -128,7 +128,7 @@ int lfp_spawnattr_setugid(lfp_spawnattr_t *attr, const uid_t uid, const gid_t gi
 
 
 
-int lfp_spawnattr_apply(const lfp_spawnattr_t *attr)
+int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 {
     if(attr == NULL)
         return 0;
