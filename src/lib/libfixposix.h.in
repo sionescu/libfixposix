@@ -22,8 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#if !defined(_LIBFIXPOSIX_H_)
-# define _LIBFIXPOSIX_H_
+#pragma once
 
 #if defined(__cplusplus)
 // C++ doesn't have restricted pointers (yet)
@@ -324,8 +323,6 @@ int lfp_getrlimit(int resource, struct rlimit *rlim);
 
 int lfp_setrlimit(int resource, const struct rlimit *rlim);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif
-
-#endif // _LIBFIXPOSIX_H_
