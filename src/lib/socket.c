@@ -28,35 +28,34 @@
 
 #include <libfixposix.h>
 
-#if !defined(SOCK_CLOEXEC)
-# define SOCK_CLOEXEC 0
-#endif
-#if !defined(SOCK_NONBLOCK)
-# define SOCK_NONBLOCK 0
-#endif
-
 int lfp_socket(int domain, int type, int protocol, uint64_t flags)
 {
     int _flags = 0;
 
-    if (SOCK_CLOEXEC && (flags & O_CLOEXEC)) {
+#if defined(SOCK_CLOEXEC)
+    if (flags & O_CLOEXEC) {
         _flags |= SOCK_CLOEXEC;
     }
-    if (SOCK_NONBLOCK && (flags & O_NONBLOCK)) {
+#endif
+#if defined(SOCK_NONBLOCK)
+    if (flags & O_NONBLOCK) {
         _flags |= SOCK_NONBLOCK;
     }
+#endif
 
     int fd = socket(domain, type | _flags, protocol);
     if (fd < 0) { goto error_return; };
 
-    if (SOCK_CLOEXEC && (flags & O_CLOEXEC) &&
-        lfp_set_fd_cloexec(fd, true) < 0) {
+#if !defined(SOCK_CLOEXEC)
+    if ((flags & O_CLOEXEC) && lfp_set_fd_cloexec(fd, true) < 0) {
         goto error_close;
     }
-    if (SOCK_NONBLOCK && (flags & O_NONBLOCK) &&
-        lfp_set_fd_nonblock(fd, true) < 0) {
+#endif
+#if !defined(SOCK_NONBLOCK)
+    if ((flags & O_NONBLOCK) && lfp_set_fd_nonblock(fd, true) < 0) {
         goto error_close;
     }
+#endif
     return fd;
 
   error_close:
@@ -70,6 +69,8 @@ int lfp_accept(int             sockfd,
                socklen_t       *addrlen,
                uint64_t        flags)
 {
+// FIXME: This branch requires that SOCK_CLOEXEC and SOCK_NONBLOCK be
+// defined when accept4(2) is present. Should we add an Autoconf check ?
 #if defined(HAVE_ACCEPT4)
     int _flags = 0;
 
