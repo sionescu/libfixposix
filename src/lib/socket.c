@@ -30,27 +30,20 @@
 
 int lfp_socket(int domain, int type, int protocol, uint64_t flags)
 {
-    int _flags = 0;
-
 #if defined(SOCK_CLOEXEC) && defined(SOCK_NONBLOCK)
-    if (flags & O_CLOEXEC) {
-        _flags |= SOCK_CLOEXEC;
-    }
-    if (flags & O_NONBLOCK) {
-        _flags |= SOCK_NONBLOCK;
-    }
-
-    return socket(domain, type | _flags, protocol);
+    return socket(domain,
+                  type | ((flags & O_CLOEXEC)  ? SOCK_CLOEXEC  : 0) \
+                       | ((flags & O_NONBLOCK) ? SOCK_NONBLOCK : 0),
+                  protocol);
 #else
-    int fd = socket(domain, type | _flags, protocol);
+    int fd = socket(domain, type, protocol);
     if (fd < 0) { goto error_return; }
 
-    if ((flags & O_CLOEXEC) && lfp_set_fd_cloexec(fd, true) < 0) {
+    if (((flags & O_CLOEXEC)  && (lfp_set_fd_cloexec(fd, true)  < 0)) || \
+        ((flags & O_NONBLOCK) && (lfp_set_fd_nonblock(fd, true) < 0))) {
         goto error_close;
     }
-    if ((flags & O_NONBLOCK) && lfp_set_fd_nonblock(fd, true) < 0) {
-        goto error_close;
-    }
+
     return fd;
 
   error_close:
@@ -68,24 +61,15 @@ int lfp_accept(int             sockfd,
 // FIXME: This branch requires that SOCK_CLOEXEC and SOCK_NONBLOCK be
 // defined when accept4(2) is present. Should we add an Autoconf check ?
 #if defined(HAVE_ACCEPT4) && defined(SOCK_CLOEXEC) && defined(SOCK_NONBLOCK)
-    int _flags = 0;
-
-    if (flags & O_CLOEXEC) {
-        _flags |= SOCK_CLOEXEC;
-    }
-    if (flags & O_NONBLOCK) {
-        _flags |= SOCK_NONBLOCK;
-    }
-
-    return accept4(sockfd, addr, addrlen, _flags);
+    return accept4(sockfd, addr, addrlen,
+                   ((flags & O_CLOEXEC)  ? SOCK_CLOEXEC  : 0) | \
+                   ((flags & O_NONBLOCK) ? SOCK_NONBLOCK : 0));
 #else
     int fd = accept(sockfd, addr, addrlen);
     if (fd < 0) { goto error_return; }
 
-    if ((flags & O_CLOEXEC) && lfp_set_fd_cloexec(fd, true) < 0) {
-        goto error_close;
-    }
-    if ((flags & O_NONBLOCK) && lfp_set_fd_nonblock(fd, true) < 0) {
+    if (((flags & O_CLOEXEC)  && (lfp_set_fd_cloexec(fd, true)  < 0)) || \
+        ((flags & O_NONBLOCK) && (lfp_set_fd_nonblock(fd, true) < 0))) {
         goto error_close;
     }
 
