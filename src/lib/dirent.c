@@ -28,5 +28,13 @@
 
 int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result)
 {
-    return readdir_r(dirp, entry, result);
+    int ret = readdir_r(dirp, entry, result);
+    if ( ret > 0 ) {
+        lfp_set_errno(ret);
+        return -1;
+    } else if (*result == NULL) {
+        return 0;
+    } else {
+        return 1;
+    }
 }
