@@ -29,6 +29,8 @@
 
 void _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv);
 
+void _lfp_timeval_to_timespec(struct timeval *tv, struct timespec *ts);
+
 #define SYSERR(errcode) do { lfp_set_errno(errcode); return -1; } while(0)
 
 #define SYSCHECK(errcode,expr) do { if(expr) SYSERR(errcode); } while(0)

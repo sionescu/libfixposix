@@ -317,6 +317,24 @@ int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
 
 
 
+#include <time.h>
+
+// FIXME: what if the system has _POSIX_TIMERS but not CLOCK_MONOTONIC ?
+#if !defined(_POSIX_TIMERS)
+typedef enum {
+    CLOCK_REALTIME  = 0,
+    CLOCK_MONOTONIC = 1
+} clockid_t;
+#endif
+
+int lfp_clock_getres(clockid_t clk_id, struct timespec *res);
+
+int lfp_clock_gettime(clockid_t clk_id, struct timespec *tp);
+
+int lfp_clock_settime(clockid_t clk_id, struct timespec *tp);
+
+
+
 #include <sys/resource.h>
 
 int lfp_getrlimit(int resource, struct rlimit *rlim);
