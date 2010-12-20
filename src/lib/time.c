@@ -33,7 +33,7 @@
 #include <libfixposix.h>
 #include "utils.h"
 
-int lfp_clock_getres(clockid_t clk_id, struct timespec *res)
+int lfp_clock_getres(lfp_clockid_t clk_id, struct timespec *res)
 {
 #if defined(_POSIX_TIMERS) && defined(_POSIX_MONOTONIC_CLOCK)
     return clock_getres(clk_id, res);
@@ -85,7 +85,7 @@ int _lfp_clock_gettime_monotonic(struct timespec *tp)
 }
 #endif
 
-int lfp_clock_gettime(clockid_t clk_id, struct timespec *tp)
+int lfp_clock_gettime(lfp_clockid_t clk_id, struct timespec *tp)
 {
 #if defined(_POSIX_TIMERS) && defined(_POSIX_MONOTONIC_CLOCK)
     return clock_gettime(clk_id, tp);
@@ -101,7 +101,7 @@ int lfp_clock_gettime(clockid_t clk_id, struct timespec *tp)
 #endif
 }
 
-int lfp_clock_settime(clockid_t clk_id, struct timespec *tp)
+int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp)
 {
 #if defined(_POSIX_TIMERS) && defined(_POSIX_MONOTONIC_CLOCK)
     return clock_settime(clk_id, tp);

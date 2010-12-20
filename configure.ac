@@ -57,6 +57,7 @@ AC_ENSURE_HEADER([stdlib.h])
 AC_ENSURE_HEADER([stdio.h])
 AC_ENSURE_HEADER([string.h])
 AC_ENSURE_HEADER([errno.h])
+AC_ENSURE_HEADER([time.h])
 
 dnl Checks for POSIX headers
 AC_ENSURE_HEADER([sys/types.h])
@@ -70,6 +71,7 @@ AC_CHECK_FUNCS([accept4])
 AC_CHECK_FUNCS([pipe2])
 AC_CHECK_FUNCS([__xpg_strerror_r])
 AC_ENSURE_FUNCS([pselect])
+AC_LFP_ENSURE_SUITABLE_CLOCKID_T
 
 AC_ARG_ENABLE([emulated-signalfd],
   [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],
