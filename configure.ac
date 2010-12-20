@@ -39,7 +39,9 @@ AC_PROG_LIBTOOL
 dnl Set compiler & linker flags
 case "$host" in
      *-*-linux*)
-       LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE=1" ;;
+       LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE=1"
+       LFP_LIBS="-lrt"
+       ;;
      *-*-freebsd*)
        LFP_CPPFLAGS="-D__BSD_VISIBLE" ;;
      *-*-solaris*)
