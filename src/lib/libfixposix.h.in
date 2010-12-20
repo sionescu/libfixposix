@@ -319,7 +319,8 @@ int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
 
 #include <time.h>
 
-// FIXME: what if the system has _POSIX_TIMERS but not CLOCK_MONOTONIC ?
+// FIXME: what if the system has _POSIX_TIMERS but 
+//        not _POSIX_MONOTONIC_CLOCK ?
 #if !defined(_POSIX_TIMERS)
 typedef enum {
     CLOCK_REALTIME  = 0,
