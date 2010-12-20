@@ -34,9 +34,9 @@ int lfp_open (const char *pathname, uint64_t flags, ...)
         va_start(args, flags);
         mode_t mode = va_arg(args, int);
         va_end(args);
-        return open(pathname, flags & 0xFFFFFFFF, mode);
+        return open(pathname, (int)flags & 0xFFFFFFFF, mode);
     } else {
-        return open(pathname, flags & 0xFFFFFFFF);
+        return open(pathname, (int)flags & 0xFFFFFFFF);
     }
 }
 
