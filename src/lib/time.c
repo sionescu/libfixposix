@@ -70,7 +70,7 @@ int _lfp_clock_gettime_realtime(struct timespec *tp)
 static inline
 int _lfp_clock_gettime_monotonic(struct timespec *tp)
 {
-#if defined(__DARWIN__)
+# if defined(__DARWIN__)
     kern_return_t kret;
     clock_serv_t clk_serv;
 
@@ -79,9 +79,9 @@ int _lfp_clock_gettime_monotonic(struct timespec *tp)
     kret = clock_get_time(*clk_serv, tp);
     if (ret < 0) { return -1; }
     return 0;
-#else
+# else
     SYSERR(EINVAL);
-#endif
+# endif
 }
 #endif
 
