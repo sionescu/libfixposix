@@ -146,7 +146,7 @@ int lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 
     switch (action->type) {
     case LFP_SPAWN_FILE_ACTION_OPEN:
-        fd = open(action->path, action->flags, action->mode);
+        fd = lfp_open(action->path, action->flags, action->mode);
         if (fd == -1) { return errno; }
         if (fd != action->fd) {
             err = dup2(fd, action->fd);
