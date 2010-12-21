@@ -34,7 +34,8 @@
                              LFP_SPAWN_SETSIGDEFAULT | \
                              LFP_SPAWN_SETPGROUP     | \
                              LFP_SPAWN_RESETIDS      | \
-                             LFP_SPAWN_SETUGID         )
+                             LFP_SPAWN_SETUID        | \
+                             LFP_SPAWN_SETGID          )
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr)
 {
@@ -61,21 +62,6 @@ int lfp_spawnattr_setflags(lfp_spawnattr_t *attr, const uint32_t flags)
 {
     SYSCHECK(EINVAL, attr == NULL || (flags & ~LFP_SPAWN_ALLFLAGS) != 0);
     attr->flags = flags;
-    return 0;
-}
-
-int lfp_spawnattr_getpgroup(lfp_spawnattr_t *attr, pid_t *pgroup)
-{
-    SYSCHECK(EINVAL, attr == NULL || pgroup == NULL);
-    *pgroup = attr->pgroup;
-    return 0;
-}
-
-int lfp_spawnattr_setpgroup(lfp_spawnattr_t *attr, const pid_t pgroup)
-{
-    SYSCHECK(EINVAL, attr == NULL);
-    attr->flags |= LFP_SPAWN_SETPGROUP;
-    attr->pgroup = pgroup;
     return 0;
 }
 
@@ -109,19 +95,47 @@ int lfp_spawnattr_setsigdefault(lfp_spawnattr_t *attr, const sigset_t *sigdefaul
     return 0;
 }
 
-int lfp_spawnattr_getugid(lfp_spawnattr_t *attr, uid_t *uid, gid_t *gid)
+int lfp_spawnattr_getpgroup(lfp_spawnattr_t *attr, pid_t *pgroup)
 {
-    SYSCHECK(EINVAL, attr == NULL || uid == NULL || gid == NULL);
+    SYSCHECK(EINVAL, attr == NULL || pgroup == NULL);
+    *pgroup = attr->pgroup;
+    return 0;
+}
+
+int lfp_spawnattr_setpgroup(lfp_spawnattr_t *attr, const pid_t pgroup)
+{
+    SYSCHECK(EINVAL, attr == NULL);
+    attr->flags |= LFP_SPAWN_SETPGROUP;
+    attr->pgroup = pgroup;
+    return 0;
+}
+
+int lfp_spawnattr_getuid(lfp_spawnattr_t *attr, uid_t *uid)
+{
+    SYSCHECK(EINVAL, attr == NULL || uid == NULL);
     *uid = attr->uid;
+    return 0;
+}
+
+int lfp_spawnattr_setuid(lfp_spawnattr_t *attr, const uid_t uid)
+{
+    SYSCHECK(EINVAL, attr == NULL);
+    attr->flags |= LFP_SPAWN_SETUID;
+    attr->uid = uid;
+    return 0;
+}
+
+int lfp_spawnattr_getgid(lfp_spawnattr_t *attr, gid_t *gid)
+{
+    SYSCHECK(EINVAL, attr == NULL || gid == NULL);
     *gid = attr->gid;
     return 0;
 }
 
-int lfp_spawnattr_setugid(lfp_spawnattr_t *attr, const uid_t uid, const gid_t gid)
+int lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid)
 {
     SYSCHECK(EINVAL, attr == NULL);
-    attr->flags |= LFP_SPAWN_SETUGID;
-    attr->uid = uid;
+    attr->flags |= LFP_SPAWN_SETGID;
     attr->gid = gid;
     return 0;
 }
@@ -133,23 +147,9 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
     if(attr == NULL)
         return 0;
 
-    if (attr->flags & LFP_SPAWN_SETPGROUP)
-        if (setpgid(0, attr->pgroup) < 0)
-            return lfp_errno();
-
-    if (attr->flags & LFP_SPAWN_RESETIDS) {
-        if (seteuid(getuid()) < 0) 
-            return lfp_errno();
-        if (setegid(getgid()) < 0)
-            return lfp_errno();
-    }
-
-    if (attr->flags & LFP_SPAWN_SETUGID) {
-        if (seteuid(attr->uid) < 0) 
-            return lfp_errno();
-        if (setegid(attr->gid) < 0)
-            return lfp_errno();
-    }
+    SYSCHECK(EINVAL, (attr->flags & LFP_SPAWN_RESETIDS) && \
+                     ((attr->flags & LFP_SPAWN_SETUID)  || \
+                      (attr->flags & LFP_SPAWN_SETUID)));
 
     if (attr->flags & LFP_SPAWN_SETSIGMASK)
         if (sigprocmask(SIG_SETMASK, &attr->sigmask, NULL) < 0)
@@ -162,6 +162,25 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
                 if (sigaction(i, &sa, NULL) < 0)
                     return lfp_errno();
     }
+
+    if (attr->flags & LFP_SPAWN_SETPGROUP)
+        if (setpgid(0, attr->pgroup) < 0)
+            return lfp_errno();
+
+    if (attr->flags & LFP_SPAWN_RESETIDS) {
+        if (seteuid(getuid()) < 0) 
+            return lfp_errno();
+        if (setegid(getgid()) < 0)
+            return lfp_errno();
+    }
+
+    if (attr->flags & LFP_SPAWN_SETUID)
+        if (seteuid(attr->uid) < 0) 
+            return lfp_errno();
+
+    if (attr->flags & LFP_SPAWN_SETGID)
+        if (setegid(attr->gid) < 0)
+            return lfp_errno();
 
     return 0;
 }
