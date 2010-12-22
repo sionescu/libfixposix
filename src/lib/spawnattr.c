@@ -25,6 +25,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
+#include <stdio.h>
 
 #include <libfixposix.h>
 #include "utils.h"
@@ -152,35 +153,64 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
                       (attr->flags & LFP_SPAWN_SETUID)));
 
     if (attr->flags & LFP_SPAWN_SETSIGMASK)
-        if (sigprocmask(SIG_SETMASK, &attr->sigmask, NULL) < 0)
+        if (sigprocmask(SIG_SETMASK, &attr->sigmask, NULL) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:SETSIGMASK:sigprocmask");
+#endif
             return lfp_errno();
+        }
 
     if (attr->flags & LFP_SPAWN_SETSIGDEFAULT) {
-        struct sigaction sa = { .sa_flags   = 0, .sa_handler = SIG_DFL };
+        struct sigaction sa = { .sa_flags   = 0,
+                                .sa_handler = SIG_DFL };
         for (int i = 1; i <= LFP_NSIG; i++)
             if (sigismember(&attr->sigdefault, i))
-                if (sigaction(i, &sa, NULL) < 0)
+                if (sigaction(i, &sa, NULL) < 0) {
+#if !defined(NDEBUG)
+                    perror("LFP_SPAWN_APPLY_ATTR:SETSIGDEFAULT:sigaction");
+#endif
                     return lfp_errno();
+                }
     }
 
     if (attr->flags & LFP_SPAWN_SETPGROUP)
-        if (setpgid(0, attr->pgroup) < 0)
+        if (setpgid(0, attr->pgroup) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:SETPGROUP:setpgid");
+#endif
             return lfp_errno();
+        }
 
     if (attr->flags & LFP_SPAWN_RESETIDS) {
-        if (seteuid(getuid()) < 0) 
+        if (seteuid(getuid()) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:RESETIDS:seteuid");
+#endif
             return lfp_errno();
-        if (setegid(getgid()) < 0)
+        }
+        if (setegid(getgid()) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:RESETIDS:setegid");
+#endif
             return lfp_errno();
+        }
     }
 
     if (attr->flags & LFP_SPAWN_SETUID)
-        if (seteuid(attr->uid) < 0) 
+        if (seteuid(attr->uid) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:SETUID:seteuid");
+#endif
             return lfp_errno();
+        }
 
     if (attr->flags & LFP_SPAWN_SETGID)
-        if (setegid(attr->gid) < 0)
+        if (setegid(attr->gid) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:SETGID:setegid");
+#endif
             return lfp_errno();
+        }
 
     return 0;
 }
