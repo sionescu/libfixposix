@@ -31,15 +31,6 @@
 #include "utils.h"
 #include "spawn.h"
 
-struct __lfp_spawnattr {
-    uint32_t flags;
-    sigset_t sigdefault;
-    sigset_t sigmask;
-    pid_t    pgroup;
-    uid_t    uid;
-    gid_t    gid;
-};
-
 #define LFP_SPAWN_ALLFLAGS ( LFP_SPAWN_SETSIGMASK    | \
                              LFP_SPAWN_SETSIGDEFAULT | \
                              LFP_SPAWN_SETPGROUP     | \

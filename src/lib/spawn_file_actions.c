@@ -29,12 +29,6 @@
 #include "utils.h"
 #include "spawn.h"
 
-struct __lfp_spawn_file_actions {
-    int initialized;
-    int allocated;
-    struct lfp_spawn_action *actions;
-};
-
 typedef enum {
     LFP_SPAWN_FILE_ACTION_OPEN,
     LFP_SPAWN_FILE_ACTION_CLOSE,
