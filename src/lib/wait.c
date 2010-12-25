@@ -47,12 +47,12 @@ int lfp_wtermsig (int status)
   return WTERMSIG(status);
 }
 
-int lfp_wcoredump (int status)
+bool lfp_wcoredump (int status)
 {
 #ifdef WCOREDUMP
   return WCOREDUMP(status);
 #else
-  return 0;
+  return false;
 #endif
 }
 
