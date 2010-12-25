@@ -324,7 +324,6 @@ int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
 
 #include <time.h>
 
-// FIXME: need to check that sizeof(clockid_t) <= 32
 typedef uint64_t lfp_clockid_t;
 
 #if !defined(_POSIX_TIMERS)
