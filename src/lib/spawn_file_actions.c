@@ -74,21 +74,21 @@ lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file
 
     if (index >= allocated) {
         /* Note: this code assumes we run out of memory before we overflow. */
-        new_allocated = 4 + (allocated*3)/2;
-        new_actions = calloc(new_allocated,sizeof(lfp_spawn_action));
+        new_allocated = 4 + allocated * 3 / 2;
+        new_actions = calloc(new_allocated, sizeof(lfp_spawn_action));
         if (!new_actions) {
             return NULL;
         }
         if (actions) {
-            memcpy(new_actions, actions, allocated*sizeof(lfp_spawn_action));
+            memcpy(new_actions, actions, allocated * sizeof(lfp_spawn_action));
             free(actions);
         }
         actions = new_actions;
         file_actions->actions = actions;
         file_actions->allocated = new_allocated;
-        memset(actions+index, 0, (new_allocated-index)*sizeof(lfp_spawn_action));
+        memset(actions+index, 0, (new_allocated - index) * sizeof(lfp_spawn_action));
     }
-    return actions+index;
+    return actions + index;
 }
 
 int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
