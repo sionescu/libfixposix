@@ -29,6 +29,12 @@
 #include "utils.h"
 #include "spawn.h"
 
+struct __lfp_spawn_file_actions {
+    int initialized;
+    int allocated;
+    struct lfp_spawn_action *actions;
+};
+
 typedef enum {
     LFP_SPAWN_FILE_ACTION_OPEN,
     LFP_SPAWN_FILE_ACTION_CLOSE,
@@ -54,7 +60,7 @@ int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 }
 
 static
-void lfp_spawn_file_actions_free_paths(struct lfp_spawn_action *actions, int initialized)
+void lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, int initialized)
 {
     for (int i = 0; i < initialized; i++)
         if (actions[i].type == LFP_SPAWN_FILE_ACTION_OPEN)
