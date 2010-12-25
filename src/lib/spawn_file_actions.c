@@ -53,11 +53,20 @@ int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
     return 0;
 }
 
+static
+void lfp_spawn_file_actions_free_paths(struct lfp_spawn_action *actions, int initialized)
+{
+    for (int i = 0; i < initialized; i++)
+        if (actions[i].type == LFP_SPAWN_FILE_ACTION_OPEN)
+            free((void*)actions[i].path);
+}
+
 int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 {
     SYSCHECK(EINVAL, file_actions == NULL);
     if (file_actions->actions) {
-            free(file_actions->actions);
+        lfp_spawn_file_actions_free_paths(file_actions->actions, file_actions->initialized);
+        free(file_actions->actions);
     }
     // lfp_spawn_file_actions_init(file_actions);
     return 0;
@@ -103,7 +112,7 @@ int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
     SYSCHECK(ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_OPEN;
     action->fd = fd;
-    action->path = path;
+    action->path = strndup(path, PATH_MAX);
     action->flags = oflags;
     action->mode = mode;
     return 0;
