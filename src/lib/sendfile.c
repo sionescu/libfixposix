@@ -47,7 +47,8 @@ ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)
     off_t len = nbytes;
     return (ssize_t) sendfile(in_fd, out_fd, offset, &len, NULL, 0);
 # else
-    return ENOSYS;
+#  error "It appears that this OS has sendfile(), but LFP doesn't use it at the moment"
+#  error "Please send an email to iolib-devel@common-lisp.net"
 # endif
 #else
     return ENOSYS;
