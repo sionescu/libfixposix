@@ -32,6 +32,8 @@ extern "C" {
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdarg.h>
+#include <inttypes.h>
 
 int lfp_mkstemp(char *tmplate);
 
@@ -49,7 +51,6 @@ size_t lfp_strnlen(const char *s, size_t maxlen);
 
 
 
-#include <inttypes.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
