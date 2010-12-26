@@ -49,5 +49,7 @@ ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)
 # else
     return ENOSYS;
 # endif
+#else
+    return ENOSYS;
 #endif
 }
