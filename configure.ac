@@ -70,6 +70,7 @@ dnl Checks for functions
 AC_CHECK_FUNCS([accept4])
 AC_CHECK_FUNCS([pipe2])
 AC_CHECK_FUNCS([__xpg_strerror_r])
+AC_CHECK_FUNCS([sendfile])
 AC_ENSURE_FUNCS([pselect])
 AC_LFP_ENSURE_SUITABLE_CLOCKID_T
 

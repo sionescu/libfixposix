@@ -347,6 +347,10 @@ int lfp_getrlimit(int resource, struct rlimit *rlim);
 
 int lfp_setrlimit(int resource, const struct rlimit *rlim);
 
+
+
+int lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes);
+
 #if defined(__cplusplus)
 }
 #endif
