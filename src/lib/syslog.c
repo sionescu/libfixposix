@@ -83,3 +83,18 @@ void lfp_closelog(void)
     _lfp_closelog();
     pthread_mutex_unlock(&syslog_mutex);
 }
+
+int lfp_setlogmask(int maskpri)
+{
+    return setlogmask(maskpri);
+}
+
+int lfp_log_mask(int priority)
+{
+    return LOG_MASK(priority);
+}
+
+int lfp_log_upto(int priority)
+{
+    return LOG_UPTO(priority);
+}

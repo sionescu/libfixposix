@@ -364,6 +364,12 @@ void lfp_vsyslog(int priority, const char *msg, va_list args);
 
 void lfp_closelog(void);
 
+int lfp_setlogmask(int maskpri);
+
+int lfp_log_mask(int priority);
+
+int lfp_log_upto(int priority);
+
 #if defined(__cplusplus)
 }
 #endif
