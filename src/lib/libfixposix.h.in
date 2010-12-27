@@ -352,6 +352,18 @@ int lfp_setrlimit(int resource, const struct rlimit *rlim);
 
 ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes);
 
+
+
+#include <syslog.h>
+
+void lfp_openlog(const char *ident, int options, int facility);
+
+void lfp_syslog(int priority, const char *msg, ...);
+
+void lfp_vsyslog(int priority, const char *msg, va_list args);
+
+void lfp_closelog(void);
+
 #if defined(__cplusplus)
 }
 #endif

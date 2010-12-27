@@ -44,7 +44,7 @@ src_lib_libfixposix_la_SOURCES = \
 	src/lib/signal.c \
 	src/lib/spawnattr.c src/lib/spawn_file_actions.c src/lib/spawn.c \
 	src/lib/dirent.c src/lib/time.c src/lib/resource.c \
-	src/lib/sendfile.c
+	src/lib/sendfile.c src/lib/syslog.c
 # src/lib/install_signalfd.c
 
 noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
