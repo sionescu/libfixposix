@@ -49,7 +49,7 @@ src_lib_libfixposix_la_SOURCES = \
 
 noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
 
-src_lib_libfixposix_la_LIBADD = $(LFP_LIBS)
+src_lib_libfixposix_la_LIBADD = $(LFP_LDFLAGS)
 
 include_HEADERS = \
 	src/lib/libfixposix.h

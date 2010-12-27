@@ -37,10 +37,11 @@ AC_PROG_CC_C99
 AC_PROG_LIBTOOL
 
 dnl Set compiler & linker flags
+AX_PTHREAD
 case "$host" in
      *-*-linux*)
        LFP_CPPFLAGS="-D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE=1"
-       LFP_LIBS="-lrt"
+       LFP_LDFLAGS="-lrt"
        ;;
      *-*-freebsd*)
        LFP_CPPFLAGS="-D__BSD_VISIBLE" ;;
@@ -50,6 +51,8 @@ case "$host" in
        LFP_CPPFLAGS="-D_DARWIN_C_SOURCE";;
 esac
 LFP_CPPFLAGS="-D_XOPEN_SOURCE=700 $LFP_CPPFLAGS"
+LFP_CFLAGS="$LFP_CFLAGS $PTHREAD_CFLAGS"
+LFP_LDFLAGS="$LFP_LDFLAGS $PTHREAD_LIBS"
 
 dnl Checks for C99 headers
 AC_HEADER_ASSERT
@@ -101,9 +104,8 @@ AS_CASE($enable_emulated_signalfd,
     [--enable-emulated-signalfd was given an illegal value: "$enable_emulated_signalfd"])])
 
 AC_SUBST(LFP_CPPFLAGS)
-AC_SUBST(LFP_INTERNAL_CPPFLAGS)
 AC_SUBST(LFP_CFLAGS)
-AC_SUBST(LFP_LIBS)
+AC_SUBST(LFP_LDFLAGS)
 
 AC_CONFIG_FILES([Makefile libfixposix.pc src/lib/libfixposix.h])
 AC_OUTPUT

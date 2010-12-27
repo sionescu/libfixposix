@@ -8,6 +8,6 @@ Description: Thin wrapper over POSIX functions
 Version: @PACKAGE_VERSION@
 URL: @PACKAGE_URL@
 
-Libs: -L${libdir} -lfixposix
-Libs.private: @LFP_LIBS@
 Cflags: @LFP_CPPFLAGS@ @LFP_CFLAGS@ -I${includedir} 
+Libs: -L${libdir} -lfixposix @PTHREAD_LIBS@
+Libs.private: @LFP_LDFLAGS@
