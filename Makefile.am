@@ -14,7 +14,7 @@ AM_CFLAGS = -Wall -Wextra -Wmissing-prototypes \
 	    -Wmissing-declarations -Wmissing-field-initializers \
 	    $(LFP_CFLAGS)
 
-INCLUDES = -I$(top_builddir)/src/lib
+INCLUDES = -I$(top_builddir)/src/include
 
 
 
@@ -54,7 +54,7 @@ noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
 src_lib_libfixposix_la_LIBADD = $(LFP_LDFLAGS)
 
 include_HEADERS = \
-	src/lib/libfixposix.h
+	src/include/libfixposix.h
 
 
 

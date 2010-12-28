@@ -108,5 +108,5 @@ AC_SUBST(LFP_CPPFLAGS)
 AC_SUBST(LFP_CFLAGS)
 AC_SUBST(LFP_LDFLAGS)
 
-AC_CONFIG_FILES([Makefile libfixposix.pc src/lib/libfixposix.h])
+AC_CONFIG_FILES([Makefile libfixposix.pc src/include/libfixposix.h])
 AC_OUTPUT
