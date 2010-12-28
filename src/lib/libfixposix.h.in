@@ -24,9 +24,12 @@
 
 #pragma once
 
-#if defined(__cplusplus)
-// C++ doesn't have restricted pointers (yet)
+#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+// only C99 has restricted pointers
 # define restrict
+#endif
+
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
