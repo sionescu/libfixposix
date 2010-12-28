@@ -8,7 +8,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-AM_CFLAGS = -std=c99 -Wall -Wextra -Wmissing-prototypes \
+AM_CFLAGS = -Wall -Wextra -Wmissing-prototypes \
 	    -Wmissing-declarations -Wmissing-field-initializers
 
 INCLUDES = $(LFP_CPPFLAGS) $(LFP_INTERNAL_CPPFLAGS) $(LFP_CFLAGS) \
