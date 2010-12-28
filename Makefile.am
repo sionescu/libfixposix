@@ -37,24 +37,22 @@ pkgconfig_DATA = libfixposix.pc
 
 lib_LTLIBRARIES = src/lib/libfixposix.la
 
+noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
+
+include_HEADERS = src/include/libfixposix.h
+
 src_lib_libfixposix_la_SOURCES = \
 	src/lib/utils.c \
 	src/lib/stdlib.c src/lib/string.c src/lib/fcntl.c \
 	src/lib/unistd.c src/lib/mman.c \
 	src/lib/select.c src/lib/socket.c \
-	src/lib/errno.c src/lib/wait.c \
-	src/lib/signal.c \
+	src/lib/errno.c src/lib/wait.c src/lib/signal.c \
 	src/lib/spawnattr.c src/lib/spawn_file_actions.c src/lib/spawn.c \
 	src/lib/dirent.c src/lib/time.c src/lib/resource.c \
 	src/lib/sendfile.c src/lib/syslog.c
 # src/lib/install_signalfd.c
 
-noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
-
 src_lib_libfixposix_la_LIBADD = $(LFP_LDFLAGS)
-
-include_HEADERS = \
-	src/include/libfixposix.h
 
 
 
