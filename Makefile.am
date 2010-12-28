@@ -8,11 +8,13 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-AM_CFLAGS = -Wall -Wextra -Wmissing-prototypes \
-	    -Wmissing-declarations -Wmissing-field-initializers
+AM_CPPFLAGS = $(LFP_CPPFLAGS)
 
-INCLUDES = $(LFP_CPPFLAGS) $(LFP_INTERNAL_CPPFLAGS) $(LFP_CFLAGS) \
-	   -I$(top_builddir)/src/lib
+AM_CFLAGS = -Wall -Wextra -Wmissing-prototypes \
+	    -Wmissing-declarations -Wmissing-field-initializers \
+	    $(LFP_CFLAGS)
+
+INCLUDES = -I$(top_builddir)/src/lib
 
 
 
