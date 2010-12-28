@@ -51,7 +51,7 @@ void copy_syslog_ident(const char *ident)
 {
     if (ident) {
         syslog_ident = strncpy(syslog_ident, ident, SYSLOG_IDENT_SIZE - 1);
-        syslog_ident[SYSLOG_IDENT_SIZE] = 0;
+        syslog_ident[SYSLOG_IDENT_SIZE - 1] = 0;
     }
 }
 
