@@ -76,6 +76,9 @@ AC_ENSURE_FUNCS([pselect])
 AC_ENSURE_FUNCS([vsyslog])
 AC_LFP_ENSURE_SUITABLE_CLOCKID_T
 
+dnl Checks for declarations
+AC_CHECK_DECLS([NSIG], [], AC_MSG_FAILURE([Cannot find NSIG]), [[#include <signal.h>]])
+
 AC_ARG_ENABLE([emulated-signalfd],
   [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],
     [Use emulated signalfd @<:@default=check@:>@])],

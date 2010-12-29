@@ -40,15 +40,6 @@ lfp_sighandler_t lfp_sig_hold(void);
 
 lfp_sighandler_t lfp_sig_ign(void);
 
-// FIXME: inline NSIG
-// NSIG is nowhere in POSIX, so some systems might not have it
-// Linux and FreeBSD do, and that's enough for the moment
-#if defined(NSIG)
-#define LFP_NSIG NSIG
-#else
-# error "Cannot determine number of signals"
-#endif
-
 int lfp_sigrtmin(void);
 
 int lfp_sigrtmax(void);
