@@ -22,6 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
+#include <config.h>
+
 #include "utils.h"
 
 void _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv)

@@ -22,6 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
+#include <config.h>
+
 #include <lfp/select.h>
 
 #include "utils.h"

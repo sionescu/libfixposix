@@ -12,6 +12,7 @@ dnl Minimum Autoconf version required.
 AC_PREREQ(2.60)
 AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
+AC_CONFIG_HEADERS([config.h])
 
 dnl Must come before AM_INIT_AUTOMAKE.
 AC_CONFIG_AUX_DIR([build-aux])
@@ -23,7 +24,6 @@ AM_SILENT_RULES([yes])
 
 dnl Where to generate output; srcdir location.
 AC_CONFIG_SRCDIR([src/lib/])
-# AC_CONFIG_HEADERS([config.h:config.h.in])
 
 dnl Auxiliary M4 macros
 AC_CONFIG_MACRO_DIR([m4])

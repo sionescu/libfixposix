@@ -22,6 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
+#include <config.h>
+
 #include <lfp/mman.h>
 
 void *lfp_mmap(void *addr, size_t length, int prot,
