@@ -28,12 +28,8 @@
 
 CPLUSPLUS_GUARD
 
-#include <lfp/stat.h>
-#include <lfp/fcntl.h>
-#include <lfp/unistd.h>
-#include <lfp/signal.h>
-
 #include <inttypes.h>
+#include <sys/types.h>
 
 typedef struct {
     int initialized;

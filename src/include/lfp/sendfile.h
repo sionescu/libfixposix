@@ -28,7 +28,7 @@
 
 CPLUSPLUS_GUARD
 
-#include <lfp/unistd.h>
+#include <sys/types.h>
 
 ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes);
 
