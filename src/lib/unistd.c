@@ -123,11 +123,12 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     while ((bindir = strsep(&tmpath, ":")) != NULL)
         if ( bindir[0] != '\0' ) {
             size_t dirlen = lfp_strnlen(bindir, PATH_MAX);
-            // directory + / + file + \0
-            size_t pathlen = dirlen + 1 + filelen + 1;
-            SYSCHECK(ENAMETOOLONG, pathlen > PATH_MAX);
-            memset(path, 0, PATH_MAX);
+            // directory + / + file
+            size_t pathlen = dirlen + 1 + filelen;
+            // if pathlen == PATH_MAX there's no room for the final \0
+            SYSCHECK(ENAMETOOLONG, pathlen >= PATH_MAX);
             snprintf(path, PATH_MAX, "%s/%s", bindir, file);
+            path[pathlen] = '\0';
             lfp_execve(path, argv, envp);
             if ( errno == E2BIG  || errno == ENOEXEC ||
                  errno == ENOMEM || errno == ETXTBSY )
