@@ -68,6 +68,8 @@ AC_ENSURE_HEADER([signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for types
+AC_CHECK_TYPE([clockid_t], [], AC_MSG_FAILURE([Cannot find type clockid_t in <time.h>]),
+              [[#include <time.h>]])
 LFP_CHECK_SIZEOF_CLOCKID_T
 
 dnl Checks for functions
