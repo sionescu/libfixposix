@@ -80,8 +80,7 @@ LFP_ENSURE_FUNCS([pselect])
 LFP_ENSURE_FUNCS([vsyslog])
 
 dnl Checks for declarations
-AC_CHECK_DECLS([NSIG], [], AC_MSG_FAILURE([Cannot find NSIG in <signal.h>]),
-               [[#include <signal.h>]])
+LFP_ENSURE_DECLS([NSIG], [signal.h])
 
 AC_ARG_ENABLE([emulated-signalfd],
   [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],

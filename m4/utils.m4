@@ -12,3 +12,8 @@ AC_DEFUN([LFP_ENSURE_FUNCS],
 AC_DEFUN([LFP_ENSURE_TYPE],
  [AC_CHECK_TYPE($1,,AC_MSG_FAILURE([Cannot find type $1 in $2]),
                 [[#include <$2>]])])
+
+# Check for a declaration and print an error if not found
+AC_DEFUN([LFP_ENSURE_DECLS],
+ [AC_CHECK_DECLS($1,,AC_MSG_FAILURE([Cannot find $1 in $2]),
+                [[#include <$2>]])])
