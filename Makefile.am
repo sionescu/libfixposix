@@ -38,6 +38,8 @@ pkgconfig_DATA = libfixposix.pc
 lib_LTLIBRARIES = src/lib/libfixposix.la
 
 # Private headers, used only for internal definitions
+# The only purpose of this definition it to ensure that
+#  «make dist» knows about them
 noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
 
 include_HEADERS = src/include/libfixposix.h
