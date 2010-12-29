@@ -56,15 +56,15 @@ LFP_LDFLAGS+="$PTHREAD_LIBS"
 
 dnl Checks for C99 & POSIX headers
 AC_HEADER_ASSERT
-AC_ENSURE_HEADER([stdlib.h])
-AC_ENSURE_HEADER([stdio.h])
-AC_ENSURE_HEADER([string.h])
-AC_ENSURE_HEADER([errno.h])
-AC_ENSURE_HEADER([time.h])
-AC_ENSURE_HEADER([sys/types.h])
-AC_ENSURE_HEADER([unistd.h])
-AC_ENSURE_HEADER([fcntl.h])
-AC_ENSURE_HEADER([signal.h])
+LFP_ENSURE_HEADER([stdlib.h])
+LFP_ENSURE_HEADER([stdio.h])
+LFP_ENSURE_HEADER([string.h])
+LFP_ENSURE_HEADER([errno.h])
+LFP_ENSURE_HEADER([time.h])
+LFP_ENSURE_HEADER([sys/types.h])
+LFP_ENSURE_HEADER([unistd.h])
+LFP_ENSURE_HEADER([fcntl.h])
+LFP_ENSURE_HEADER([signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for types
@@ -77,8 +77,8 @@ AC_CHECK_FUNCS([accept4])
 AC_CHECK_FUNCS([pipe2])
 AC_CHECK_FUNCS([__xpg_strerror_r])
 AC_CHECK_FUNCS([sendfile])
-AC_ENSURE_FUNCS([pselect])
-AC_ENSURE_FUNCS([vsyslog])
+LFP_ENSURE_FUNCS([pselect])
+LFP_ENSURE_FUNCS([vsyslog])
 
 dnl Checks for declarations
 AC_CHECK_DECLS([NSIG], [], AC_MSG_FAILURE([Cannot find NSIG in <signal.h>]),
