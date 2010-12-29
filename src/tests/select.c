@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <libfixposix.h>
+#include <lfp.h>
 
 int main()
 {

@@ -24,24 +24,14 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <sys/select.h>
+#include <string.h>
 
-#include <stdbool.h>
+int lfp_strerror(int errnum, char *buf, size_t buflen);
 
-int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
-               fd_set *exceptfds, const struct timespec *timeout,
-               const sigset_t *sigmask);
-
-void lfp_fd_clr(int fd, fd_set *set);
-
-bool lfp_fd_isset(int fd, fd_set *set);
-
-void lfp_fd_set(int fd, fd_set *set);
-
-void lfp_fd_zero(fd_set *set);
+size_t lfp_strnlen(const char *s, size_t maxlen);
 
 END_CPLUSPLUS_GUARD

@@ -24,36 +24,28 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
-#include <libfixposix/stdlib.h>
+CPLUSPLUS_GUARD
 
-#include <libfixposix/string.h>
+#include <time.h>
+#include <sys/time.h>
 
-#include <libfixposix/errno.h>
+#include <inttypes.h>
 
-#include <libfixposix/fcntl.h>
+typedef uint64_t lfp_clockid_t;
 
-#include <libfixposix/unistd.h>
+#if !defined(_POSIX_TIMERS)
+# define CLOCK_REALTIME  0
+# define CLOCK_MONOTONIC 1
+#elif !defined(_POSIX_MONOTONIC_CLOCK)
+# define CLOCK_MONOTONIC (1 << 32)
+#endif
 
-#include <libfixposix/mman.h>
+int lfp_clock_getres(lfp_clockid_t clk_id, struct timespec *res);
 
-#include <libfixposix/select.h>
+int lfp_clock_gettime(lfp_clockid_t clk_id, struct timespec *tp);
 
-#include <libfixposix/socket.h>
+int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp);
 
-#include <libfixposix/wait.h>
-
-#include <libfixposix/signal.h>
-
-#include <libfixposix/spawn.h>
-
-#include <libfixposix/dirent.h>
-
-#include <libfixposix/time.h>
-
-#include <libfixposix/resource.h>
-
-#include <libfixposix/sendfile.h>
-
-#include <libfixposix/syslog.h>
+END_CPLUSPLUS_GUARD

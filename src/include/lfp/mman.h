@@ -24,14 +24,15 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <string.h>
+#include <sys/mman.h>
 
-int lfp_strerror(int errnum, char *buf, size_t buflen);
+void *lfp_mmap(void *addr, size_t length, int prot,
+               int flags, int fd, off_t offset);
 
-size_t lfp_strnlen(const char *s, size_t maxlen);
+int lfp_munmap(void *addr, size_t length);
 
 END_CPLUSPLUS_GUARD

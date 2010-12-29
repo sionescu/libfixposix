@@ -24,14 +24,12 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <sys/resource.h>
+#include <lfp/unistd.h>
 
-int lfp_getrlimit(int resource, struct rlimit *rlim);
-
-int lfp_setrlimit(int resource, const struct rlimit *rlim);
+ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes);
 
 END_CPLUSPLUS_GUARD

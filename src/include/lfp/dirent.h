@@ -24,35 +24,12 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <fcntl.h>
+#include <dirent.h>
 
-#include <inttypes.h>
-#include <stdbool.h>
-
-extern char **environ;
-
-#if !defined(O_CLOEXEC)
-// Syscalls use "int" for passing flags, and since
-// *nix systems use the LP64 data model, "int" is 32 bits
-// which means that we can allocate unsupported flags in the
-// upper part of an uint64_t value
-# define O_CLOEXEC ( 1ULL << 32 )
-#endif
-
-int lfp_open(const char *pathname, uint64_t flags, ...);
-
-int lfp_creat(const char *pathname, mode_t mode);
-
-int lfp_is_fd_cloexec(int fd);
-
-int lfp_set_fd_cloexec(int fd, bool enabled);
-
-int lfp_is_fd_nonblock(int fd);
-
-int lfp_set_fd_nonblock(int fd, bool enabled);
+int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
 
 END_CPLUSPLUS_GUARD

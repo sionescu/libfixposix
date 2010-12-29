@@ -22,8 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/spawn.h>
-#include <libfixposix/errno.h>
+#include <lfp/spawn.h>
+#include <lfp/errno.h>
 
 #include "utils.h"
 #include "spawn.h"

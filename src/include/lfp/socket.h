@@ -24,56 +24,29 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <unistd.h>
+#include <sys/socket.h>
 
-#include <sys/stat.h>
-#include <stdbool.h>
 #include <inttypes.h>
 
-off_t lfp_lseek(int fd, off_t offset, int whence);
+int lfp_socket(int domain, int type, int protocol, uint64_t flags);
 
-int lfp_pipe(int pipefd[2], uint64_t flags);
+int lfp_accept(int             sockfd,
+               struct sockaddr *addr,
+               socklen_t       *addrlen,
+               uint64_t        flags);
 
-ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset);
+struct cmsghdr* lfp_cmsg_firsthdr(struct msghdr* msgh);
 
-ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset);
+struct cmsghdr* lfp_cmsg_nxthdr(struct msghdr* msgh, struct cmsghdr* cmsg);
 
-int lfp_truncate(const char *path, off_t length);
+size_t lfp_cmsg_space(size_t length);
 
-int lfp_ftruncate(int fd, off_t length);
+size_t lfp_cmsg_len(size_t length);
 
-int lfp_stat(const char *path, struct stat *buf);
-
-int lfp_fstat(int fd, struct stat *buf);
-
-int lfp_lstat(const char *path, struct stat *buf);
-
-int lfp_fd_is_open(int fd);
-
-bool lfp_isreg(mode_t mode);
-
-bool lfp_isdir(mode_t mode);
-
-bool lfp_ischr(mode_t mode);
-
-bool lfp_isblk(mode_t mode);
-
-bool lfp_isfifo(mode_t mode);
-
-bool lfp_islnk(mode_t mode);
-
-bool lfp_issock(mode_t mode);
-
-char* lfp_getpath(char *const envp[]);
-
-int lfp_execve(const char *path, char *const argv[], char *const envp[])
-    __attribute__((nonnull (1)));
-
-int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
-    __attribute__((nonnull (1)));
+void* lfp_cmsg_data(struct cmsghdr* cmsg);
 
 END_CPLUSPLUS_GUARD

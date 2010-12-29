@@ -22,7 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/sendfile.h>
+#include <lfp/sendfile.h>
 
 #if defined(HAVE_SENDFILE)
 # if defined(__linux__)

@@ -24,12 +24,26 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <libfixposix/unistd.h>
+#include <syslog.h>
 
-ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes);
+#include <stdarg.h>
+
+void lfp_openlog(const char *ident, int options, int facility);
+
+void lfp_syslog(int priority, const char *msg, ...);
+
+void lfp_vsyslog(int priority, const char *msg, va_list args);
+
+void lfp_closelog(void);
+
+int lfp_setlogmask(int maskpri);
+
+int lfp_log_mask(int priority);
+
+int lfp_log_upto(int priority);
 
 END_CPLUSPLUS_GUARD

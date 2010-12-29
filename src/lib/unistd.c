@@ -22,10 +22,10 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/unistd.h>
-#include <libfixposix/stdlib.h>
-#include <libfixposix/string.h>
-#include <libfixposix/errno.h>
+#include <lfp/unistd.h>
+#include <lfp/stdlib.h>
+#include <lfp/string.h>
+#include <lfp/errno.h>
 
 #include <limits.h>
 #include <stdio.h>

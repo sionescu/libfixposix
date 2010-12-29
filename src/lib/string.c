@@ -22,8 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/string.h>
-#include <libfixposix/errno.h>
+#include <lfp/string.h>
+#include <lfp/errno.h>
 
 #include "utils.h"
 

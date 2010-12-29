@@ -22,7 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/spawn.h>
+#include <lfp/spawn.h>
 
 #include <limits.h>
 

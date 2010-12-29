@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include <libfixposix.h>
+#include <lfp.h>
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr);
 

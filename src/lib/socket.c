@@ -22,8 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/socket.h>
-#include <libfixposix/fcntl.h>
+#include <lfp/socket.h>
+#include <lfp/fcntl.h>
 
 int lfp_socket(int domain, int type, int protocol, uint64_t flags)
 {

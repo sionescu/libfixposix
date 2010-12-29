@@ -22,9 +22,9 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/time.h>
-#include <libfixposix/errno.h>
-#include <libfixposix/unistd.h>
+#include <lfp/time.h>
+#include <lfp/errno.h>
+#include <lfp/unistd.h>
 
 #if defined(__DARWIN__)
 # include <mach.h>

@@ -22,7 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/fcntl.h>
+#include <lfp/fcntl.h>
 
 #include <stdarg.h>
 

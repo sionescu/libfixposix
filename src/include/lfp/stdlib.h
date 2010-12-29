@@ -24,24 +24,12 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <signal.h>
+#include <stdlib.h>
 
-typedef void (*lfp_sighandler_t) (int);
-
-lfp_sighandler_t lfp_sig_dfl(void);
-
-lfp_sighandler_t lfp_sig_err(void);
-
-lfp_sighandler_t lfp_sig_hold(void);
-
-lfp_sighandler_t lfp_sig_ign(void);
-
-int lfp_sigrtmin(void);
-
-int lfp_sigrtmax(void);
+int lfp_mkstemp(char *tmplate);
 
 END_CPLUSPLUS_GUARD

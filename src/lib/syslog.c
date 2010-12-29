@@ -22,9 +22,9 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/syslog.h>
-#include <libfixposix/stdlib.h>
-#include <libfixposix/string.h>
+#include <lfp/syslog.h>
+#include <lfp/stdlib.h>
+#include <lfp/string.h>
 
 #include <pthread.h>
 

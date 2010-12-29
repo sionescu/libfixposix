@@ -6,7 +6,7 @@
 #include <signal.h>
 #include <sys/select.h>
 
-#include <libfixposix.h>
+#include <lfp.h>
 
 static
 void error_abort (const char* msg, int perrorp) {

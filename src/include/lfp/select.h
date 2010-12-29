@@ -24,28 +24,24 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <sys/wait.h>
+#include <sys/select.h>
 
 #include <stdbool.h>
 
-bool lfp_wifexited(int status);
+int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
+               fd_set *exceptfds, const struct timespec *timeout,
+               const sigset_t *sigmask);
 
-int lfp_wexitstatus(int status);
+void lfp_fd_clr(int fd, fd_set *set);
 
-bool lfp_wifsignaled(int status);
+bool lfp_fd_isset(int fd, fd_set *set);
 
-int lfp_wtermsig(int status);
+void lfp_fd_set(int fd, fd_set *set);
 
-bool lfp_wcoredump(int status);
-
-bool lfp_wifstopped(int status);
-
-int lfp_wstopsig(int status);
-
-bool lfp_wifcontinued(int status);
+void lfp_fd_zero(fd_set *set);
 
 END_CPLUSPLUS_GUARD

@@ -22,7 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/signalfd.h>
+#include <lfp/signalfd.h>
 
 #include "utils.h"
 

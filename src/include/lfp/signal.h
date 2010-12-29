@@ -24,28 +24,24 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <time.h>
-#include <sys/time.h>
+#include <signal.h>
 
-#include <inttypes.h>
+typedef void (*lfp_sighandler_t) (int);
 
-typedef uint64_t lfp_clockid_t;
+lfp_sighandler_t lfp_sig_dfl(void);
 
-#if !defined(_POSIX_TIMERS)
-# define CLOCK_REALTIME  0
-# define CLOCK_MONOTONIC 1
-#elif !defined(_POSIX_MONOTONIC_CLOCK)
-# define CLOCK_MONOTONIC (1 << 32)
-#endif
+lfp_sighandler_t lfp_sig_err(void);
 
-int lfp_clock_getres(lfp_clockid_t clk_id, struct timespec *res);
+lfp_sighandler_t lfp_sig_hold(void);
 
-int lfp_clock_gettime(lfp_clockid_t clk_id, struct timespec *tp);
+lfp_sighandler_t lfp_sig_ign(void);
 
-int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp);
+int lfp_sigrtmin(void);
+
+int lfp_sigrtmax(void);
 
 END_CPLUSPLUS_GUARD

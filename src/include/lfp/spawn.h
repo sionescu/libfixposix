@@ -24,12 +24,12 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <libfixposix/unistd.h>
-#include <libfixposix/signal.h>
+#include <lfp/unistd.h>
+#include <lfp/signal.h>
 
 #include <inttypes.h>
 

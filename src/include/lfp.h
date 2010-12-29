@@ -24,24 +24,36 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+#include <lfp/stdlib.h>
 
-#include <libfixposix/signal.h>
+#include <lfp/string.h>
 
-#include <stdbool.h>
+#include <lfp/errno.h>
 
-#if defined(__linux__)
-# if @HAVE_EMULATED_SIGNALFD@ // HAVE_EMULATED_SIGNALFD
-struct signalfd_siginfo { unsigned int ssi_signo; };
-# else
-#  include <sys/signalfd.h>
-# endif
-#endif
+#include <lfp/fcntl.h>
 
-int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
+#include <lfp/unistd.h>
 
-int lfp_uninstall_signalfd(int signum, bool block);
+#include <lfp/mman.h>
 
-END_CPLUSPLUS_GUARD
+#include <lfp/select.h>
+
+#include <lfp/socket.h>
+
+#include <lfp/wait.h>
+
+#include <lfp/signal.h>
+
+#include <lfp/spawn.h>
+
+#include <lfp/dirent.h>
+
+#include <lfp/time.h>
+
+#include <lfp/resource.h>
+
+#include <lfp/sendfile.h>
+
+#include <lfp/syslog.h>

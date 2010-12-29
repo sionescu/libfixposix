@@ -24,12 +24,28 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <dirent.h>
+#include <sys/wait.h>
 
-int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
+#include <stdbool.h>
+
+bool lfp_wifexited(int status);
+
+int lfp_wexitstatus(int status);
+
+bool lfp_wifsignaled(int status);
+
+int lfp_wtermsig(int status);
+
+bool lfp_wcoredump(int status);
+
+bool lfp_wifstopped(int status);
+
+int lfp_wstopsig(int status);
+
+bool lfp_wifcontinued(int status);
 
 END_CPLUSPLUS_GUARD

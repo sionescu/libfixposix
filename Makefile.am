@@ -42,28 +42,28 @@ lib_LTLIBRARIES = src/lib/libfixposix.la
 #  «make dist» knows about them
 noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
 
-include_HEADERS = src/include/libfixposix.h
+include_HEADERS = src/include/lfp.h
 
-include_libfixposixdir = $(includedir)/libfixposix
-include_libfixposix_HEADERS = \
-	src/include/libfixposix/aux.h \
-	src/include/libfixposix/stdlib.h \
-	src/include/libfixposix/string.h \
-	src/include/libfixposix/errno.h \
-	src/include/libfixposix/fcntl.h \
-	src/include/libfixposix/unistd.h \
-	src/include/libfixposix/mman.h \
-	src/include/libfixposix/select.h \
-	src/include/libfixposix/socket.h \
-	src/include/libfixposix/wait.h \
-	src/include/libfixposix/signal.h \
-	src/include/libfixposix/spawn.h \
-	src/include/libfixposix/dirent.h \
-	src/include/libfixposix/time.h \
-	src/include/libfixposix/resource.h \
-	src/include/libfixposix/sendfile.h \
-	src/include/libfixposix/syslog.h
-# src/include/libfixposix/signalfd.h
+include_lfpdir = $(includedir)/lfp
+include_lfp_HEADERS = \
+	src/include/lfp/aux.h \
+	src/include/lfp/stdlib.h \
+	src/include/lfp/string.h \
+	src/include/lfp/errno.h \
+	src/include/lfp/fcntl.h \
+	src/include/lfp/unistd.h \
+	src/include/lfp/mman.h \
+	src/include/lfp/select.h \
+	src/include/lfp/socket.h \
+	src/include/lfp/wait.h \
+	src/include/lfp/signal.h \
+	src/include/lfp/spawn.h \
+	src/include/lfp/dirent.h \
+	src/include/lfp/time.h \
+	src/include/lfp/resource.h \
+	src/include/lfp/sendfile.h \
+	src/include/lfp/syslog.h
+# src/include/lfp/signalfd.h
 
 src_lib_libfixposix_la_SOURCES = \
 	src/lib/utils.c \

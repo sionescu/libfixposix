@@ -24,29 +24,24 @@
 
 #pragma once
 
-#include <libfixposix/aux.h>
+#include <lfp/aux.h>
 
 CPLUSPLUS_GUARD
 
-#include <sys/socket.h>
+#include <lfp/signal.h>
 
-#include <inttypes.h>
+#include <stdbool.h>
 
-int lfp_socket(int domain, int type, int protocol, uint64_t flags);
+#if defined(__linux__)
+# if @HAVE_EMULATED_SIGNALFD@ // HAVE_EMULATED_SIGNALFD
+struct signalfd_siginfo { unsigned int ssi_signo; };
+# else
+#  include <sys/signalfd.h>
+# endif
+#endif
 
-int lfp_accept(int             sockfd,
-               struct sockaddr *addr,
-               socklen_t       *addrlen,
-               uint64_t        flags);
+int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 
-struct cmsghdr* lfp_cmsg_firsthdr(struct msghdr* msgh);
-
-struct cmsghdr* lfp_cmsg_nxthdr(struct msghdr* msgh, struct cmsghdr* cmsg);
-
-size_t lfp_cmsg_space(size_t length);
-
-size_t lfp_cmsg_len(size_t length);
-
-void* lfp_cmsg_data(struct cmsghdr* cmsg);
+int lfp_uninstall_signalfd(int signum, bool block);
 
 END_CPLUSPLUS_GUARD

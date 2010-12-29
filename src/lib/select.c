@@ -22,7 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/select.h>
+#include <lfp/select.h>
 
 #include "utils.h"
 

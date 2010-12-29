@@ -22,7 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/errno.h>
+#include <lfp/errno.h>
 
 int lfp_errno ()
 {
