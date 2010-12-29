@@ -67,6 +67,9 @@ AC_ENSURE_HEADER([fcntl.h])
 AC_ENSURE_HEADER([signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
+dnl Checks for types
+LFP_CHECK_SIZEOF_CLOCKID_T
+
 dnl Checks for functions
 AC_CHECK_FUNCS([accept4])
 AC_CHECK_FUNCS([pipe2])
@@ -74,7 +77,6 @@ AC_CHECK_FUNCS([__xpg_strerror_r])
 AC_CHECK_FUNCS([sendfile])
 AC_ENSURE_FUNCS([pselect])
 AC_ENSURE_FUNCS([vsyslog])
-AC_LFP_ENSURE_SUITABLE_CLOCKID_T
 
 dnl Checks for declarations
 AC_CHECK_DECLS([NSIG], [], AC_MSG_FAILURE([Cannot find NSIG]), [[#include <signal.h>]])
