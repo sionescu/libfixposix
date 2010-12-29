@@ -22,16 +22,14 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <string.h>
-#include <unistd.h>
-#include <signal.h>
+#include <libfixposix/spawn.h>
+
 #include <stdio.h>
 
-#include <libfixposix.h>
 #include "utils.h"
 #include "spawn.h"
 
-#define LFP_SPAWN_ALLFLAGS ( LFP_SPAWN_SETSIGMASK    | \
+#define LFP_SPAWN_ALLATTRS ( LFP_SPAWN_SETSIGMASK    | \
                              LFP_SPAWN_SETSIGDEFAULT | \
                              LFP_SPAWN_SETPGROUP     | \
                              LFP_SPAWN_RESETIDS      | \
@@ -61,7 +59,7 @@ int lfp_spawnattr_getflags(lfp_spawnattr_t *attr, uint32_t *flags)
 
 int lfp_spawnattr_setflags(lfp_spawnattr_t *attr, const uint32_t flags)
 {
-    SYSCHECK(EINVAL, attr == NULL || (flags & ~LFP_SPAWN_ALLFLAGS) != 0);
+    SYSCHECK(EINVAL, attr == NULL || (flags & ~LFP_SPAWN_ALLATTRS) != 0);
     attr->flags = flags;
     return 0;
 }

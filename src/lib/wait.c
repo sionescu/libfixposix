@@ -22,10 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <stdbool.h>
-#include <sys/wait.h>
-
-#include <libfixposix.h>
+#include <libfixposix/wait.h>
 
 bool lfp_wifexited (int status)
 {

@@ -22,9 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <sys/mman.h>
-
-#include <libfixposix.h>
+#include <libfixposix/mman.h>
 
 void *lfp_mmap(void *addr, size_t length, int prot,
                int flags, int fd, off_t offset)

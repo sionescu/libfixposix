@@ -22,19 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <errno.h>
+#include <libfixposix/signalfd.h>
 
-#include <unistd.h>
-#include <signal.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-#include <libfixposix.h>
 #include "utils.h"
 
 static struct signalfd_params {

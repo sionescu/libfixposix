@@ -22,6 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
+#include <libfixposix/sendfile.h>
+
 #if defined(HAVE_SENDFILE)
 # if defined(__linux__)
 #  include <sys/sendfile.h>
@@ -32,7 +34,6 @@
 # endif
 #endif
 
-#include <libfixposix.h>
 #include "utils.h"
 
 ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)

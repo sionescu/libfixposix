@@ -22,78 +22,58 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/fcntl.h>
+#pragma once
 
-#include <stdarg.h>
+#include <libfixposix/aux.h>
 
-int lfp_open (const char *pathname, uint64_t flags, ...)
-{
-    if (flags & O_CREAT) {
-        va_list args;
-        va_start(args, flags);
-        mode_t mode = va_arg(args, int);
-        va_end(args);
-        return open(pathname, (int)flags & 0xFFFFFFFF, mode);
-    } else {
-        return open(pathname, (int)flags & 0xFFFFFFFF);
-    }
-}
+CPLUSPLUS_GUARD
 
-int lfp_creat (const char *pathname, mode_t mode)
-{
-    return creat(pathname, mode);
-}
+#include <unistd.h>
 
-
+#include <sys/stat.h>
+#include <stdbool.h>
+#include <inttypes.h>
 
-int lfp_is_fd_cloexec (int fd)
-{
-    int current_flags = fcntl(fd, F_GETFD);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        return (current_flags & FD_CLOEXEC) ? true : false;
-    }
-}
+off_t lfp_lseek(int fd, off_t offset, int whence);
 
-int lfp_set_fd_cloexec (int fd, bool enabled)
-{
-    int current_flags = fcntl(fd, F_GETFD);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        int new_flags = enabled ? current_flags | FD_CLOEXEC \
-                                : current_flags & ~FD_CLOEXEC;
-        if ( new_flags != current_flags ) {
-            return fcntl(fd, F_SETFD, new_flags);
-        } else {
-            return 0;
-        }
-    }
-}
+int lfp_pipe(int pipefd[2], uint64_t flags);
 
-int lfp_is_fd_nonblock (int fd)
-{
-    int current_flags = fcntl(fd, F_GETFL);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        return (current_flags & O_NONBLOCK) ? true : false;
-    }
-}
+ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset);
 
-int lfp_set_fd_nonblock (int fd, bool enabled)
-{
-    int current_flags = fcntl(fd, F_GETFL);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        int new_flags = enabled ? current_flags | O_NONBLOCK \
-                                : current_flags & ~O_NONBLOCK;
-        if ( new_flags != current_flags ) {
-            return fcntl(fd, F_SETFL, new_flags);
-        } else {
-            return 0;
-        }
-    }
-}
+ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset);
+
+int lfp_truncate(const char *path, off_t length);
+
+int lfp_ftruncate(int fd, off_t length);
+
+int lfp_stat(const char *path, struct stat *buf);
+
+int lfp_fstat(int fd, struct stat *buf);
+
+int lfp_lstat(const char *path, struct stat *buf);
+
+int lfp_fd_is_open(int fd);
+
+bool lfp_isreg(mode_t mode);
+
+bool lfp_isdir(mode_t mode);
+
+bool lfp_ischr(mode_t mode);
+
+bool lfp_isblk(mode_t mode);
+
+bool lfp_isfifo(mode_t mode);
+
+bool lfp_islnk(mode_t mode);
+
+bool lfp_issock(mode_t mode);
+
+char* lfp_getpath(char *const envp[]);
+
+int lfp_execve(const char *path, char *const argv[], char *const envp[])
+    __attribute__((nonnull (1)));
+
+int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
+    __attribute__((nonnull (1)));
+
+END_CPLUSPLUS_GUARD

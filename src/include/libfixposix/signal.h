@@ -22,78 +22,35 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/fcntl.h>
+#pragma once
 
-#include <stdarg.h>
+#include <libfixposix/aux.h>
 
-int lfp_open (const char *pathname, uint64_t flags, ...)
-{
-    if (flags & O_CREAT) {
-        va_list args;
-        va_start(args, flags);
-        mode_t mode = va_arg(args, int);
-        va_end(args);
-        return open(pathname, (int)flags & 0xFFFFFFFF, mode);
-    } else {
-        return open(pathname, (int)flags & 0xFFFFFFFF);
-    }
-}
+CPLUSPLUS_GUARD
 
-int lfp_creat (const char *pathname, mode_t mode)
-{
-    return creat(pathname, mode);
-}
+#include <signal.h>
 
-
+typedef void (*lfp_sighandler_t) (int);
 
-int lfp_is_fd_cloexec (int fd)
-{
-    int current_flags = fcntl(fd, F_GETFD);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        return (current_flags & FD_CLOEXEC) ? true : false;
-    }
-}
+lfp_sighandler_t lfp_sig_dfl(void);
 
-int lfp_set_fd_cloexec (int fd, bool enabled)
-{
-    int current_flags = fcntl(fd, F_GETFD);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        int new_flags = enabled ? current_flags | FD_CLOEXEC \
-                                : current_flags & ~FD_CLOEXEC;
-        if ( new_flags != current_flags ) {
-            return fcntl(fd, F_SETFD, new_flags);
-        } else {
-            return 0;
-        }
-    }
-}
+lfp_sighandler_t lfp_sig_err(void);
 
-int lfp_is_fd_nonblock (int fd)
-{
-    int current_flags = fcntl(fd, F_GETFL);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        return (current_flags & O_NONBLOCK) ? true : false;
-    }
-}
+lfp_sighandler_t lfp_sig_hold(void);
 
-int lfp_set_fd_nonblock (int fd, bool enabled)
-{
-    int current_flags = fcntl(fd, F_GETFL);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        int new_flags = enabled ? current_flags | O_NONBLOCK \
-                                : current_flags & ~O_NONBLOCK;
-        if ( new_flags != current_flags ) {
-            return fcntl(fd, F_SETFL, new_flags);
-        } else {
-            return 0;
-        }
-    }
-}
+lfp_sighandler_t lfp_sig_ign(void);
+
+// FIXME: inline NSIG
+// NSIG is nowhere in POSIX, so some systems might not have it
+// Linux and FreeBSD do, and that's enough for the moment
+#if defined(NSIG)
+#define LFP_NSIG NSIG
+#else
+# error "Cannot determine number of signals"
+#endif
+
+int lfp_sigrtmin(void);
+
+int lfp_sigrtmax(void);
+
+END_CPLUSPLUS_GUARD

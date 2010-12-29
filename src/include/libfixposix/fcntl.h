@@ -22,78 +22,37 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <libfixposix/fcntl.h>
+#pragma once
 
-#include <stdarg.h>
+#include <libfixposix/aux.h>
 
-int lfp_open (const char *pathname, uint64_t flags, ...)
-{
-    if (flags & O_CREAT) {
-        va_list args;
-        va_start(args, flags);
-        mode_t mode = va_arg(args, int);
-        va_end(args);
-        return open(pathname, (int)flags & 0xFFFFFFFF, mode);
-    } else {
-        return open(pathname, (int)flags & 0xFFFFFFFF);
-    }
-}
+CPLUSPLUS_GUARD
 
-int lfp_creat (const char *pathname, mode_t mode)
-{
-    return creat(pathname, mode);
-}
+#include <fcntl.h>
 
-
+#include <inttypes.h>
+#include <stdbool.h>
 
-int lfp_is_fd_cloexec (int fd)
-{
-    int current_flags = fcntl(fd, F_GETFD);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        return (current_flags & FD_CLOEXEC) ? true : false;
-    }
-}
+extern char **environ;
 
-int lfp_set_fd_cloexec (int fd, bool enabled)
-{
-    int current_flags = fcntl(fd, F_GETFD);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        int new_flags = enabled ? current_flags | FD_CLOEXEC \
-                                : current_flags & ~FD_CLOEXEC;
-        if ( new_flags != current_flags ) {
-            return fcntl(fd, F_SETFD, new_flags);
-        } else {
-            return 0;
-        }
-    }
-}
+#if !defined(O_CLOEXEC)
+// Syscalls use "int" for passing flags, and since
+// *nix systems use the LP64 data model, "int" is 32 bits
+// which means that we can allocate unsupported flags in the
+// upper part of an uint64_t value
+# define O_CLOEXEC ( 1ULL << 32 )
+#endif
 
-int lfp_is_fd_nonblock (int fd)
-{
-    int current_flags = fcntl(fd, F_GETFL);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        return (current_flags & O_NONBLOCK) ? true : false;
-    }
-}
+int lfp_open(const char *pathname, uint64_t flags, ...);
 
-int lfp_set_fd_nonblock (int fd, bool enabled)
-{
-    int current_flags = fcntl(fd, F_GETFL);
-    if (current_flags < 0) {
-        return -1;
-    } else {
-        int new_flags = enabled ? current_flags | O_NONBLOCK \
-                                : current_flags & ~O_NONBLOCK;
-        if ( new_flags != current_flags ) {
-            return fcntl(fd, F_SETFL, new_flags);
-        } else {
-            return 0;
-        }
-    }
-}
+int lfp_creat(const char *pathname, mode_t mode);
+
+int lfp_is_fd_cloexec(int fd);
+
+int lfp_set_fd_cloexec(int fd, bool enabled);
+
+int lfp_is_fd_nonblock(int fd);
+
+int lfp_set_fd_nonblock(int fd, bool enabled);
+
+END_CPLUSPLUS_GUARD

@@ -22,12 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <sys/select.h>
-#include <signal.h>
+#include <libfixposix/select.h>
 
-#include <libfixposix.h>
 #include "utils.h"
 
 int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,

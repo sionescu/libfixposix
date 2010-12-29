@@ -22,9 +22,9 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <string.h>
+#include <libfixposix/string.h>
+#include <libfixposix/errno.h>
 
-#include <libfixposix.h>
 #include "utils.h"
 
 #if defined(HAVE___XPG_STRERROR_R)

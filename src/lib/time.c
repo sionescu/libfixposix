@@ -22,15 +22,15 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <time.h>
-#include <sys/time.h>
+#include <libfixposix/time.h>
+#include <libfixposix/errno.h>
+#include <libfixposix/unistd.h>
 
 #if defined(__DARWIN__)
 # include <mach.h>
 # include <mach/clock.h>
 #endif
 
-#include <libfixposix.h>
 #include "utils.h"
 
 int lfp_clock_getres(lfp_clockid_t clk_id, struct timespec *res)

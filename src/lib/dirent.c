@@ -22,9 +22,9 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <dirent.h>
-
-#include <libfixposix.h>
+#include <libfixposix/dirent.h>
+#include <libfixposix/string.h>
+#include <libfixposix/errno.h>
 
 int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result)
 {

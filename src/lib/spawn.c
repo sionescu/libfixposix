@@ -22,11 +22,9 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <string.h>
-#include <unistd.h>
-#include <signal.h>
+#include <libfixposix/spawn.h>
+#include <libfixposix/errno.h>
 
-#include <libfixposix.h>
 #include "utils.h"
 #include "spawn.h"
 

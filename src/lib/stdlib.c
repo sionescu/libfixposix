@@ -22,9 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <stdlib.h>
-
-#include <libfixposix.h>
+#include <libfixposix/stdlib.h>
 
 int lfp_mkstemp(char *template)
 {

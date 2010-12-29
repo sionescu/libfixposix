@@ -22,10 +22,10 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <unistd.h>
-#include <string.h>
+#include <libfixposix/spawn.h>
 
-#include <libfixposix.h>
+#include <limits.h>
+
 #include "utils.h"
 #include "spawn.h"
 

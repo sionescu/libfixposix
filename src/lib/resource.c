@@ -22,9 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <sys/resource.h>
-
-#include <libfixposix.h>
+#include <libfixposix/resource.h>
 
 
 int lfp_getrlimit(int resource, struct rlimit *rlim)

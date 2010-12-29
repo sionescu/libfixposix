@@ -22,12 +22,12 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
+#include <libfixposix/syslog.h>
+#include <libfixposix/stdlib.h>
+#include <libfixposix/string.h>
+
 #include <pthread.h>
 
-#include <libfixposix.h>
 #include "utils.h"
 
 static pthread_mutex_t syslog_mutex = PTHREAD_MUTEX_INITIALIZER;

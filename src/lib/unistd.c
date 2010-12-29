@@ -22,14 +22,14 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-#include <limits.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include <libfixposix/unistd.h>
+#include <libfixposix/stdlib.h>
+#include <libfixposix/string.h>
+#include <libfixposix/errno.h>
 
-#include <libfixposix.h>
+#include <limits.h>
+#include <stdio.h>
+
 #include "utils.h"
 
 off_t lfp_lseek(int fd, off_t offset, int whence)
