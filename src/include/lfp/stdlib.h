@@ -32,4 +32,6 @@ CPLUSPLUS_GUARD
 
 int lfp_mkstemp(char *tmplate);
 
+char* lfp_getpath(char *const envp[]);
+
 END_CPLUSPLUS_GUARD

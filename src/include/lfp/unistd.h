@@ -68,8 +68,6 @@ bool lfp_islnk(mode_t mode);
 
 bool lfp_issock(mode_t mode);
 
-char* lfp_getpath(char *const envp[]);
-
 int lfp_execve(const char *path, char *const argv[], char *const envp[])
     __attribute__((nonnull (1)));
 

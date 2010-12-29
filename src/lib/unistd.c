@@ -164,37 +164,6 @@ bool lfp_issock(mode_t mode)
 
 
 
-static
-char* _lfp_getenv(const char *name, unsigned short len, char *const envp[])
-{
-    if (envp == NULL) return NULL;
-    do {
-        if (strlen(*envp) > len && strncmp(name, *envp, len) == 0)
-            return (char*)*envp+len;
-    } while(++envp);
-    return NULL;
-}
-
-// FIXME: add autoconf check that confstr(_CS_PATH) returns sane values
-static
-char* _lfp_default_path(void)
-{
-    size_t default_path_size = confstr(_CS_PATH, NULL, 0);
-    char *default_path = malloc(default_path_size);
-    confstr(_CS_PATH, default_path, default_path_size);
-    return default_path;
-}
-
-char* lfp_getpath(char *const envp[])
-{
-    char *envpath = _lfp_getenv("PATH=", sizeof("PATH=")-1, envp);
-    if (envpath != NULL) {
-        return strdup(envpath);
-    } else {
-        return _lfp_default_path();
-    }
-}
-
 int lfp_execve(const char *path, char *const argv[], char *const envp[])
 {
     SYSCHECK(EINVAL, path == NULL);
