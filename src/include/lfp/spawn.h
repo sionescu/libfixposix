@@ -28,6 +28,8 @@
 
 CPLUSPLUS_GUARD
 
+#include <lfp/fcntl.h>
+
 #include <inttypes.h>
 #include <sys/types.h>
 
