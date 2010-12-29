@@ -59,19 +59,19 @@ LFP_LDFLAGS+=" $PTHREAD_LIBS $LFS_LDLAGS $LFS_LIBS"
 
 dnl Checks for C99 & POSIX headers
 AC_HEADER_ASSERT
-LFP_ENSURE_HEADER([stdlib.h])
-LFP_ENSURE_HEADER([stdio.h])
-LFP_ENSURE_HEADER([string.h])
-LFP_ENSURE_HEADER([errno.h])
-LFP_ENSURE_HEADER([time.h])
-LFP_ENSURE_HEADER([sys/types.h])
-LFP_ENSURE_HEADER([unistd.h])
-LFP_ENSURE_HEADER([fcntl.h])
-LFP_ENSURE_HEADER([signal.h])
+LFP_REQUIRE_HEADER([stdlib.h])
+LFP_REQUIRE_HEADER([stdio.h])
+LFP_REQUIRE_HEADER([string.h])
+LFP_REQUIRE_HEADER([errno.h])
+LFP_REQUIRE_HEADER([time.h])
+LFP_REQUIRE_HEADER([sys/types.h])
+LFP_REQUIRE_HEADER([unistd.h])
+LFP_REQUIRE_HEADER([fcntl.h])
+LFP_REQUIRE_HEADER([signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for types
-LFP_ENSURE_TYPE([clockid_t], [time.h])
+LFP_REQUIRE_TYPE([clockid_t], [time.h])
 LFP_CHECK_SIZEOF_CLOCKID_T
 
 dnl Checks for functions
@@ -79,11 +79,11 @@ AC_CHECK_FUNCS([accept4])
 AC_CHECK_FUNCS([pipe2])
 AC_CHECK_FUNCS([__xpg_strerror_r])
 AC_CHECK_FUNCS([sendfile])
-LFP_ENSURE_FUNCS([pselect])
-LFP_ENSURE_FUNCS([vsyslog])
+LFP_REQUIRE_FUNCS([pselect])
+LFP_REQUIRE_FUNCS([vsyslog])
 
 dnl Checks for declarations
-LFP_ENSURE_DECLS([NSIG], [signal.h])
+LFP_REQUIRE_DECLS([NSIG], [signal.h])
 
 AC_ARG_ENABLE([emulated-signalfd],
   [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],
