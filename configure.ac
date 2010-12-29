@@ -15,7 +15,7 @@ AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
 
 dnl Must come before AM_INIT_AUTOMAKE.
 AC_CONFIG_AUX_DIR([build-aux])
-AM_INIT_AUTOMAKE([1.11 foreign silent-rules subdir-objects])
+AM_INIT_AUTOMAKE([1.10 foreign silent-rules subdir-objects])
 
 dnl Have Kbuild-like build output
 AM_SILENT_RULES([yes])
