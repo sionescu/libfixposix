@@ -54,15 +54,13 @@ LFP_CPPFLAGS+="-D_XOPEN_SOURCE=700"
 LFP_CFLAGS+="$PTHREAD_CFLAGS"
 LFP_LDFLAGS+="$PTHREAD_LIBS"
 
-dnl Checks for C99 headers
+dnl Checks for C99 & POSIX headers
 AC_HEADER_ASSERT
 AC_ENSURE_HEADER([stdlib.h])
 AC_ENSURE_HEADER([stdio.h])
 AC_ENSURE_HEADER([string.h])
 AC_ENSURE_HEADER([errno.h])
 AC_ENSURE_HEADER([time.h])
-
-dnl Checks for POSIX headers
 AC_ENSURE_HEADER([sys/types.h])
 AC_ENSURE_HEADER([unistd.h])
 AC_ENSURE_HEADER([fcntl.h])
