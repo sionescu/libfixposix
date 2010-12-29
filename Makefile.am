@@ -51,6 +51,7 @@ include_lfp_HEADERS = \
 	src/include/lfp/string.h \
 	src/include/lfp/errno.h \
 	src/include/lfp/fcntl.h \
+	src/include/lfp/stat.h \
 	src/include/lfp/unistd.h \
 	src/include/lfp/mman.h \
 	src/include/lfp/select.h \
@@ -71,6 +72,7 @@ src_lib_libfixposix_la_SOURCES = \
 	src/lib/string.c \
 	src/lib/errno.c \
 	src/lib/fcntl.c \
+	src/lib/stat.c \
 	src/lib/unistd.c \
 	src/lib/mman.c \
 	src/lib/select.c \

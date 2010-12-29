@@ -97,73 +97,6 @@ int lfp_ftruncate(int fd, off_t length)
 
 
 
-int lfp_stat(const char *path, struct stat *buf)
-{
-    return stat(path, buf);
-}
-
-int lfp_fstat(int fd, struct stat *buf)
-{
-    return fstat(fd, buf);
-}
-
-int lfp_lstat(const char *path, struct stat *buf)
-{
-    return lstat(path, buf);
-}
-
-int lfp_fd_is_open(int fd)
-{
-    struct stat buf;
-    int ret = fstat(fd, &buf);
-    if ( ret < 0 ) {
-        if ( lfp_errno() == EBADF ) {
-            return false;
-        } else {
-            return -1;
-        }
-    } else {
-        return true;
-    }
-}
-
-bool lfp_isreg(mode_t mode)
-{
-    return (bool) S_ISREG(mode);
-}
-
-bool lfp_isdir(mode_t mode)
-{
-    return (bool) S_ISDIR(mode);
-}
-
-bool lfp_ischr(mode_t mode)
-{
-    return (bool) S_ISCHR(mode);
-}
-
-bool lfp_isblk(mode_t mode)
-{
-    return (bool) S_ISBLK(mode);
-}
-
-bool lfp_isfifo(mode_t mode)
-{
-    return (bool) S_ISFIFO(mode);
-}
-
-bool lfp_islnk(mode_t mode)
-{
-    return (bool) S_ISLNK(mode);
-}
-
-bool lfp_issock(mode_t mode)
-{
-    return (bool) S_ISSOCK(mode);
-}
-
-
-
 int lfp_execve(const char *path, char *const argv[], char *const envp[])
 {
     SYSCHECK(EINVAL, path == NULL);

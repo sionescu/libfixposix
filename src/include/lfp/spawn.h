@@ -28,6 +28,7 @@
 
 CPLUSPLUS_GUARD
 
+#include <lfp/stat.h>
 #include <lfp/unistd.h>
 #include <lfp/signal.h>
 

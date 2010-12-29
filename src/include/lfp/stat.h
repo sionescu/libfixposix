@@ -28,26 +28,30 @@
 
 CPLUSPLUS_GUARD
 
-#include <unistd.h>
+#include <sys/stat.h>
 
-#include <inttypes.h>
+#include <stdbool.h>
 
-off_t lfp_lseek(int fd, off_t offset, int whence);
+int lfp_stat(const char *path, struct stat *buf);
 
-int lfp_pipe(int pipefd[2], uint64_t flags);
+int lfp_fstat(int fd, struct stat *buf);
 
-ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset);
+int lfp_lstat(const char *path, struct stat *buf);
 
-ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset);
+int lfp_fd_is_open(int fd);
 
-int lfp_truncate(const char *path, off_t length);
+bool lfp_isreg(mode_t mode);
 
-int lfp_ftruncate(int fd, off_t length);
+bool lfp_isdir(mode_t mode);
 
-int lfp_execve(const char *path, char *const argv[], char *const envp[])
-    __attribute__((nonnull (1)));
+bool lfp_ischr(mode_t mode);
 
-int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
-    __attribute__((nonnull (1)));
+bool lfp_isblk(mode_t mode);
+
+bool lfp_isfifo(mode_t mode);
+
+bool lfp_islnk(mode_t mode);
+
+bool lfp_issock(mode_t mode);
 
 END_CPLUSPLUS_GUARD

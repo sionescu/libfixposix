@@ -22,32 +22,70 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#include <lfp/stat.h>
+#include <lfp/errno.h>
 
-#include <lfp/aux.h>
+int lfp_stat(const char *path, struct stat *buf)
+{
+    return stat(path, buf);
+}
 
-CPLUSPLUS_GUARD
+int lfp_fstat(int fd, struct stat *buf)
+{
+    return fstat(fd, buf);
+}
 
-#include <unistd.h>
+int lfp_lstat(const char *path, struct stat *buf)
+{
+    return lstat(path, buf);
+}
 
-#include <inttypes.h>
+int lfp_fd_is_open(int fd)
+{
+    struct stat buf;
+    int ret = fstat(fd, &buf);
+    if ( ret < 0 ) {
+        if ( lfp_errno() == EBADF ) {
+            return false;
+        } else {
+            return -1;
+        }
+    } else {
+        return true;
+    }
+}
 
-off_t lfp_lseek(int fd, off_t offset, int whence);
+bool lfp_isreg(mode_t mode)
+{
+    return (bool) S_ISREG(mode);
+}
 
-int lfp_pipe(int pipefd[2], uint64_t flags);
+bool lfp_isdir(mode_t mode)
+{
+    return (bool) S_ISDIR(mode);
+}
 
-ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset);
+bool lfp_ischr(mode_t mode)
+{
+    return (bool) S_ISCHR(mode);
+}
 
-ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset);
+bool lfp_isblk(mode_t mode)
+{
+    return (bool) S_ISBLK(mode);
+}
 
-int lfp_truncate(const char *path, off_t length);
+bool lfp_isfifo(mode_t mode)
+{
+    return (bool) S_ISFIFO(mode);
+}
 
-int lfp_ftruncate(int fd, off_t length);
+bool lfp_islnk(mode_t mode)
+{
+    return (bool) S_ISLNK(mode);
+}
 
-int lfp_execve(const char *path, char *const argv[], char *const envp[])
-    __attribute__((nonnull (1)));
-
-int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
-    __attribute__((nonnull (1)));
-
-END_CPLUSPLUS_GUARD
+bool lfp_issock(mode_t mode)
+{
+    return (bool) S_ISSOCK(mode);
+}
