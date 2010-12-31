@@ -36,9 +36,9 @@ AC_CHECK_TYPE([clockid_t],
   if test "$ac_cv_sizeof_clockid_t" -gt 4 ; then
     AC_MSG_FAILURE([Type clockid_t is larger than 32 bits])
   fi],
- [if test "$host" != "*-apple-darwin*" ; then
-    AC_MSG_FAILURE([Type clockid_t not found])
-  fi],
+ [case "$host" in
+    *-apple-darwin*) AC_MSG_FAILURE([Type clockid_t not found]) ;;
+  esac],
  [[#include <time.h>]])
 ])
 
