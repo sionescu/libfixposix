@@ -44,10 +44,10 @@ AC_CHECK_TYPE([clockid_t],
 
 AC_DEFUN([LFP_CHECK_POSIX_MONOTONIC_CLOCK], [
 LFP_GETCONF_UNDEF([POSIX_MONOTONIC_CLOCK], [_POSIX_MONOTONIC_CLOCK],
-  [LFP_CHECK_SIZEOF_CLOCKID_T],
-  [if test "$host" != "*-apple-darwin*" ; then
-    AC_MSG_FAILURE([POSIX monotonic clocks not supported])
-  fi])
+ [LFP_CHECK_SIZEOF_CLOCKID_T],
+ [case "$host" in
+    *-apple-darwin*) AC_MSG_FAILURE([POSIX monotonic clocks not supported]) ;;
+  esac])
 ])
 
 AC_DEFUN([LFP_ARG_ENABLE_EMULATED_SIGNALFD], [
