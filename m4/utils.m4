@@ -23,8 +23,19 @@ AC_DEFUN([LFP_REQUIRE_DECLS],
 AC_DEFUN([LFP_GETCONF], [
 $1=`(getconf $2) 2>/dev/null`
 AC_SUBST($1)
-if test $? -eq 0
-then
+if test $? -eq 0 ; then
+  : ; $3
+else
+  : ; $4
+fi
+])
+
+# Check for a declaration and print an error if not found or is undefined
+# Syntax: LFP_GETCONF(VARIABLE, SYSTEM_VAR, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
+AC_DEFUN([LFP_GETCONF_UNDEF], [
+$1=`(getconf $2) 2>/dev/null`
+AC_SUBST($1)
+if test $? -eq 0 && test x"$$1" != xundefined ; then
   : ; $3
 else
   : ; $4
