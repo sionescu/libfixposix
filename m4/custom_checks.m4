@@ -37,7 +37,8 @@ AC_CHECK_TYPE([clockid_t],
     AC_MSG_FAILURE([Type clockid_t is larger than 32 bits])
   fi],
  [case "$host" in
-    *-apple-darwin*) AC_MSG_FAILURE([Type clockid_t not found]) ;;
+    *-apple-darwin*) : ;;
+    *) AC_MSG_FAILURE([Type clockid_t not found]) ;;
   esac],
  [[#include <time.h>]])
 ])
@@ -46,7 +47,8 @@ AC_DEFUN([LFP_CHECK_POSIX_MONOTONIC_CLOCK], [
 LFP_GETCONF_UNDEF([POSIX_MONOTONIC_CLOCK], [_POSIX_MONOTONIC_CLOCK],
  [LFP_CHECK_SIZEOF_CLOCKID_T],
  [case "$host" in
-    *-apple-darwin*) AC_MSG_FAILURE([POSIX monotonic clocks not supported]) ;;
+    *-apple-darwin*) : ;;
+    *) AC_MSG_FAILURE([Type clockid_t not found]) ;;
   esac])
 ])
 
