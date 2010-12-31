@@ -25,25 +25,29 @@ esac
 ])
 
 AC_DEFUN([LFP_SYS_LARGEFILE], [
-AC_CHECK_PROGS(GETCONF, [getconf])
-if test x$GETCONF = x
-then
-  AC_MSG_FAILURE([Program getconf not found])
-fi
-LFS_CFLAGS=`(getconf LFS_CFLAGS) 2>/dev/null`
-LFS_LDFLAGS=`(getconf LFS_LDFLAGS) 2>/dev/null`
-LFS_LIBS=`(getconf LFS_LIBS) 2>/dev/null`
-AC_SUBST(LFS_CFLAGS)
-AC_SUBST(LFS_LDFLAGS)
-AC_SUBST(LFS_LIBS)
+LFP_GETCONF([LFS_CFLAGS],  [LFS_CFLAGS])
+LFP_GETCONF([LFS_LDFLAGS], [LFS_LDFLAGS])
+LFP_GETCONF([LFS_LIBS],    [LFS_LIBS])
 ])
 
 AC_DEFUN([LFP_CHECK_SIZEOF_CLOCKID_T], [
-AC_CHECK_SIZEOF([clockid_t], [], [[#include <time.h>]])
-if test $ac_cv_sizeof_clockid_t -gt 4
-then
-  AC_MSG_FAILURE([clockid_t is larger than 32 bits!])
-fi
+AC_CHECK_TYPE([clockid_t],
+ [AC_CHECK_SIZEOF([clockid_t], [], [[#include <time.h>]])
+  if test "$ac_cv_sizeof_clockid_t" -gt 4 ; then
+    AC_MSG_FAILURE([Type clockid_t is larger than 32 bits])
+  fi],
+ [if test "$host" != "*-apple-darwin*" ; then
+    AC_MSG_FAILURE([Type clockid_t not found])
+  fi],
+ [[#include <time.h>]])
+])
+
+AC_DEFUN([LFP_CHECK_POSIX_MONOTONIC_CLOCK], [
+LFP_GETCONF([POSIX_MONOTONIC_CLOCK], [_POSIX_MONOTONIC_CLOCK],
+  [LFP_CHECK_SIZEOF_CLOCKID_T],
+  [if test "$host" != "*-apple-darwin*" ; then
+    AC_MSG_FAILURE([POSIX monotonic clocks not supported])
+  fi])
 ])
 
 AC_DEFUN([LFP_ARG_ENABLE_EMULATED_SIGNALFD], [

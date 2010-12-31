@@ -39,6 +39,13 @@ AC_PROG_LIBTOOL
 
 LFP_FLAGS_INIT
 
+dnl Checks for programs
+AC_CHECK_PROG([GETCONF], [getconf], [yes])
+if test "x$ac_cv_prog_GETCONF" != xyes
+then
+  AC_MSG_FAILURE([Program getconf not found])
+fi
+
 dnl Set compiler & linker flags
 LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS
 AX_PTHREAD
@@ -54,16 +61,15 @@ LFP_REQUIRE_HEADERS([stdlib.h stdio.h string.h errno.h time.h])
 LFP_REQUIRE_HEADERS([sys/types.h unistd.h fcntl.h signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
-dnl Checks for types
-LFP_REQUIRE_TYPE([clockid_t], [time.h])
-LFP_CHECK_SIZEOF_CLOCKID_T
+dnl Checks for declarations
+LFP_REQUIRE_DECLS([NSIG], [signal.h])
 
 dnl Checks for functions
 AC_CHECK_FUNCS([accept4 pipe2 __xpg_strerror_r sendfile])
 LFP_REQUIRE_FUNCS([pselect vsyslog])
+LFP_CHECK_POSIX_MONOTONIC_CLOCK
 
-dnl Checks for declarations
-LFP_REQUIRE_DECLS([NSIG], [signal.h])
+dnl Checks for types
 
 dnl Configuration switches
 # LFP_ARG_ENABLE_EMULATED_SIGNALFD
