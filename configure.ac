@@ -37,37 +37,21 @@ AC_PROG_CC_C99
 # And we need libtool for building the shared library
 AC_PROG_LIBTOOL
 
+LFP_FLAGS_INIT
+
 dnl Set compiler & linker flags
-case "$host" in
-     *-*-linux*)
-       LFP_CPPFLAGS="-D_GNU_SOURCE=1"
-       LFP_LDFLAGS="-lrt"
-       ;;
-     *-*-freebsd*)
-       LFP_CPPFLAGS="-D__BSD_VISIBLE"
-       ;;
-     *-apple-darwin*)
-       LFP_CPPFLAGS="-D_DARWIN_C_SOURCE"
-       ;;
-esac
+LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS
 AX_PTHREAD
 LFP_SYS_LARGEFILE
 
-LFP_CPPFLAGS+=" -D_XOPEN_SOURCE=700 $LFS_CFLAGS"
+LFP_CPPFLAGS+=" $LFS_CFLAGS"
 LFP_CFLAGS+=" $PTHREAD_CFLAGS"
 LFP_LDFLAGS+=" $PTHREAD_LIBS $LFS_LDFLAGS $LFS_LIBS"
 
 dnl Checks for C99 & POSIX headers
 AC_HEADER_ASSERT
-LFP_REQUIRE_HEADER([stdlib.h])
-LFP_REQUIRE_HEADER([stdio.h])
-LFP_REQUIRE_HEADER([string.h])
-LFP_REQUIRE_HEADER([errno.h])
-LFP_REQUIRE_HEADER([time.h])
-LFP_REQUIRE_HEADER([sys/types.h])
-LFP_REQUIRE_HEADER([unistd.h])
-LFP_REQUIRE_HEADER([fcntl.h])
-LFP_REQUIRE_HEADER([signal.h])
+LFP_REQUIRE_HEADERS([stdlib.h stdio.h string.h errno.h time.h])
+LFP_REQUIRE_HEADERS([sys/types.h unistd.h fcntl.h signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for types
@@ -75,45 +59,14 @@ LFP_REQUIRE_TYPE([clockid_t], [time.h])
 LFP_CHECK_SIZEOF_CLOCKID_T
 
 dnl Checks for functions
-AC_CHECK_FUNCS([accept4])
-AC_CHECK_FUNCS([pipe2])
-AC_CHECK_FUNCS([__xpg_strerror_r])
-AC_CHECK_FUNCS([sendfile])
-LFP_REQUIRE_FUNCS([pselect])
-LFP_REQUIRE_FUNCS([vsyslog])
+AC_CHECK_FUNCS([accept4 pipe2 __xpg_strerror_r sendfile])
+LFP_REQUIRE_FUNCS([pselect vsyslog])
 
 dnl Checks for declarations
 LFP_REQUIRE_DECLS([NSIG], [signal.h])
 
-AC_ARG_ENABLE([emulated-signalfd],
-  [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],
-    [Use emulated signalfd @<:@default=check@:>@])],
-  [],
-  [enable_emulated_signalfd=check])
-
-AS_CASE($enable_emulated_signalfd,
-  [yes], [AC_DEFINE(HAVE_EMULATED_SIGNALFD, 1, [Whether to use signalfd emulation])
-          AC_SUBST(HAVE_EMULATED_SIGNALFD, 1)
-         ],
-  [check], [if test x"$ac_cv_header_sys_signalfd_h" = xyes ; then
-              AC_DEFINE(HAVE_EMULATED_SIGNALFD, 0, [Whether to use signalfd emulation])
-              AC_SUBST(HAVE_EMULATED_SIGNALFD, 0)
-            else
-              AC_DEFINE(HAVE_EMULATED_SIGNALFD, 1, [Whether to use signalfd emulation])
-              AC_SUBST(HAVE_EMULATED_SIGNALFD, 1)
-            fi],
-  [no], [if test x"$ac_cv_header_sys_signalfd_h" = xyes ; then
-           AC_DEFINE(HAVE_EMULATED_SIGNALFD, 0, [Whether to use signalfd emulation])
-           AC_SUBST(HAVE_EMULATED_SIGNALFD, 0)
-         else
-           AC_MSG_FAILURE([signalfd emulation was disabled although <sys/signalfd.h> is absent])
-         fi],
-  [AC_MSG_FAILURE(
-    [--enable-emulated-signalfd was given an illegal value: "$enable_emulated_signalfd"])])
-
-AC_SUBST(LFP_CPPFLAGS)
-AC_SUBST(LFP_CFLAGS)
-AC_SUBST(LFP_LDFLAGS)
+dnl Configuration switches
+# LFP_ARG_ENABLE_EMULATED_SIGNALFD
 
 AC_CONFIG_FILES([Makefile libfixposix.pc])
 AC_OUTPUT
