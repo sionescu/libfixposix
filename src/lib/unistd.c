@@ -28,6 +28,7 @@
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
 #include <lfp/errno.h>
+#include <lfp/fcntl.h>
 
 #include <limits.h>
 #include <stdio.h>

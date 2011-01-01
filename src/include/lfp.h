@@ -34,6 +34,8 @@
 
 #include <lfp/fcntl.h>
 
+#include <lfp/stat.h>
+
 #include <lfp/unistd.h>
 
 #include <lfp/mman.h>
