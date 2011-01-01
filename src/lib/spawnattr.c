@@ -36,7 +36,8 @@
                              LFP_SPAWN_SETPGROUP     | \
                              LFP_SPAWN_RESETIDS      | \
                              LFP_SPAWN_SETUID        | \
-                             LFP_SPAWN_SETGID          )
+                             LFP_SPAWN_SETGID        | \
+                             LFP_SPAWN_SETCWD          )
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr)
 {
@@ -49,6 +50,10 @@ int lfp_spawnattr_init(lfp_spawnattr_t *attr)
 int lfp_spawnattr_destroy(lfp_spawnattr_t *attr)
 {
     SYSCHECK(EINVAL, attr == NULL);
+    if (attr->chdir_path) {
+        free(attr->chdir_path);
+        attr->chdir_path = NULL;
+    }
     return 0;
 }
 
@@ -141,6 +146,25 @@ int lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid)
     return 0;
 }
 
+int lfp_spawnattr_getcwd(lfp_spawnattr_t *attr, char **path)
+{
+    SYSCHECK(EINVAL, attr == NULL || path == NULL);
+    *path = strdup(attr->chdir_path);
+    return 0;
+}
+
+int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path)
+{
+    SYSCHECK(EINVAL, attr == NULL || path == NULL);
+    attr->flags |= LFP_SPAWN_SETCWD;
+    if (attr->chdir_path) {
+        free(attr->chdir_path);
+    }
+    attr->chdir_path = strndup(path, PATH_MAX);
+    attr->chdir_path[PATH_MAX] = 0;
+    return 0;
+}
+
 
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
@@ -208,6 +232,14 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
         if (setegid(attr->gid) < 0) {
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:SETGID:setegid");
+#endif
+            return lfp_errno();
+        }
+
+    if (attr->flags & LFP_SPAWN_SETCWD)
+        if (chdir(attr->chdir_path) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:SETCWD:chdir");
 #endif
             return lfp_errno();
         }
