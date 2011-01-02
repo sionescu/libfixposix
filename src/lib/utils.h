@@ -25,6 +25,7 @@
 #pragma once
 
 #include <sys/types.h>
+#include <errno.h>
 
 static inline void
 _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv)
@@ -40,7 +41,7 @@ _lfp_timeval_to_timespec(struct timeval *tv, struct timespec *ts)
     ts->tv_nsec = tv->tv_usec * 1000;
 }
 
-#define SYSERR(errcode) do { lfp_set_errno(errcode); return -1; } while(0)
+#define SYSERR(errcode) do { errno = errcode; return -1; } while(0)
 
 #define SYSCHECK(errcode,expr) do { if(expr) SYSERR(errcode); } while(0)
 
