@@ -113,7 +113,7 @@ int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(EINVAL, file_actions == NULL);
-    SYSCHECK(EBADF, !VALID_FD(fd));
+    SYSCHECK(EBADF, INVALID_FD(fd));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_OPEN;
@@ -130,7 +130,7 @@ int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(EINVAL, file_actions == NULL);
-    SYSCHECK(EBADF, !VALID_FD(fd));
+    SYSCHECK(EBADF, INVALID_FD(fd));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_CLOSE;
@@ -144,8 +144,8 @@ int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
     lfp_spawn_action *action;
 
     SYSCHECK(EINVAL, file_actions == NULL);
-    SYSCHECK(EBADF, !VALID_FD(fd));
-    SYSCHECK(EBADF, !VALID_FD(newfd));
+    SYSCHECK(EBADF, INVALID_FD(fd));
+    SYSCHECK(EBADF, INVALID_FD(newfd));
     action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(ENOMEM, !action);
     action->type = LFP_SPAWN_FILE_ACTION_DUP2;

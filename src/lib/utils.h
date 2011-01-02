@@ -46,4 +46,4 @@ _lfp_timeval_to_timespec(struct timeval *tv, struct timespec *ts)
 #define SYSCHECK(errcode,expr) do { if(expr) SYSERR(errcode); } while(0)
 
 /* not checking for OPEN_MAX, which might not be valid, on Linux */
-#define VALID_FD(fd) (fd>=0)
+#define INVALID_FD(fd) ( fd < 0 )
