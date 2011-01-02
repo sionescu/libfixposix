@@ -25,8 +25,14 @@
 #include <config.h>
 
 #include <lfp/spawn.h>
+#include <lfp/stdlib.h>
+#include <lfp/string.h>
+#include <lfp/errno.h>
+#include <lfp/unistd.h>
+#include <lfp/signal.h>
 
 #include <stdio.h>
+#include <limits.h>
 
 #include "utils.h"
 #include "spawn.h"

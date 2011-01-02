@@ -25,7 +25,10 @@
 #include <config.h>
 
 #include <lfp/spawn.h>
+#include <lfp/stdlib.h>
 #include <lfp/errno.h>
+#include <lfp/unistd.h>
+#include <lfp/wait.h>
 
 #include "utils.h"
 #include "spawn.h"

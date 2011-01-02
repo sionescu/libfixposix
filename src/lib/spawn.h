@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include <lfp.h>
+#include <lfp/spawn.h>
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr);
 
