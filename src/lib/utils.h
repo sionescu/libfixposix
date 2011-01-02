@@ -25,11 +25,20 @@
 #pragma once
 
 #include <sys/types.h>
-#include <sys/time.h>
 
-void _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv);
+static inline void
+_lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv)
+{
+    tv->tv_sec = ts->tv_sec;
+    tv->tv_usec = ts->tv_nsec / 1000;
+}
 
-void _lfp_timeval_to_timespec(struct timeval *tv, struct timespec *ts);
+static inline void
+_lfp_timeval_to_timespec(struct timeval *tv, struct timespec *ts)
+{
+    ts->tv_sec = tv->tv_sec;
+    ts->tv_nsec = tv->tv_usec * 1000;
+}
 
 #define SYSERR(errcode) do { lfp_set_errno(errcode); return -1; } while(0)
 

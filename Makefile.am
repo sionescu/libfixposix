@@ -67,7 +67,6 @@ include_lfp_HEADERS = \
 # src/include/lfp/signalfd.h
 
 src_lib_libfixposix_la_SOURCES = \
-	src/lib/utils.c \
 	src/lib/stdlib.c \
 	src/lib/string.c \
 	src/lib/errno.c \
