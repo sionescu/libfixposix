@@ -33,8 +33,7 @@ CPLUSPLUS_GUARD
 #include <stdbool.h>
 
 int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
-               fd_set *exceptfds, const struct timespec *timeout,
-               const sigset_t *sigmask);
+               fd_set *exceptfds, const struct timespec *timeout);
 
 void lfp_fd_clr(int fd, fd_set *set);
 
