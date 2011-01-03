@@ -110,47 +110,49 @@ int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
                                    int fd, const char *path,
                                    uint64_t oflags, mode_t mode)
 {
-    lfp_spawn_action *action;
-
     SYSCHECK(EINVAL, file_actions == NULL);
     SYSCHECK(EBADF, INVALID_FD(fd));
-    action = lfp_spawn_file_actions_allocate(file_actions);
+
+    lfp_spawn_action *action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(ENOMEM, !action);
+
     action->type = LFP_SPAWN_FILE_ACTION_OPEN;
     action->fd = fd;
     action->path = strndup(path, PATH_MAX);
     action->flags = oflags;
     action->mode = mode;
+
     return 0;
 }
 
 int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
                                     int fd)
 {
-    lfp_spawn_action *action;
-
     SYSCHECK(EINVAL, file_actions == NULL);
     SYSCHECK(EBADF, INVALID_FD(fd));
-    action = lfp_spawn_file_actions_allocate(file_actions);
+
+    lfp_spawn_action *action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(ENOMEM, !action);
+
     action->type = LFP_SPAWN_FILE_ACTION_CLOSE;
     action->fd = fd;
+
     return 0;
 }
 
 int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
                                    int fd, int newfd)
 {
-    lfp_spawn_action *action;
-
     SYSCHECK(EINVAL, file_actions == NULL);
-    SYSCHECK(EBADF, INVALID_FD(fd));
-    SYSCHECK(EBADF, INVALID_FD(newfd));
-    action = lfp_spawn_file_actions_allocate(file_actions);
+    SYSCHECK(EBADF, INVALID_FD(fd) || INVALID_FD(newfd));
+
+    lfp_spawn_action *action = lfp_spawn_file_actions_allocate(file_actions);
     SYSCHECK(ENOMEM, !action);
+
     action->type = LFP_SPAWN_FILE_ACTION_DUP2;
     action->fd = fd;
     action->newfd = newfd;
+
     return 0;
 }
 
