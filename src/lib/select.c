@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <lfp/select.h>
+#include <stddef.h>
 
 #include "utils.h"
 
