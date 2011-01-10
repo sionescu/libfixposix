@@ -9,9 +9,9 @@ dnl WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 dnl Minimum Autoconf version required.
-AC_PREREQ(2.60)
 AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
+AC_PREREQ([2.68])
 AC_CONFIG_HEADERS([config.h])
 
 dnl Must come before AM_INIT_AUTOMAKE.
@@ -35,7 +35,7 @@ dnl Checks for programs.
 # We need a C compiler.
 AC_PROG_CC_C99
 # And we need libtool for building the shared library
-AC_PROG_LIBTOOL
+LT_INIT
 
 LFP_FLAGS_INIT
 
