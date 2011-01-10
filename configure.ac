@@ -14,6 +14,12 @@ AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
 AC_PREREQ([2.68])
 AC_CONFIG_HEADERS([config.h])
 
+dnl Where to generate output; srcdir location.
+AC_CONFIG_SRCDIR([src/lib/spawn.c])
+
+dnl Auxiliary M4 macros
+AC_CONFIG_MACRO_DIR([m4])
+
 dnl Must come before AM_INIT_AUTOMAKE.
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([1.10 foreign silent-rules subdir-objects
@@ -21,12 +27,6 @@ AM_INIT_AUTOMAKE([1.10 foreign silent-rules subdir-objects
 
 dnl Have Kbuild-like build output
 AM_SILENT_RULES([yes])
-
-dnl Where to generate output; srcdir location.
-AC_CONFIG_SRCDIR([src/lib/])
-
-dnl Auxiliary M4 macros
-AC_CONFIG_MACRO_DIR([m4])
 
 dnl Contains replacement functions
 # AC_CONFIG_LIBOBJ_DIR([lib])
