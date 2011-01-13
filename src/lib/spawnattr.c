@@ -180,7 +180,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 
     SYSCHECK(EINVAL, (attr->flags & LFP_SPAWN_RESETIDS) && \
                      ((attr->flags & LFP_SPAWN_SETUID)  || \
-                      (attr->flags & LFP_SPAWN_SETUID)));
+                      (attr->flags & LFP_SPAWN_SETGID)));
 
     if (attr->flags & LFP_SPAWN_SETSIGMASK)
         if (sigprocmask(SIG_SETMASK, &attr->sigmask, NULL) < 0) {
