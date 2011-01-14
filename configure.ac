@@ -11,7 +11,7 @@ dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 dnl Minimum Autoconf version required.
 AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
-AC_PREREQ([2.68])
+AC_PREREQ([2.67])
 AC_CONFIG_HEADERS([config.h])
 
 dnl Where to generate output; srcdir location.
