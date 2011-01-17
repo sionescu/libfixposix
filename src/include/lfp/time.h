@@ -35,10 +35,10 @@ CPLUSPLUS_GUARD
 
 typedef uint64_t lfp_clockid_t;
 
-#if !defined(_POSIX_TIMERS)
+#if !defined(_POSIX_TIMERS) || _POSIX_TIMERS < 0
 # define CLOCK_REALTIME  0
 # define CLOCK_MONOTONIC 1
-#elif !defined(_POSIX_MONOTONIC_CLOCK)
+#elif !defined(_POSIX_MONOTONIC_CLOCK) || _POSIX_MONOTONIC_CLOCK < 0
 # define CLOCK_MONOTONIC (1 << 32)
 #endif
 
