@@ -71,6 +71,7 @@ char *lfp_strndup(const char *s, size_t maxlen)
             return NULL;
         } else {
             memcpy(newstr, s, len + 1);
+            newstr[len] = '\0';
             return newstr;
         }
     }
