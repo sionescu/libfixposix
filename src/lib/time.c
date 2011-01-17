@@ -73,15 +73,12 @@ static inline
 int _lfp_clock_gettime_monotonic(struct timespec *tp)
 {
 # if defined(__APPLE__)
-    kern_return_t kret;
     clock_serv_t clk_serv;
     mach_timespec_t mtp;
     _lfp_timespec_to_mach_timespec_t(tp, &mtp);
 
-    kret = host_get_clock_service(mach_host_self(), 0, &clk_serv);
-    if (kret < 0) { return -1; }
-    kret = clock_get_time(clk_serv, &mtp);
-    if (kret < 0) { return -1; }
+    SYSGUARD(host_get_clock_service(mach_host_self(), 0, &clk_serv));
+    SYSGUARD(clock_get_time(clk_serv, &mtp));
     return 0;
 # else
     SYSERR(EINVAL);
