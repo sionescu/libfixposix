@@ -76,7 +76,7 @@ int _lfp_clock_gettime_monotonic(struct timespec *tp)
     kern_return_t kret;
     clock_serv_t clk_serv;
     mach_timespec_t mtp;
-    _lfp_timespec_to_mach_timespec_t(&tp, &mtp);
+    _lfp_timespec_to_mach_timespec_t(tp, &mtp);
 
     kret = host_get_clock_service(mach_host_self(), 0, &clk_serv);
     if (kret < 0) { return -1; }
