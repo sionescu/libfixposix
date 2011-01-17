@@ -166,7 +166,7 @@ int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path)
     if (attr->chdir_path) {
         free(attr->chdir_path);
     }
-    attr->chdir_path = strndup(path, PATH_MAX);
+    attr->chdir_path = lfp_strndup(path, PATH_MAX);
     attr->chdir_path[PATH_MAX] = 0;
     return 0;
 }
