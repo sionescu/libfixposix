@@ -29,7 +29,7 @@
 #if defined(HAVE_SENDFILE)
 # if defined(__linux__)
 #  include <sys/sendfile.h>
-# elif defined(__FreeBSD__) || defined(__DARWIN__)
+# elif defined(__FreeBSD__) || defined(__APPLE__)
 #  include <sys/types.h>
 #  include <sys/socket.h>
 #  include <sys/uio.h>
@@ -46,7 +46,7 @@ ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)
     return (ssize_t) sendfile(out_fd, in_fd, &off, nbytes);
 # elif defined(__FreeBSD__)
     return (ssize_t) sendfile(in_fd, out_fd, offset, nbytes, NULL, SF_MNOWAIT);
-# elif defined(__DARWIN__)
+# elif defined(__APPLE__)
     off_t len = nbytes;
     return (ssize_t) sendfile(in_fd, out_fd, offset, &len, NULL, 0);
 # else

@@ -28,7 +28,7 @@
 #include <lfp/errno.h>
 #include <lfp/unistd.h>
 
-#if defined(__DARWIN__)
+#if defined(__APPLE__)
 # include <mach.h>
 # include <mach/clock.h>
 #endif
@@ -72,7 +72,7 @@ int _lfp_clock_gettime_realtime(struct timespec *tp)
 static inline
 int _lfp_clock_gettime_monotonic(struct timespec *tp)
 {
-# if defined(__DARWIN__)
+# if defined(__APPLE__)
     kern_return_t kret;
     clock_serv_t clk_serv;
 
