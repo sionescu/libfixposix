@@ -65,7 +65,8 @@ dnl Checks for declarations
 LFP_REQUIRE_DECLS([NSIG], [signal.h])
 
 dnl Checks for functions
-AC_CHECK_FUNCS([accept4 pipe2 __xpg_strerror_r sendfile])
+AC_CHECK_FUNCS([__xpg_strerror_r strnlen strndup])
+AC_CHECK_FUNCS([accept4 pipe2 sendfile])
 LFP_REQUIRE_FUNCS([pselect vsyslog])
 LFP_CHECK_POSIX_MONOTONIC_CLOCK
 

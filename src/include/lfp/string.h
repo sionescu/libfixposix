@@ -34,4 +34,6 @@ int lfp_strerror(int errnum, char *buf, size_t buflen);
 
 size_t lfp_strnlen(const char *s, size_t maxlen);
 
+char *lfp_strndup(const char *s, size_t maxlen);
+
 END_CPLUSPLUS_GUARD

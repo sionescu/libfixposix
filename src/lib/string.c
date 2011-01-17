@@ -45,10 +45,34 @@ int lfp_strerror (int errnum, char *buf, size_t buflen)
 
 size_t lfp_strnlen(const char *s, size_t maxlen)
 {
+#if defined(HAVE_STRNLEN)
+    return strnlen(s, maxlen);
+#else
     for (size_t i = 0; i < maxlen; i++) {
         if (s[i] == '\0') {
             return i;
         }
     }
     return maxlen;
+#endif
+}
+
+char *lfp_strndup(const char *s, size_t maxlen)
+{
+#if defined(HAVE_STRNDUP)
+    return strndup(s, maxlen);
+#else
+    if (s == NULL) {
+        return NULL;
+    } else {
+        size_t len = lfp_strnlen(s, maxlen);
+        char *newstr = malloc(len + 1);
+        if (newstr == NULL) {
+            return NULL;
+        } else {
+            memcpy(newstr, s, len + 1);
+            return newstr;
+        }
+    }
+#endif
 }
