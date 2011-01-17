@@ -29,7 +29,7 @@
 #include <lfp/unistd.h>
 
 #if defined(__APPLE__)
-# include <mach.h>
+# include <mach/mach.h>
 # include <mach/clock.h>
 #endif
 
@@ -77,9 +77,11 @@ int _lfp_clock_gettime_monotonic(struct timespec *tp)
     clock_serv_t clk_serv;
 
     kret = host_get_clock_service(mach_host_self(), 0, &clk_serv);
-    if (ret < 0) { return -1; }
-    kret = clock_get_time(*clk_serv, tp);
-    if (ret < 0) { return -1; }
+    if (kret < 0) { return -1; }
+    mach_timespec_t mtp = { .tv_sec  = tp->tv_sec,
+                            .tv_nsec = tp->tv_nsec };
+    kret = clock_get_time(clk_serv, &mtp);
+    if (kret < 0) { return -1; }
     return 0;
 # else
     SYSERR(EINVAL);
