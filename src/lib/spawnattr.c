@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <limits.h>
+#include <sys/ioctl.h>
 
 #include "utils.h"
 #include "spawn.h"
@@ -43,7 +44,9 @@
                              LFP_SPAWN_RESETIDS      | \
                              LFP_SPAWN_SETUID        | \
                              LFP_SPAWN_SETGID        | \
-                             LFP_SPAWN_SETCWD          )
+                             LFP_SPAWN_SETCWD        | \
+                             LFP_SPAWN_SETSID        | \
+                             LFP_SPAWN_NOTTY         )
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr)
 {
@@ -171,6 +174,20 @@ int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path)
     return 0;
 }
 
+int lfp_spawnattr_setsid(lfp_spawnattr_t *attr)
+{
+    SYSCHECK(EINVAL, attr == NULL);
+    attr->flags |= LFP_SPAWN_SETSID;
+    return 0;
+}
+
+int lfp_spawnattr_setnotty(lfp_spawnattr_t *attr)
+{
+    SYSCHECK(EINVAL, attr == NULL);
+    attr->flags |= LFP_SPAWN_NOTTY;
+    return 0;
+}
+
 
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
@@ -249,6 +266,35 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #endif
             return lfp_errno();
         }
+
+    if (attr->flags & LFP_SPAWN_SETSID)
+        if (setsid() < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:SETSID:setsid");
+#endif
+            return lfp_errno();
+        }
+
+    if (attr->flags & LFP_SPAWN_NOTTY) {
+	int ttyfd = open("/dev/tty", O_RDWR);
+        if (ttyfd  < 0) {
+	    int err = lfp_errno();
+	    if (err != ENOENT && err != ENXIO) {
+#if !defined(NDEBUG)
+		perror("LFP_SPAWN_APPLY_ATTR:NOTTY:open");
+#endif
+		return err;
+	    }
+        } else {
+	    if (ioctl(ttyfd, TIOCNOTTY, 0) < 0) {
+#if !defined(NDEBUG)
+		perror("LFP_SPAWN_APPLY_ATTR:NOTTY:iotcl");
+#endif
+		return lfp_errno();
+	    }
+	    close(ttyfd);
+	}
+    }
 
     return 0;
 }
