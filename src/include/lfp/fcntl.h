@@ -45,6 +45,8 @@ extern char **environ;
 
 int lfp_open(const char *pathname, uint64_t flags, ...);
 
+int lfp_openpt(uint64_t flags);
+
 int lfp_creat(const char *pathname, mode_t mode);
 
 int lfp_is_fd_cloexec(int fd);
