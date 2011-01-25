@@ -63,6 +63,10 @@ int lfp_spawnattr_destroy(lfp_spawnattr_t *attr)
         free(attr->chdir_path);
         attr->chdir_path = NULL;
     }
+    if (attr->pts_path) {
+        free(attr->pts_path);
+        attr->pts_path = NULL;
+    }
     return 0;
 }
 
