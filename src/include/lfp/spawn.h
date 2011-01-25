@@ -62,6 +62,7 @@ typedef struct {
     uid_t    uid;
     gid_t    gid;
     char    *chdir_path;
+    char    *pts_path;
 } lfp_spawnattr_t;
 
 typedef enum {
@@ -79,6 +80,10 @@ typedef enum {
 #define LFP_SPAWN_SETGID        ( 1 << 5 )
         LFP_SPAWN_SETCWD        = 1 << 6,
 #define LFP_SPAWN_SETCWD        ( 1 << 6 )
+        LFP_SPAWN_SETSID        = 1 << 7,
+#define LFP_SPAWN_SETSID        ( 1 << 7 )
+        LFP_SPAWN_SETCTTY       = 1 << 8,
+#define LFP_SPAWN_SETCTTY       ( 1 << 8 )
 } lfp_spawnattr_flags;
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr);
@@ -96,14 +101,19 @@ int lfp_spawnattr_setsigdefault(lfp_spawnattr_t *attr, const sigset_t *sigdefaul
 int lfp_spawnattr_getpgroup(lfp_spawnattr_t *attr, pid_t *pgroup);
 int lfp_spawnattr_setpgroup(lfp_spawnattr_t *attr, const pid_t pgroup);
 
+int lfp_spawnattr_setsid(lfp_spawnattr_t *attr);
+
+int lfp_spawnattr_getctty(lfp_spawnattr_t *attr, char **path);
+int lfp_spawnattr_setctty(lfp_spawnattr_t *attr, const char *path);
+
+int lfp_spawnattr_getcwd(lfp_spawnattr_t *attr, char **path);
+int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path);
+
 int lfp_spawnattr_getuid(lfp_spawnattr_t *attr, uid_t *uid);
 int lfp_spawnattr_setuid(lfp_spawnattr_t *attr, const uid_t uid);
 
 int lfp_spawnattr_getgid(lfp_spawnattr_t *attr, gid_t *gid);
 int lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid);
-
-int lfp_spawnattr_getcwd(lfp_spawnattr_t *attr, char **path);
-int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path);
 
 int lfp_spawn(pid_t *restrict pid,
               const char *restrict path,

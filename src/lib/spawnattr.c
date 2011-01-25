@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <limits.h>
+#include <sys/ioctl.h>
 
 #include "utils.h"
 #include "spawn.h"
@@ -43,7 +44,9 @@
                              LFP_SPAWN_RESETIDS      | \
                              LFP_SPAWN_SETUID        | \
                              LFP_SPAWN_SETGID        | \
-                             LFP_SPAWN_SETCWD          )
+                             LFP_SPAWN_SETCWD        | \
+                             LFP_SPAWN_SETSID        | \
+                             LFP_SPAWN_SETCTTY       )
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr)
 {
@@ -122,6 +125,51 @@ int lfp_spawnattr_setpgroup(lfp_spawnattr_t *attr, const pid_t pgroup)
     return 0;
 }
 
+int lfp_spawnattr_setsid(lfp_spawnattr_t *attr)
+{
+    SYSCHECK(EINVAL, attr == NULL);
+    attr->flags |= LFP_SPAWN_SETSID;
+    return 0;
+}
+
+int lfp_spawnattr_getctty(lfp_spawnattr_t *attr, char **path)
+{
+    SYSCHECK(EINVAL, attr == NULL || path == NULL);
+    *path = strdup(attr->pts_path);
+    return 0;
+}
+
+int lfp_spawnattr_setctty(lfp_spawnattr_t *attr, const char *path)
+{
+    SYSCHECK(EINVAL, attr == NULL || path == NULL);
+    attr->flags |= LFP_SPAWN_SETCTTY;
+    if (attr->pts_path) {
+        free(attr->pts_path);
+    }
+    attr->pts_path = lfp_strndup(path, PATH_MAX);
+    attr->pts_path[PATH_MAX] = 0;
+    return 0;
+}
+
+int lfp_spawnattr_getcwd(lfp_spawnattr_t *attr, char **path)
+{
+    SYSCHECK(EINVAL, attr == NULL || path == NULL);
+    *path = strdup(attr->chdir_path);
+    return 0;
+}
+
+int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path)
+{
+    SYSCHECK(EINVAL, attr == NULL || path == NULL);
+    attr->flags |= LFP_SPAWN_SETCWD;
+    if (attr->chdir_path) {
+        free(attr->chdir_path);
+    }
+    attr->chdir_path = lfp_strndup(path, PATH_MAX);
+    attr->chdir_path[PATH_MAX] = 0;
+    return 0;
+}
+
 int lfp_spawnattr_getuid(lfp_spawnattr_t *attr, uid_t *uid)
 {
     SYSCHECK(EINVAL, attr == NULL || uid == NULL);
@@ -149,25 +197,6 @@ int lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid)
     SYSCHECK(EINVAL, attr == NULL);
     attr->flags |= LFP_SPAWN_SETGID;
     attr->gid = gid;
-    return 0;
-}
-
-int lfp_spawnattr_getcwd(lfp_spawnattr_t *attr, char **path)
-{
-    SYSCHECK(EINVAL, attr == NULL || path == NULL);
-    *path = strdup(attr->chdir_path);
-    return 0;
-}
-
-int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path)
-{
-    SYSCHECK(EINVAL, attr == NULL || path == NULL);
-    attr->flags |= LFP_SPAWN_SETCWD;
-    if (attr->chdir_path) {
-        free(attr->chdir_path);
-    }
-    attr->chdir_path = lfp_strndup(path, PATH_MAX);
-    attr->chdir_path[PATH_MAX] = 0;
     return 0;
 }
 
@@ -211,6 +240,39 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
             goto error_return;
         }
 
+    if (attr->flags & LFP_SPAWN_SETSID)
+        if (setsid() < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:SETSID:setsid");
+#endif
+            goto error_return;
+        }
+
+    if (attr->flags & LFP_SPAWN_SETCTTY) {
+        int ttyfd = lfp_open(attr->pts_path, O_RDWR | O_NOCTTY);
+        if (ttyfd  < 0) {
+#if !defined(NDEBUG)
+		perror("LFP_SPAWN_APPLY_ATTR:SETCTTY:lfp_open");
+#endif
+		goto error_return;
+        } else {
+	    if (ioctl(ttyfd, TIOCSCTTY) < 0) {
+#if !defined(NDEBUG)
+		perror("LFP_SPAWN_APPLY_ATTR:SETCTTY:ioctl");
+#endif
+		goto error_return;
+	    }
+	}
+    }
+
+    if (attr->flags & LFP_SPAWN_SETCWD)
+        if (chdir(attr->chdir_path) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:SETCWD:chdir");
+#endif
+            goto error_return;
+        }
+
     if (attr->flags & LFP_SPAWN_RESETIDS) {
         if (seteuid(getuid()) < 0) {
 #if !defined(NDEBUG)
@@ -238,14 +300,6 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
         if (setegid(attr->gid) < 0) {
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:SETGID:setegid");
-#endif
-            goto error_return;
-        }
-
-    if (attr->flags & LFP_SPAWN_SETCWD)
-        if (chdir(attr->chdir_path) < 0) {
-#if !defined(NDEBUG)
-            perror("LFP_SPAWN_APPLY_ATTR:SETCWD:chdir");
 #endif
             goto error_return;
         }
