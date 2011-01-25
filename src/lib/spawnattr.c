@@ -187,7 +187,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:SETSIGMASK:sigprocmask");
 #endif
-            return lfp_errno();
+            goto error_return;
         }
 
     if (attr->flags & LFP_SPAWN_SETSIGDEFAULT) {
@@ -199,7 +199,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #if !defined(NDEBUG)
                     perror("LFP_SPAWN_APPLY_ATTR:SETSIGDEFAULT:sigaction");
 #endif
-                    return lfp_errno();
+                    goto error_return;
                 }
     }
 
@@ -208,7 +208,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:SETPGROUP:setpgid");
 #endif
-            return lfp_errno();
+            goto error_return;
         }
 
     if (attr->flags & LFP_SPAWN_RESETIDS) {
@@ -216,13 +216,13 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:RESETIDS:seteuid");
 #endif
-            return lfp_errno();
+            goto error_return;
         }
         if (setegid(getgid()) < 0) {
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:RESETIDS:setegid");
 #endif
-            return lfp_errno();
+            goto error_return;
         }
     }
 
@@ -231,7 +231,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:SETUID:seteuid");
 #endif
-            return lfp_errno();
+            goto error_return;
         }
 
     if (attr->flags & LFP_SPAWN_SETGID)
@@ -239,7 +239,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:SETGID:setegid");
 #endif
-            return lfp_errno();
+            goto error_return;
         }
 
     if (attr->flags & LFP_SPAWN_SETCWD)
@@ -247,8 +247,10 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:SETCWD:chdir");
 #endif
-            return lfp_errno();
+            goto error_return;
         }
 
     return 0;
+  error_return:
+    return lfp_errno();
 }
