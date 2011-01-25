@@ -87,7 +87,7 @@ int lfp_spawnattr_setflags(lfp_spawnattr_t *attr, const uint32_t flags)
 int lfp_spawnattr_getsigmask(lfp_spawnattr_t *attr, sigset_t *sigmask)
 {
     SYSCHECK(EINVAL, attr == NULL || sigmask == NULL);
-    *sigmask = attr->sigmask;
+    memcpy(sigmask, &attr->sigmask, sizeof(sigset_t));
     return 0;
 }
 
@@ -95,14 +95,14 @@ int lfp_spawnattr_setsigmask(lfp_spawnattr_t *attr, const sigset_t *sigmask)
 {
     SYSCHECK(EINVAL, attr == NULL);
     attr->flags |= LFP_SPAWN_SETSIGMASK;
-    attr->sigmask = *sigmask;
+    memcpy(&attr->sigmask, sigmask, sizeof(sigset_t));
     return 0;
 }
 
 int lfp_spawnattr_getsigdefault(lfp_spawnattr_t *attr, sigset_t *sigdefault)
 {
     SYSCHECK(EINVAL, attr == NULL || sigdefault == NULL);
-    *sigdefault = attr->sigdefault;
+    memcpy(sigdefault, &attr->sigdefault, sizeof(sigset_t));
     return 0;
 }
 
@@ -110,7 +110,7 @@ int lfp_spawnattr_setsigdefault(lfp_spawnattr_t *attr, const sigset_t *sigdefaul
 {
     SYSCHECK(EINVAL, attr == NULL || sigdefault == NULL);
     attr->flags |= LFP_SPAWN_SETSIGDEFAULT;
-    attr->sigdefault = *sigdefault;
+    memcpy(&attr->sigdefault, sigdefault, sizeof(sigset_t));
     return 0;
 }
 
