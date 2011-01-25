@@ -27,7 +27,10 @@
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
 
+#include <limits.h>
+#include <stdbool.h>
 #include <unistd.h>
+#include <pthread.h>
 
 int lfp_mkstemp(char *template)
 {
@@ -63,4 +66,20 @@ char* lfp_getpath(char *const envp[])
     } else {
         return _lfp_default_path();
     }
+}
+
+static pthread_mutex_t ptsname_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+char *lfp_ptsname(int masterfd)
+{
+    pthread_mutex_lock(&ptsname_mutex);
+
+    char *_name = ptsname(masterfd);
+    if (_name != NULL) {
+        _name = lfp_strndup(_name, PATH_MAX);
+    }
+
+    pthread_mutex_unlock(&ptsname_mutex);
+
+    return _name;
 }
