@@ -46,6 +46,17 @@ void child_exit(int pipe, int child_errno)
 }
 
 static
+int _lfp_spawn_apply_default_attributes(const lfp_spawnattr_t *attr)
+{
+    if (attr == NULL || ! (attr->flags & LFP_SPAWN_SETSIGMASK)) {
+        sigset_t set;
+        sigemptyset(&set);
+        SYSGUARD(sigprocmask(SIG_SETMASK, &set, NULL));
+    }
+    return 0;
+}
+
+static
 void handle_child(execfun *execfun,
                   const char *path,
                   char *const argv[],
@@ -55,12 +66,10 @@ void handle_child(execfun *execfun,
                   int pipes[2])
 {
     close(pipes[0]);
-    int child_errno = lfp_spawn_apply_attributes(attr);
-    if (child_errno != 0) {
-        child_exit(pipes[1], child_errno);
-    }
-    child_errno = lfp_spawn_apply_file_actions(file_actions);
-    if (child_errno != 0) {
+    int child_errno; 
+    if ((child_errno = _lfp_spawn_apply_default_attributes(attr))  != 0 || \
+        (child_errno = lfp_spawn_apply_attributes(attr))           != 0 || \
+        (child_errno = lfp_spawn_apply_file_actions(file_actions)) != 0) {
         child_exit(pipes[1], child_errno);
     }
     execfun(path, argv, envp);
