@@ -119,7 +119,7 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     size_t filelen = lfp_strnlen(file, NAME_MAX);
     SYSCHECK(ENAMETOOLONG, filelen >= NAME_MAX);
 
-    char path[PATH_MAX], *searchpath, *tmpath, *bindir;
+    char path[PATH_MAX], *searchpath=NULL, *tmpath=NULL, *bindir=NULL;
 
     tmpath = searchpath = lfp_getpath(envp);
 
