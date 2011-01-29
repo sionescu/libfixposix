@@ -44,7 +44,7 @@ char* _lfp_getenv(const char *name, unsigned short len, char *const envp[])
     do {
         if (strlen(*envp) > len && strncmp(name, *envp, len) == 0)
             return (char*)*envp+len;
-    } while(++envp);
+    } while(*(++envp) != NULL);
     return NULL;
 }
 
