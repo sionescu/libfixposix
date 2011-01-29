@@ -208,8 +208,7 @@ int lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid)
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 {
-    if(attr == NULL)
-        return 0;
+    if (attr == NULL) return 0;
 
     SYSCHECK(EINVAL, (attr->flags & LFP_SPAWN_RESETIDS) && \
                      ((attr->flags & LFP_SPAWN_SETUID)  || \
