@@ -187,6 +187,8 @@ int lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 
 int lfp_spawn_apply_file_actions(const lfp_spawn_file_actions_t *file_actions)
 {
+    if (file_actions == NULL) return 0;
+
     lfp_spawn_action *action = file_actions->actions;
     int err;
 
