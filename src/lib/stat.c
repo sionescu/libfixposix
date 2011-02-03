@@ -42,7 +42,7 @@ int lfp_lstat(const char *path, struct stat *buf)
     return lstat(path, buf);
 }
 
-int lfp_fd_is_open(int fd)
+int lfp_is_fd_open(int fd)
 {
     struct stat buf;
     int ret = fstat(fd, &buf);

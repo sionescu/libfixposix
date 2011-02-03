@@ -38,7 +38,7 @@ int lfp_fstat(int fd, struct stat *buf);
 
 int lfp_lstat(const char *path, struct stat *buf);
 
-int lfp_fd_is_open(int fd);
+int lfp_is_fd_open(int fd);
 
 bool lfp_isreg(mode_t mode);
 
