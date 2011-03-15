@@ -21,6 +21,9 @@ case "$host" in
      *-apple-darwin*)
        LFP_CPPFLAGS+=" -D_DARWIN_C_SOURCE"
        ;;
+     *-sunos*|*-solaris*)
+       LFP_CPPFLAGS+=" -D__EXTENSIONS__ -D_XPG4 -D_XPG4_2"
+       ;;
 esac
 ])
 
