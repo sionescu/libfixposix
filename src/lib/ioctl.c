@@ -29,6 +29,9 @@
 #include <lfp/string.h>
 #include <lfp/errno.h>
 
+#include <string.h>
+#include <sys/termios.h>
+
 DSO_PUBLIC int
 lfp_tty_attach(const char *path)
 {
