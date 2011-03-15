@@ -24,6 +24,9 @@
 
 #include <config.h>
 
+#include <string.h>
+#include <sys/termios.h>
+
 #include <lfp/spawn.h>
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
