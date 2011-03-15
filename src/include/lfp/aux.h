@@ -37,6 +37,12 @@
 # define LFP_END_DECLS
 #endif
 
+#ifdef GCC
+# define ATTRIBUTE_NONNULL __attribute__((nonnull (1)))
+#else
+# define ATTRIBUTE_NONNULL
+#endif
+
 #if (__STDC_VERSION__ - 0) < 199901L
 // only C99 has restricted pointers
 # define restrict
