@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LPF_ERRNO_H_)
+# define _LPF_ERRNO_H_
 
 #include <lfp/aux.h>
 
@@ -37,3 +38,5 @@ int lfp_errno(void);
 int lfp_set_errno(int value);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LPF_ERRNO_H_ */

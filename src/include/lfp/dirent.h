@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_DIRENT_H_)
+# define _LFP_DIRENT_H_
 
 #include <lfp/aux.h>
 
@@ -33,3 +34,5 @@ CPLUSPLUS_GUARD
 int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_DIRENT_H_ */

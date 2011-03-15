@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_STAT_H_)
+# define _LFP_STAT_H_
 
 #include <lfp/aux.h>
 
@@ -55,3 +56,5 @@ bool lfp_islnk(mode_t mode);
 bool lfp_issock(mode_t mode);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_STAT_H_ */

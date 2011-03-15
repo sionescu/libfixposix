@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LPF_RESOURCE_H_)
+# define _LPF_RESOURCE_H_
 
 #include <lfp/aux.h>
 
@@ -35,3 +36,5 @@ int lfp_getrlimit(int resource, struct rlimit *rlim);
 int lfp_setrlimit(int resource, const struct rlimit *rlim);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LPF_RESOURCE_H_ */

@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_FCNTL_H_)
+# define _LFP_FCNTL_H_
 
 #include <lfp/aux.h>
 
@@ -58,3 +59,5 @@ int lfp_is_fd_nonblock(int fd);
 int lfp_set_fd_nonblock(int fd, bool enabled);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_FCNTL_H_ */

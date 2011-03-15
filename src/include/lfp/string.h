@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_STRING_H_)
+# define _LFP_STRING_H_
 
 #include <lfp/aux.h>
 
@@ -37,3 +38,5 @@ size_t lfp_strnlen(const char *s, size_t maxlen);
 char *lfp_strndup(const char *s, size_t maxlen);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_STRING_H_ */

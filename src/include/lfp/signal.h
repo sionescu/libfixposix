@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_SIGNAL_H_)
+# define _LFP_SIGNAL_H_
 
 #include <lfp/aux.h>
 
@@ -45,3 +46,5 @@ int lfp_sigrtmin(void);
 int lfp_sigrtmax(void);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_SIGNAL_H_ */

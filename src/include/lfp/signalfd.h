@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_SIGNALFD_H_)
+# define _LFP_SIGNALFD_H_
 
 #include <lfp/aux.h>
 
@@ -45,3 +46,5 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 int lfp_uninstall_signalfd(int signum, bool block);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_SIGNALFD_H_ */

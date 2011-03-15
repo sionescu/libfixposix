@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_SENDFILE_H_)
+# define _LFP_SENDFILE_H_
 
 #include <lfp/aux.h>
 
@@ -33,3 +34,5 @@ CPLUSPLUS_GUARD
 ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_SENDFILE_H_ */

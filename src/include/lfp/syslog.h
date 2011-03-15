@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_SYSLOG_H_)
+# define _LFP_SYSLOG_H_
 
 #include <lfp/aux.h>
 
@@ -47,3 +48,5 @@ int lfp_log_mask(int priority);
 int lfp_log_upto(int priority);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_SYSLOG_H_ */

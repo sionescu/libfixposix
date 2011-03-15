@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_MMAN_H_)
+# define _LFP_MMAN_H_
 
 #include <lfp/aux.h>
 
@@ -36,3 +37,5 @@ void *lfp_mmap(void *addr, size_t length, int prot,
 int lfp_munmap(void *addr, size_t length);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_MMAN_H_ */

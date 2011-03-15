@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_TIME_H_)
+# define _LFP_TIME_H_
 
 #include <lfp/aux.h>
 
@@ -49,3 +50,5 @@ int lfp_clock_gettime(lfp_clockid_t clk_id, struct timespec *tp);
 int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_TIME_H_ */

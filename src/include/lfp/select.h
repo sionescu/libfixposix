@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_SELECT_H_)
+# define _LFP_SELECT_H_
 
 #include <lfp/aux.h>
 
@@ -44,3 +45,5 @@ void lfp_fd_set(int fd, fd_set *set);
 void lfp_fd_zero(fd_set *set);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_SELECT_H_ */

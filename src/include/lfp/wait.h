@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_WAIT_H_)
+# define _LFP_WAIT_H_
 
 #include <lfp/aux.h>
 
@@ -49,3 +50,5 @@ int lfp_wstopsig(int status);
 bool lfp_wifcontinued(int status);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_WAIT_H_ */

@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_SOCKET_H_)
+# define _LFP_SOCKET_H_
 
 #include <lfp/aux.h>
 
@@ -50,3 +51,5 @@ size_t lfp_cmsg_len(size_t length);
 void* lfp_cmsg_data(struct cmsghdr* cmsg);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_SOCKET_H_ */

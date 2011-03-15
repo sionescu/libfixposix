@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_INTERNAL_UTILS_H_)
+# define _LFP_INTERNAL_UTILS_H_
 
 #include <sys/types.h>
 #include <sys/time.h>
@@ -62,3 +63,5 @@ _lfp_timespec_to_mach_timespec_t(struct timespec *ts, mach_timespec_t *mts)
 
 /* not checking for OPEN_MAX, which might not be valid, on Linux */
 #define INVALID_FD(fd) ( fd < 0 )
+
+#endif /* _LFP_INTERNAL_UTILS_H_ */

@@ -22,10 +22,13 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_INTERNAL_SPAWN_H_)
+# define _LFP_INTERNAL_SPAWN_H_
 
 #include <lfp/spawn.h>
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr);
 
 int lfp_spawn_apply_file_actions(const lfp_spawn_file_actions_t *file_actions);
+
+#endif /* _LFP_INTERNAL_SPAWN_H_ */

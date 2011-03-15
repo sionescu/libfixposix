@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_UNISTD_H_)
+# define _LFP_UNISTD_H_
 
 #include <lfp/aux.h>
 
@@ -51,3 +52,5 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     __attribute__((nonnull (1)));
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_UNISTD_H_ */

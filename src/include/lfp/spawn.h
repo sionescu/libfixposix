@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_SPAWN_H_)
+# define _LFP_SPAWN_H_
 
 #include <lfp/aux.h>
 
@@ -130,3 +131,5 @@ int lfp_spawnp(pid_t *restrict pid,
                const lfp_spawnattr_t *restrict attr);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_SPAWN_H_ */

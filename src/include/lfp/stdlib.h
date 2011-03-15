@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_STDLIB_H_)
+# define _LFP_STDLIB_H_
 
 #include <lfp/aux.h>
 
@@ -37,3 +38,5 @@ char* lfp_getpath(char *const envp[]);
 char *lfp_ptsname(int masterfd);
 
 END_CPLUSPLUS_GUARD
+
+#endif /* _LFP_STDLIB_H_ */

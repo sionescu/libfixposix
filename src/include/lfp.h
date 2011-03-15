@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_H)
+# define _LFP_H_
 
 #include <lfp/aux.h>
 
@@ -59,3 +60,5 @@
 #include <lfp/sendfile.h>
 
 #include <lfp/syslog.h>
+
+#endif /* _LFP_H_ */

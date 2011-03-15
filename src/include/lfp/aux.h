@@ -22,7 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#pragma once
+#if !defined(_LFP_AUX_H_)
+# define _LFP_AUX_H_
 
 #if defined(__cplusplus)
 # define CPLUSPLUS_GUARD extern "C" {
@@ -36,3 +37,5 @@
 // only C99 has restricted pointers
 # define restrict
 #endif
+
+#endif /* _LFP_AUX_H_ */
