@@ -34,6 +34,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <sys/ioctl.h>
+#include <sys/termios.h>
 
 #include "utils.h"
 #include "spawn.h"
