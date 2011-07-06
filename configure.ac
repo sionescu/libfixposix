@@ -35,7 +35,8 @@ dnl Checks for programs.
 # We need a C compiler.
 AC_PROG_CC_C99
 # And we need libtool for building the shared library
-LT_INIT
+LT_INIT([pic-only disable-static disable-fast-install])
+LT_PREREQ([2.4])
 
 LFP_FLAGS_INIT
 
