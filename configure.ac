@@ -34,6 +34,7 @@ dnl Contains replacement functions
 dnl Checks for programs.
 # We need a C compiler.
 AC_PROG_CC_C99
+AC_PROG_AWK
 # And we need libtool for building the shared library
 LT_INIT([pic-only disable-static disable-fast-install])
 LT_PREREQ([2.4])

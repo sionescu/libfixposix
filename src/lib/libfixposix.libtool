@@ -1,0 +1,5 @@
+# Makes sure that the library is properly re-linked
+# when the version changes
+#
+# CURRENT:REVISION:AGE
+Version: 0:0:0
