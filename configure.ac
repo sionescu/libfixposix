@@ -65,6 +65,7 @@ AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for declarations
 LFP_REQUIRE_DECLS([NSIG], [signal.h])
+LFP_REQUIRE_DECLS([IP_HDRINCL], [netinet/in.h])
 
 dnl Checks for functions
 AC_CHECK_FUNCS([__xpg_strerror_r strnlen strndup])
