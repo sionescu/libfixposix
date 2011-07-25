@@ -37,7 +37,7 @@ AC_PROG_CC_C99
 AC_PROG_AWK
 # And we need libtool for building the shared library
 LT_INIT([pic-only disable-static disable-fast-install])
-LT_PREREQ([2.4])
+LT_PREREQ([2.2.6])
 
 LFP_FLAGS_INIT
 
