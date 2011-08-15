@@ -61,6 +61,7 @@ LFP_LDFLAGS+=" $PTHREAD_LIBS $LFS_LDFLAGS $LFS_LIBS"
 
 dnl Checks for C99 & POSIX headers
 AC_HEADER_ASSERT
+AC_HEADER_STDBOOL
 LFP_REQUIRE_HEADERS([stdlib.h stdio.h string.h errno.h time.h])
 LFP_REQUIRE_HEADERS([sys/types.h unistd.h fcntl.h signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
