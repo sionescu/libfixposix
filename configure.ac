@@ -22,6 +22,10 @@ AC_CONFIG_SRCDIR([src/lib/spawn.c])
 dnl Auxiliary M4 macros
 AC_CONFIG_MACRO_DIR([m4])
 
+if test "`cd $srcdir; /bin/pwd`" = "`/bin/pwd`" ; then
+  AC_MSG_ERROR([you must configure in a separate build directory])
+fi
+
 dnl Must come before AM_INIT_AUTOMAKE.
 AC_CONFIG_AUX_DIR([.build-aux])
 AM_INIT_AUTOMAKE([1.10 foreign silent-rules subdir-objects
