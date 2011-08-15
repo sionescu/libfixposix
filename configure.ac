@@ -68,8 +68,8 @@ LFP_REQUIRE_DECLS([NSIG], [signal.h])
 LFP_REQUIRE_DECLS([IP_HDRINCL], [netinet/in.h])
 
 dnl Checks for functions
-AC_CHECK_FUNCS([__xpg_strerror_r strnlen strndup])
-AC_CHECK_FUNCS([accept4 pipe2 sendfile])
+AC_CHECK_FUNCS_ONCE([__xpg_strerror_r strnlen strndup])
+AC_CHECK_FUNCS_ONCE([accept4 pipe2 sendfile])
 LFP_REQUIRE_FUNCS([pselect vsyslog])
 LFP_CHECK_POSIX_MONOTONIC_CLOCK
 

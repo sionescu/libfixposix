@@ -6,7 +6,7 @@ AC_DEFUN([LFP_REQUIRE_HEADERS],
 
 # Check for a function and print an error if not found
 AC_DEFUN([LFP_REQUIRE_FUNCS],
- [AC_CHECK_FUNCS($1,,AC_MSG_FAILURE([Cannot find function(s) $1]))])
+ [AC_CHECK_FUNCS_ONCE($1,,AC_MSG_FAILURE([Cannot find function(s) $1]))])
 
 # Check for a type and print an error if not found
 AC_DEFUN([LFP_REQUIRE_TYPE],
