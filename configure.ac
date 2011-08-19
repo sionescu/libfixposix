@@ -23,7 +23,7 @@ dnl Auxiliary M4 macros
 AC_CONFIG_MACRO_DIR([m4])
 
 if test "`cd $srcdir; /bin/pwd`" = "`/bin/pwd`" ; then
-  AC_MSG_ERROR([you must configure in a separate build directory])
+  AC_MSG_WARN([you must configure in a separate build directory])
 fi
 
 dnl Must come before AM_INIT_AUTOMAKE.
