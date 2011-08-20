@@ -76,7 +76,7 @@ char *lfp_ptsname(int masterfd)
 
     char *_name = ptsname(masterfd);
     if (_name != NULL) {
-        _name = lfp_strndup(_name, PATH_MAX);
+        _name = strdup(_name);
     }
 
     pthread_mutex_unlock(&ptsname_mutex);

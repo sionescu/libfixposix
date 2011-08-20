@@ -151,8 +151,7 @@ int lfp_spawnattr_setctty(lfp_spawnattr_t *attr, const char *path)
     if (attr->pts_path) {
         free(attr->pts_path);
     }
-    attr->pts_path = lfp_strndup(path, PATH_MAX);
-    attr->pts_path[PATH_MAX] = 0;
+    attr->pts_path = strdup(path);
     return 0;
 }
 
@@ -170,8 +169,7 @@ int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path)
     if (attr->chdir_path) {
         free(attr->chdir_path);
     }
-    attr->chdir_path = lfp_strndup(path, PATH_MAX);
-    attr->chdir_path[PATH_MAX] = 0;
+    attr->chdir_path = strdup(path);
     return 0;
 }
 

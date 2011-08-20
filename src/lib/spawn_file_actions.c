@@ -118,7 +118,7 @@ int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
 
     action->type = LFP_SPAWN_FILE_ACTION_OPEN;
     action->fd = fd;
-    action->path = lfp_strndup(path, PATH_MAX);
+    action->path = strdup(path);
     action->flags = oflags;
     action->mode = mode;
 
