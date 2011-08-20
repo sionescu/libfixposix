@@ -29,6 +29,7 @@
 
 CPLUSPLUS_GUARD
 
+#include <sys/types.h>
 #include <unistd.h>
 
 #include <inttypes.h>
