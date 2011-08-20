@@ -60,7 +60,7 @@ char* _lfp_default_path(void)
 
 char* lfp_getpath(char *const envp[])
 {
-    char *envpath = _lfp_getenv("PATH=", sizeof("PATH=")-1, envp);
+    char *envpath = _lfp_getenv("PATH=", sizeof("PATH=") - 1, envp);
     if (envpath != NULL) {
         return strdup(envpath);
     } else {
