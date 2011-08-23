@@ -14,6 +14,10 @@ AM_CFLAGS = $(LFP_CFLAGS)
 
 INCLUDES = -I$(top_builddir)/src/include -I$(top_srcdir)/src/include
 
+EXTRA_DIST = \
+	LICENCE \
+	src/lib/libfixposix.libtool
+
 
 
 ########################################################################
@@ -93,9 +97,6 @@ src_lib_libfixposix_la_LIBADD = $(LFP_LDFLAGS)
 
 src_lib_libfixposix_la_LDFLAGS = -no-undefined \
 	-version-info `@AWK@ '/^Version:/ { print $$2 }' $(top_srcdir)/src/lib/libfixposix.libtool`
-
-EXTRA_DIST = \
-	src/lib/libfixposix.libtool
 
 
 
