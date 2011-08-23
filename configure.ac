@@ -71,8 +71,8 @@ LFP_REQUIRE_HEADERS([sys/types.h unistd.h fcntl.h signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for declarations
-LFP_REQUIRE_DECLS([NSIG], [signal.h])
-LFP_REQUIRE_DECLS([IP_HDRINCL], [netinet/in.h])
+LFP_REQUIRE_DECL([NSIG], [signal.h])
+LFP_REQUIRE_DECL([IP_HDRINCL], [netinet/in.h])
 
 dnl Checks for functions
 AC_CHECK_FUNCS_ONCE([__xpg_strerror_r strnlen strndup])
