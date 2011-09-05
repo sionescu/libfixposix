@@ -29,26 +29,41 @@ AC_DEFUN([LFP_SYS_LARGEFILE], [
  LFP_GETCONF_UNDEF([LFS_LIBS],    [LFS_LIBS])
 ])
 
-AC_DEFUN([LFP_CHECK_SIZEOF_CLOCKID_T], [
+AC_DEFUN([LFP_CHECK_CLOCKID_T], [
 AC_CHECK_TYPE([clockid_t],
- [AC_CHECK_SIZEOF([clockid_t], [], [[#include <time.h>]])
+ [AC_CHECK_SIZEOF([clockid_t], [], [[#include <sys/time.h>]
+                                    [#include <time.h>]])
   if test "$ac_cv_sizeof_clockid_t" -gt 4 ; then
     AC_MSG_FAILURE([Type clockid_t is larger than 32 bits])
   fi],
- [case "$host" in
-    *-apple-darwin*) : ;;
-    *) AC_MSG_FAILURE([Type clockid_t not found]) ;;
-  esac],
- [[#include <time.h>]])
+  AC_MSG_FAILURE([Type clockid_t not found])
+ [[#include <sys/time.h>]
+  [#include <time.h>]])
 ])
 
-AC_DEFUN([LFP_CHECK_POSIX_MONOTONIC_CLOCK], [
-LFP_GETCONF_UNDEF([POSIX_MONOTONIC_CLOCK], [_POSIX_MONOTONIC_CLOCK],
- [LFP_CHECK_SIZEOF_CLOCKID_T],
- [case "$host" in
-    *-apple-darwin*) : ;;
-    *) AC_MSG_FAILURE([Type clockid_t not found]) ;;
-  esac])
+AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES], [
+ LFP_CHECK_CLOCKID_T
+ LFP_REQUIRE_DECL([CLOCK_REALTIME], [sys/time.h time.h])
+ LFP_REQUIRE_DECL([CLOCK_MONOTONIC], [sys/time.h time.h])
+])
+
+AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES], [
+ case "$host" in
+  *-apple-darwin*)
+    # We could check for Mach functions here
+    ;;
+  *)
+    AC_MSG_ERROR([clock_gettime not found and no workaround available])
+    ;;
+ esac
+])
+
+AC_DEFUN([LFP_REQUIRE_MONOTONIC_CLOCK], [
+ AC_SEARCH_LIBS([clock_gettime], [rt],
+                [LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES
+                 POSIX_REALTIME_LIBS=$ac_cv_search_clock_gettime],
+                [LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES])
+ AC_SUBST([POSIX_REALTIME_LIBS])
 ])
 
 AC_DEFUN([LFP_ARG_ENABLE_EMULATED_SIGNALFD], [
