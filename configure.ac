@@ -13,6 +13,7 @@ AC_PREREQ([2.67])
 
 AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
+AC_COPYRIGHT([Copyright © 2010-2011 Stelian Ionescu <sionescu@cddr.org>])
 
 AC_CONFIG_HEADERS([src/include/lfp/config.h])
 
