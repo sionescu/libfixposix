@@ -9,17 +9,22 @@ AC_DEFUN([LFP_FLAGS_INIT], [
  AC_SUBST(LFP_LIBS)
 ])
 
+AC_DEFUN([LFP_INIT], [
+ LFP_PROLOGUE
+ LFP_FLAGS_INIT
+])
+
 AC_DEFUN([LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS], [
  case "$host" in
-      *-*-linux*)
-        LFP_CFLAGS+=" -D_GNU_SOURCE=1"
-        ;;
-      *-apple-darwin*)
-        LFP_CFLAGS+=" -D_DARWIN_C_SOURCE"
-        ;;
-      *-sunos* | *-solaris*)
-        LFP_CFLAGS+=" -D__EXTENSIONS__"
-        ;;
+  *-*-linux*)
+    LFP_CFLAGS+=" -D_GNU_SOURCE=1"
+    ;;
+  *-apple-darwin*)
+    LFP_CFLAGS+=" -D_DARWIN_C_SOURCE"
+    ;;
+  *-sunos* | *-solaris*)
+    LFP_CFLAGS+=" -D__EXTENSIONS__"
+    ;;
  esac
 ])
 
