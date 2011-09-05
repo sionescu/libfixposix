@@ -70,15 +70,15 @@ LFP_REQUIRE_HEADERS([stdlib.h stdio.h string.h errno.h time.h])
 LFP_REQUIRE_HEADERS([sys/types.h unistd.h fcntl.h signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
-dnl Checks for declarations
-LFP_REQUIRE_DECL([NSIG], [signal.h])
-LFP_REQUIRE_DECL([IP_HDRINCL], [sys/socket.h netinet/in.h])
-
 dnl Checks for functions
 AC_CHECK_FUNCS_ONCE([__xpg_strerror_r strnlen strndup])
 AC_CHECK_FUNCS_ONCE([accept4 pipe2 sendfile])
 LFP_REQUIRE_FUNCS([pselect vsyslog])
 LFP_CHECK_POSIX_MONOTONIC_CLOCK
+
+dnl Checks for declarations
+LFP_REQUIRE_DECL([NSIG], [signal.h])
+LFP_REQUIRE_DECL([IP_HDRINCL], [sys/types.h sys/socket.h netinet/in.h])
 
 dnl Checks for types
 

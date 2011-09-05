@@ -14,11 +14,6 @@ AC_DEFUN([LFP_REQUIRE_TYPE],
                  [m4_foreach_w([header], [$2], [[#]include [<]header[>]
 ])])])
 
-dnl # Check for a declaration and print an error if not found
-dnl AC_DEFUN([LFP_REQUIRE_DECLS],
-dnl  [AC_CHECK_DECLS($1,,AC_MSG_FAILURE([Cannot find $1 in $2]),
-dnl                 [[#include <$2>]])])
-
 # Check for a declaration and print an error if not found
 AC_DEFUN([LFP_REQUIRE_DECL],
  [AC_CHECK_DECL($1,,AC_MSG_FAILURE([Cannot find $1 in <$2>]),
@@ -26,7 +21,8 @@ AC_DEFUN([LFP_REQUIRE_DECL],
 ])])])
 
 # Check for a declaration and print an error if not found
-# Syntax: LFP_GETCONF(VARIABLE, SYSTEM_VAR, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
+# Syntax: LFP_GETCONF(VARIABLE, SYSTEM_VAR,
+#                     ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
 AC_DEFUN([LFP_GETCONF], [
 $1=`(getconf $2) 2>/dev/null`
 AC_SUBST($1)
@@ -38,7 +34,8 @@ fi
 ])
 
 # Check for a declaration and print an error if not found or is undefined
-# Syntax: LFP_GETCONF(VARIABLE, SYSTEM_VAR, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
+# Syntax: LFP_GETCONF(VARIABLE, SYSTEM_VAR,
+#                     ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
 AC_DEFUN([LFP_GETCONF_UNDEF], [
 $1=`(getconf $2) 2>/dev/null`
 AC_SUBST($1)
