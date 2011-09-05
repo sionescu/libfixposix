@@ -49,11 +49,7 @@ LT_PREREQ([2.2.6])
 LFP_INIT
 
 dnl Checks for programs
-AC_CHECK_PROG([GETCONF], [getconf], [yes])
-if test "x$ac_cv_prog_GETCONF" != xyes
-then
-  AC_MSG_FAILURE([Program getconf not found])
-fi
+LFP_REQUIRE_PROG([SMAKKA], [awk])
 
 dnl Set compiler & linker flags
 LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS

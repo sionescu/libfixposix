@@ -56,6 +56,14 @@ AC_DEFUN([LFP_REQUIRE_DECL], [
  _lfp_restore_flags
 ])
 
+AC_DEFUN([LFP_REQUIRE_PROG], [
+ AC_CHECK_PROG($1, $2, [yes])
+ if test "x$ac_cv_prog_$1" != xyes
+ then
+   AC_MSG_FAILURE([Program $2 not found])
+ fi
+])
+
 # Check for a declaration and print an error if not found
 # Syntax: LFP_GETCONF(VARIABLE, SYSTEM_VAR,
 #                     ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
