@@ -34,8 +34,6 @@ CPLUSPLUS_GUARD
 #include <inttypes.h>
 #include <stdbool.h>
 
-extern char **environ;
-
 #if !defined(O_CLOEXEC)
 // Syscalls use "int" for passing flags, and since
 // *nix systems use the LP64 data model, "int" is 32 bits

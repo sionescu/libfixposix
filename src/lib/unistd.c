@@ -30,10 +30,26 @@
 #include <lfp/errno.h>
 #include <lfp/fcntl.h>
 
+#if defined(__APPLE__)
+# include <crt_externs.h>
+#else
+extern char** environ;
+#endif
+
 #include <limits.h>
 #include <stdio.h>
 
 #include "utils.h"
+
+char** lfp_get_environ(void)
+{
+#if defined(__APPLE__)
+    return *_NSGetEnviron();
+#else
+    return environ;
+#endif
+}
+
 
 off_t lfp_lseek(int fd, off_t offset, int whence)
 {
