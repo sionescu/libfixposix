@@ -2,7 +2,7 @@
 
 AC_DEFUN([LFP_FLAGS_INIT], [
  LFP_CFLAGS="-D_XOPEN_SOURCE=600"
- LFP_LDFLAGS=""
+ LFP_LDFLAGS="-Wl,--no-undefined"
  LFP_LIBS=""
  AC_SUBST(LFP_CFLAGS)
  AC_SUBST(LFP_LDFLAGS)
@@ -61,9 +61,9 @@ AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES], [
 AC_DEFUN([LFP_REQUIRE_MONOTONIC_CLOCK], [
  AC_SEARCH_LIBS([clock_gettime], [rt],
                 [LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES
-                 POSIX_REALTIME_LIBS=$ac_cv_search_clock_gettime],
+                 LFP_LIBS+=" $ac_cv_search_clock_gettime"
+                 LIBS=""],
                 [LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES])
- AC_SUBST([POSIX_REALTIME_LIBS])
 ])
 
 AC_DEFUN([LFP_ARG_ENABLE_EMULATED_SIGNALFD], [
