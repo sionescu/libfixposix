@@ -8,8 +8,6 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-AM_CPPFLAGS = $(LFP_CPPFLAGS)
-
 AM_CFLAGS = $(LFP_CFLAGS)
 
 INCLUDES = -I$(top_builddir)/src/include -I$(top_srcdir)/src/include

@@ -1,30 +1,26 @@
 # -*- Autoconf -*-
 
 AC_DEFUN([LFP_FLAGS_INIT], [
-LFP_CPPFLAGS="-D_XOPEN_SOURCE"
 LFP_CFLAGS=""
 LFP_LDFLAGS=""
 AC_SUBST(LFP_CPPFLAGS)
 AC_SUBST(LFP_CFLAGS)
 AC_SUBST(LFP_LDFLAGS)
+ LFP_CFLAGS="-D_XOPEN_SOURCE=600"
 ])
 
 AC_DEFUN([LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS], [
-case "$host" in
-     *-*-linux*)
-       LFP_CPPFLAGS+=" -D_GNU_SOURCE=1"
-       LFP_LDFLAGS+=" -lrt"
-       ;;
-     *-*-freebsd*)
-       LFP_CPPFLAGS+=" -D__BSD_VISIBLE"
-       ;;
-     *-apple-darwin*)
-       LFP_CPPFLAGS+=" -D_DARWIN_C_SOURCE"
-       ;;
-     *-sunos*|*-solaris*)
-       LFP_CPPFLAGS+=" -D__EXTENSIONS__ -D_XPG4 -D_XPG4_2"
-       ;;
-esac
+ case "$host" in
+      *-*-linux*)
+        LFP_CFLAGS+=" -D_GNU_SOURCE=1"
+        ;;
+      *-apple-darwin*)
+        LFP_CFLAGS+=" -D_DARWIN_C_SOURCE"
+        ;;
+      *-sunos* | *-solaris*)
+        LFP_CFLAGS+=" -D__EXTENSIONS__"
+        ;;
+ esac
 ])
 
 AC_DEFUN([LFP_SYS_LARGEFILE], [
