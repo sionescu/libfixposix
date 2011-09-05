@@ -122,6 +122,8 @@ int lfp_clock_gettime(lfp_clockid_t clk_id, struct timespec *tp)
 #if HAVE_CLOCK_GETTIME
     return clock_gettime((clockid_t)clk_id, tp);
 #elif defined(__APPLE__)
+    SYSCHECK(EINVAL, tp == NULL);
+
     switch (clk_id) {
     case CLOCK_REALTIME:
         return _lfp_clock_gettime(CALENDAR_CLOCK, tp);
@@ -157,6 +159,8 @@ int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp)
 #if HAVE_CLOCK_GETTIME
     return clock_settime((clockid_t)clk_id, tp);
 #elif defined(__APPLE__)
+    SYSCHECK(EINVAL, tp == NULL);
+
     switch (clk_id) {
     case CLOCK_REALTIME:
         return _lfp_clock_settime_realtime(tp);
