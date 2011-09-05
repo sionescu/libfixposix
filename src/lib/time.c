@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/time.h>
 #include <lfp/errno.h>
 #include <lfp/unistd.h>
@@ -67,10 +65,10 @@ int _lfp_clock_getres(clock_id_t clk_id, struct timespec *tp)
 }
 #endif
 
-int lfp_clock_getres(lfp_clockid_t clk_id, struct timespec *res)
+int lfp_clock_getres(clockid_t clk_id, struct timespec *res)
 {
 #if HAVE_CLOCK_GETTIME
-    return clock_getres((clockid_t)clk_id, res);
+    return clock_getres(clk_id, res);
 #elif defined(__APPLE__)
     SYSCHECK(EINVAL, res == NULL);
 
@@ -117,10 +115,10 @@ int _lfp_clock_gettime(clock_id_t clk_id, struct timespec *tp)
 }
 #endif
 
-int lfp_clock_gettime(lfp_clockid_t clk_id, struct timespec *tp)
+int lfp_clock_gettime(clockid_t clk_id, struct timespec *tp)
 {
 #if HAVE_CLOCK_GETTIME
-    return clock_gettime((clockid_t)clk_id, tp);
+    return clock_gettime(clk_id, tp);
 #elif defined(__APPLE__)
     SYSCHECK(EINVAL, tp == NULL);
 
@@ -154,10 +152,10 @@ int _lfp_clock_settime_realtime(struct timespec *tp)
 }
 #endif
 
-int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp)
+int lfp_clock_settime(clockid_t clk_id, struct timespec *tp)
 {
 #if HAVE_CLOCK_GETTIME
-    return clock_settime((clockid_t)clk_id, tp);
+    return clock_settime(clk_id, tp);
 #elif defined(__APPLE__)
     SYSCHECK(EINVAL, tp == NULL);
 

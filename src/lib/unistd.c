@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/unistd.h>
 #include <lfp/stdlib.h>
 #include <lfp/string.h>

@@ -34,20 +34,20 @@ CPLUSPLUS_GUARD
 
 #include <inttypes.h>
 
-typedef uint64_t lfp_clockid_t;
-
-#if !defined(_POSIX_TIMERS) || _POSIX_TIMERS < 0
-# define CLOCK_REALTIME  0
-# define CLOCK_MONOTONIC 1
-#elif !defined(_POSIX_MONOTONIC_CLOCK) || _POSIX_MONOTONIC_CLOCK < 0
-# define CLOCK_MONOTONIC (1 << 32)
+#if !HAVE_CLOCKID_T
+typedef int lfp_clockid_t;
 #endif
 
-int lfp_clock_getres(lfp_clockid_t clk_id, struct timespec *res);
+#if !HAVE_CLOCK_GETTIME
+# define CLOCK_REALTIME  0
+# define CLOCK_MONOTONIC 1
+#endif
 
-int lfp_clock_gettime(lfp_clockid_t clk_id, struct timespec *tp);
+int lfp_clock_getres(clockid_t clk_id, struct timespec *res);
 
-int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp);
+int lfp_clock_gettime(clockid_t clk_id, struct timespec *tp);
+
+int lfp_clock_settime(clockid_t clk_id, struct timespec *tp);
 
 END_CPLUSPLUS_GUARD
 

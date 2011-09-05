@@ -14,7 +14,7 @@ AC_PREREQ([2.67])
 AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
 
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_HEADERS([src/include/lfp/config.h])
 
 dnl Where to generate output; srcdir location.
 AC_CONFIG_SRCDIR([src/lib/spawn.c])

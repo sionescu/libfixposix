@@ -46,6 +46,7 @@ include_HEADERS = src/include/lfp.h
 
 include_lfpdir = $(includedir)/lfp
 include_lfp_HEADERS = \
+	$(top_builddir)/src/include/lfp/config.h \
 	src/include/lfp/aux.h \
 	src/include/lfp/stdlib.h \
 	src/include/lfp/string.h \
