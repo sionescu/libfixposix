@@ -32,26 +32,24 @@
 # include <mach/mach.h>
 #endif
 
-static inline void
-_lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv)
+static inline
+void _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv)
 {
-    tv->tv_sec = ts->tv_sec;
-    tv->tv_usec = ts->tv_nsec / 1000;
-}
-
-static inline void
-_lfp_timeval_to_timespec(struct timeval *tv, struct timespec *ts)
-{
-    ts->tv_sec = tv->tv_sec;
-    ts->tv_nsec = tv->tv_usec * 1000;
+    tv->tv_sec  = ts->tv_sec;
+    // Syscalls often have special code paths for null timeouts
+    // so set this to 1 microsecond
+    if(ts->tv_sec == 0 && ts->tv_nsec > 0 && ts->tv_nsec <= 1000)
+        tv->tv_usec = 1;
+    else
+        tv->tv_usec = ts->tv_nsec / 1000;
 }
 
 #if defined(__APPLE__)
-static inline void
-_lfp_timespec_to_mach_timespec_t(struct timespec *ts, mach_timespec_t *mts)
+static inline
+void _lfp_mach_timespec_t_to_timespec(mach_timespec_t *mts, struct timespec *ts)
 {
-    mts->tv_sec = ts->tv_sec;
-    mts->tv_nsec = ts->tv_nsec;
+    ts->tv_sec  = mts->tv_sec;
+    ts->tv_nsec = mts->tv_nsec;
 }
 #endif
 
@@ -60,6 +58,10 @@ _lfp_timespec_to_mach_timespec_t(struct timespec *ts, mach_timespec_t *mts)
 #define SYSCHECK(errcode,expr) do { if(expr) SYSERR(errcode); } while(0)
 
 #define SYSGUARD(expr) do { if((expr) < 0) return(-1); } while(0)
+
+#define MACH_SYSERR(errcode) do { errno = errcode; ret = -1; goto cleanup; } while(0)
+
+#define MACH_SYSCHECK(errcode, expr) do { if(expr) MACH_SYSERR(errcode); } while(0)
 
 /* not checking for OPEN_MAX, which might not be valid, on Linux */
 #define INVALID_FD(fd) ( fd < 0 )

@@ -35,91 +35,137 @@
 
 #include "utils.h"
 
+/*******************/
+/* clock_settime() */
+/*******************/
+
+#if defined(__APPLE__) && !HAVE_CLOCK_GETTIME
+static
+int _lfp_clock_getres(clock_id_t clk_id, struct timespec *tp)
+{
+    int ret = 0;
+    kern_return_t kr;
+    clock_serv_t clk_serv;
+
+    host_t host_self = mach_host_self();
+    kr = host_get_clock_service(host_self, clk_id, &clk_serv);
+    MACH_SYSCHECK(EINVAL, kr != KERN_SUCCESS);
+
+    natural_t attributes[4];
+    mach_msg_type_number_t count = sizeof(attributes) / sizeof(natural_t);
+    kr = clock_get_attributes(clk_serv, CLOCK_GET_TIME_RES, attributes, &count);
+    MACH_SYSCHECK(EINVAL, kr != KERN_SUCCESS);
+
+    tp->tv_sec  = attributes[0] / 10^9;
+    tp->tv_nsec = attributes[0] % 10^9;
+
+  cleanup:
+    mach_port_deallocate(mach_task_self(), host_self);
+    mach_port_deallocate(mach_task_self(), clk_serv);
+
+    return ret;
+}
+#endif
+
 int lfp_clock_getres(lfp_clockid_t clk_id, struct timespec *res)
 {
-#if defined(_POSIX_MONOTONIC_CLOCK) && _POSIX_MONOTONIC_CLOCK >= 0
-    return clock_getres((clockid_t)clk_id & 0xFFFFFFFF, res);
-#else
+#if HAVE_CLOCK_GETTIME
+    return clock_getres((clockid_t)clk_id, res);
+#elif defined(__APPLE__)
+    SYSCHECK(EINVAL, res == NULL);
+
     switch (clk_id) {
     case CLOCK_REALTIME:
+        return _lfp_clock_getres(CALENDAR_CLOCK, res);
     case CLOCK_MONOTONIC:
-        // FIXME: it's probably safe to assume that it's 10ms
-        //        or lower(OS scheduler running at 100Hz or more)
-        res->tv_sec = 0;
-        res->tv_nsec = 10^7;
-        return 0;
+        return _lfp_clock_getres(REALTIME_CLOCK, res);
     default:
         SYSERR(EINVAL);
     }
+#else
+# error "BUG! This point should not be reached"
 #endif
 }
+
 
-#if !defined(_POSIX_TIMERS) || _POSIX_TIMERS < 0
-static inline
-int _lfp_clock_gettime_realtime(struct timespec *tp)
-{
-    struct timeval tv;
-    if (gettimeofday(&tv, NULL) < 0) { 
-        return -1;
-    } else {
-        _lfp_timeval_to_timespec(&tv, tp);
-        return 0;
-    }
-}
-#endif
+/*******************/
+/* clock_gettime() */
+/*******************/
 
-#if !defined(_POSIX_MONOTONIC_CLOCK) || _POSIX_MONOTONIC_CLOCK < 0
+#if defined(__APPLE__) && !HAVE_CLOCK_GETTIME
 static inline
-int _lfp_clock_gettime_monotonic(struct timespec *tp)
+int _lfp_clock_gettime(clock_id_t clk_id, struct timespec *tp)
 {
-# if defined(__APPLE__)
+    int ret = 0;
+    kern_return_t kr;
     clock_serv_t clk_serv;
     mach_timespec_t mtp;
-    _lfp_timespec_to_mach_timespec_t(tp, &mtp);
 
-    SYSGUARD(host_get_clock_service(mach_host_self(), 0, &clk_serv));
-    SYSGUARD(clock_get_time(clk_serv, &mtp));
-    return 0;
-# else
-    SYSERR(EINVAL);
-# endif
+    host_t host_self = mach_host_self();
+    kr = host_get_clock_service(host_self, clk_id, &clk_serv);
+    MACH_SYSCHECK(EINVAL, kr != KERN_SUCCESS);
+
+    kr = clock_get_time(clk_serv, &mtp);
+    MACH_SYSCHECK(EINVAL, kr != KERN_SUCCESS);
+    _lfp_mach_timespec_t_to_timespec(&mtp, tp);
+
+  cleanup:
+    mach_port_deallocate(mach_task_self(), host_self);
+    mach_port_deallocate(mach_task_self(), clk_serv);
+
+    return ret;
 }
 #endif
 
 int lfp_clock_gettime(lfp_clockid_t clk_id, struct timespec *tp)
 {
-#if defined(_POSIX_MONOTONIC_CLOCK) && _POSIX_MONOTONIC_CLOCK >= 0
-    return clock_gettime((clockid_t)clk_id & 0xFFFFFFFF, tp);
-#else
+#if HAVE_CLOCK_GETTIME
+    return clock_gettime((clockid_t)clk_id, tp);
+#elif defined(__APPLE__)
     switch (clk_id) {
     case CLOCK_REALTIME:
-        return _lfp_clock_gettime_realtime(tp);
+        return _lfp_clock_gettime(CALENDAR_CLOCK, tp);
     case CLOCK_MONOTONIC:
-        return _lfp_clock_gettime_monotonic(tp);
+        return _lfp_clock_gettime(REALTIME_CLOCK, tp);
     default:
         SYSERR(EINVAL);
     }
+#else
+# error "BUG! This point should not be reached"
 #endif
 }
+
 
-int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp)
+/*******************/
+/* clock_gettime() */
+/*******************/
+
+#if defined(__APPLE__) && !HAVE_CLOCK_GETTIME
+static inline
+int _lfp_clock_settime_realtime(struct timespec *tp)
 {
-#if defined(_POSIX_MONOTONIC_CLOCK) && _POSIX_MONOTONIC_CLOCK >= 0
-    return clock_settime((clockid_t)clk_id & 0xFFFFFFFF, tp);
-#else
-    int ret;
     struct timeval tv;
     _lfp_timespec_to_timeval(tp, &tv);
 
+    SYSGUARD(settimeofday(&tv, NULL));
+    return 0;
+}
+#endif
+
+int lfp_clock_settime(lfp_clockid_t clk_id, struct timespec *tp)
+{
+#if HAVE_CLOCK_GETTIME
+    return clock_settime((clockid_t)clk_id, tp);
+#elif defined(__APPLE__)
     switch (clk_id) {
     case CLOCK_REALTIME:
-        ret = settimeofday(&tv, NULL);
-        if (ret < 0) { return -1; }
-        return 0;
+        return _lfp_clock_settime_realtime(tp);
     case CLOCK_MONOTONIC:
         SYSERR(EPERM);
     default:
         SYSERR(EINVAL);
     }
+#else
+# error "BUG! This point should not be reached"
 #endif
 }

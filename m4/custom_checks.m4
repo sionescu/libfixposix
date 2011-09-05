@@ -61,6 +61,8 @@ AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES], [
 AC_DEFUN([LFP_REQUIRE_MONOTONIC_CLOCK], [
  AC_SEARCH_LIBS([clock_gettime], [rt],
                 [LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES
+                 AC_DEFINE([HAVE_CLOCK_GETTIME], [1],
+                           [We have the function clock_gettime()])
                  LFP_LIBS+=" $ac_cv_search_clock_gettime"
                  LIBS=""],
                 [LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES])
