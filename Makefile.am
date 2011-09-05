@@ -46,7 +46,6 @@ include_HEADERS = src/include/lfp.h
 
 include_lfpdir = $(includedir)/lfp
 include_lfp_HEADERS = \
-	$(top_builddir)/src/include/lfp/config.h \
 	src/include/lfp/aux.h \
 	src/include/lfp/stdlib.h \
 	src/include/lfp/string.h \
@@ -61,7 +60,7 @@ include_lfp_HEADERS = \
 	src/include/lfp/signal.h \
 	src/include/lfp/spawn.h \
 	src/include/lfp/dirent.h \
-	src/include/lfp/time.h \
+	$(top_builddir)/src/include/lfp/time.h \
 	src/include/lfp/resource.h \
 	src/include/lfp/sendfile.h \
 	src/include/lfp/syslog.h

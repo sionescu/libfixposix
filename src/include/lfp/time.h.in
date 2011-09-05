@@ -34,14 +34,14 @@ CPLUSPLUS_GUARD
 
 #include <inttypes.h>
 
-#if !HAVE_CLOCKID_T
-typedef int lfp_clockid_t;
-#endif
+#if ! @HAVE_CLOCKID_T@
+typedef int clockid_t;
+#endif // HAVE_CLOCKID_T
 
-#if !HAVE_CLOCK_GETTIME
+#if ! @HAVE_CLOCK_GETTIME@
 # define CLOCK_REALTIME  0
 # define CLOCK_MONOTONIC 1
-#endif
+#endif // HAVE_CLOCK_GETTIME
 
 int lfp_clock_getres(clockid_t clk_id, struct timespec *res);
 

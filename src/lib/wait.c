@@ -22,6 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
+#include <config.h>
+
 #include <lfp/wait.h>
 
 bool lfp_wifexited (int status)

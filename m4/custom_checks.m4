@@ -36,6 +36,7 @@ AC_DEFUN([LFP_SYS_LARGEFILE], [
 
 AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES], [
  LFP_REQUIRE_TYPE([clockid_t], [sys/time.h time.h])
+ AC_SUBST([HAVE_CLOCKID_T], [1])
  LFP_REQUIRE_DECL([CLOCK_REALTIME], [sys/time.h time.h])
  LFP_REQUIRE_DECL([CLOCK_MONOTONIC], [sys/time.h time.h])
 ])
@@ -53,12 +54,15 @@ AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES], [
 
 AC_DEFUN([LFP_REQUIRE_MONOTONIC_CLOCK], [
  AC_SEARCH_LIBS([clock_gettime], [rt], [
+                 AC_SUBST([HAVE_CLOCK_GETTIME], [1])
                  LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES
                  AC_DEFINE([HAVE_CLOCK_GETTIME], [1],
                            [We have the function clock_gettime()])
                  LFP_LIBS+=" $ac_cv_search_clock_gettime"
                  LIBS=""],
-                [LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES])
+                [AC_SUBST([HAVE_CLOCK_GETTIME], [0])
+                 AC_SUBST([HAVE_CLOCKID_T], [0])
+                 LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES])
 ])
 
 AC_DEFUN([LFP_ARG_ENABLE_EMULATED_SIGNALFD], [

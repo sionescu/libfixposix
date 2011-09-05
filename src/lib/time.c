@@ -22,6 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
+#include <config.h>
+
 #include <lfp/time.h>
 #include <lfp/errno.h>
 #include <lfp/unistd.h>

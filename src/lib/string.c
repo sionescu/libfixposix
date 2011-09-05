@@ -22,6 +22,8 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
+#include <config.h>
+
 #include <lfp/string.h>
 #include <lfp/stdlib.h>
 #include <lfp/errno.h>

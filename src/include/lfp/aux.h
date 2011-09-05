@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <lfp/config.h>
-
 #if !defined(_LFP_AUX_H_)
 # define _LFP_AUX_H_
 

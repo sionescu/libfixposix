@@ -15,10 +15,7 @@ AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
 AC_COPYRIGHT([Copyright © 2010-2011 Stelian Ionescu <sionescu@cddr.org>])
 
-AC_CONFIG_HEADERS([src/include/lfp/config.h])
-AH_TOP([#if !defined(_LFP_CONFIG_H_)
-# define _LFP_CONFIG_H_])
-AH_BOTTOM([#endif // _LFP_CONFIG_H_])
+AC_CONFIG_HEADERS([config.h])
 
 dnl Where to generate output; srcdir location.
 AC_CONFIG_SRCDIR([src/lib/spawn.c])
@@ -85,5 +82,7 @@ dnl Checks for types
 dnl Configuration switches
 # LFP_ARG_ENABLE_EMULATED_SIGNALFD
 
-AC_CONFIG_FILES([Makefile libfixposix.pc])
+AC_CONFIG_FILES([Makefile
+                 libfixposix.pc
+                 src/include/lfp/time.h])
 AC_OUTPUT
