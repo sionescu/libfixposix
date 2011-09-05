@@ -16,6 +16,9 @@ AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
 AC_COPYRIGHT([Copyright © 2010-2011 Stelian Ionescu <sionescu@cddr.org>])
 
 AC_CONFIG_HEADERS([src/include/lfp/config.h])
+AH_TOP([#if !defined(_LFP_CONFIG_H_)
+# define _LFP_CONFIG_H_])
+AH_BOTTOM([#endif // _LFP_CONFIG_H_])
 
 dnl Where to generate output; srcdir location.
 AC_CONFIG_SRCDIR([src/lib/spawn.c])
