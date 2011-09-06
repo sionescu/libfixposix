@@ -37,7 +37,7 @@
 # define LFP_END_DECLS
 #endif
 
-#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#if (__STDC_VERSION__ - 0) < 199901L
 // only C99 has restricted pointers
 # define restrict
 #endif
