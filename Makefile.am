@@ -49,6 +49,7 @@ include_lfp_HEADERS = \
 	src/include/lfp/aux.h \
 	src/include/lfp/stdlib.h \
 	src/include/lfp/string.h \
+	src/include/lfp/strerror.h \
 	src/include/lfp/errno.h \
 	src/include/lfp/fcntl.h \
 	src/include/lfp/stat.h \
@@ -69,6 +70,7 @@ include_lfp_HEADERS = \
 src_lib_libfixposix_la_SOURCES = \
 	src/lib/stdlib.c \
 	src/lib/string.c \
+	src/lib/strerror.c \
 	src/lib/errno.c \
 	src/lib/fcntl.c \
 	src/lib/stat.c \

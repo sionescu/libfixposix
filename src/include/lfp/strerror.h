@@ -29,13 +29,9 @@
 
 CPLUSPLUS_GUARD
 
-#include <string.h>
+#include <sys/types.h>
 
-#include <lfp/strerror.h>
-
-size_t lfp_strnlen(const char *s, size_t maxlen);
-
-char *lfp_strndup(const char *s, size_t maxlen);
+int lfp_strerror(int errnum, char *buf, size_t buflen);
 
 END_CPLUSPLUS_GUARD
 

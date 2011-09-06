@@ -68,7 +68,7 @@ LFP_REQUIRE_HEADERS([sys/types.h unistd.h fcntl.h signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for functions
-AC_CHECK_FUNCS_ONCE([__xpg_strerror_r strnlen strndup])
+AC_CHECK_FUNCS_ONCE([strnlen strndup])
 AC_CHECK_FUNCS_ONCE([accept4 pipe2 sendfile])
 LFP_REQUIRE_FUNCS([pselect vsyslog])
 LFP_REQUIRE_MONOTONIC_CLOCK

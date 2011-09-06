@@ -22,21 +22,20 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#if !defined(_LFP_STRING_H_)
-# define _LFP_STRING_H_
+#include <config.h>
 
-#include <lfp/aux.h>
-
-CPLUSPLUS_GUARD
-
-#include <string.h>
+// _GNU_SOURCE exposes a non-POSIX version of strerror_r
+// that's why we put it into its own file
+#undef _GNU_SOURCE
 
 #include <lfp/strerror.h>
 
-size_t lfp_strnlen(const char *s, size_t maxlen);
+#include <string.h>
 
-char *lfp_strndup(const char *s, size_t maxlen);
+#include "utils.h"
 
-END_CPLUSPLUS_GUARD
-
-#endif /* _LFP_STRING_H_ */
+int lfp_strerror(int errnum, char *buf, size_t buflen)
+{
+    SYSCHECK(EINVAL, buf == NULL);
+    return strerror_r(errnum, buf, buflen);
+}
