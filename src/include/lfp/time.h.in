@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <sys/time.h>
 #include <time.h>
@@ -49,6 +49,6 @@ int lfp_clock_gettime(clockid_t clk_id, struct timespec *tp);
 
 int lfp_clock_settime(clockid_t clk_id, struct timespec *tp);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_TIME_H_ */

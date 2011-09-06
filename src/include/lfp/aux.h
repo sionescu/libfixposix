@@ -26,11 +26,15 @@
 # define _LFP_AUX_H_
 
 #if defined(__cplusplus)
-# define CPLUSPLUS_GUARD extern "C" {
-# define END_CPLUSPLUS_GUARD }
+# define LFP_BEGIN_DECLS extern "C" {
 #else
-# define CPLUSPLUS_GUARD
-# define END_CPLUSPLUS_GUARD
+# define LFP_BEGIN_DECLS
+#endif
+
+#if defined(__cplusplus)
+# define LFP_END_DECLS }
+#else
+# define LFP_END_DECLS
 #endif
 
 #if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L

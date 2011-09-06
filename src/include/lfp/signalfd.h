@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <lfp/signal.h>
 
@@ -45,6 +45,6 @@ int lfp_install_signalfd(int signum, int sa_flags, bool* blockp);
 
 int lfp_uninstall_signalfd(int signum, bool block);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_SIGNALFD_H_ */

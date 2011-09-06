@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <sys/wait.h>
 
@@ -49,6 +49,6 @@ int lfp_wstopsig(int status);
 
 bool lfp_wifcontinued(int status);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_WAIT_H_ */

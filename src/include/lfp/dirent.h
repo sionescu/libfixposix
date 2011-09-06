@@ -27,12 +27,12 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <dirent.h>
 
 int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_DIRENT_H_ */

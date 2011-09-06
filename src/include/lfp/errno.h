@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <errno.h>
 
@@ -37,6 +37,6 @@ int lfp_errno(void);
 
 int lfp_set_errno(int value);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LPF_ERRNO_H_ */

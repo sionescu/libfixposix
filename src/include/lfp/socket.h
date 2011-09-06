@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <sys/socket.h>
 
@@ -50,6 +50,6 @@ size_t lfp_cmsg_len(size_t length);
 
 void* lfp_cmsg_data(struct cmsghdr* cmsg);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_SOCKET_H_ */

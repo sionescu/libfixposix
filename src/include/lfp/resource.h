@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <sys/resource.h>
 
@@ -35,6 +35,6 @@ int lfp_getrlimit(int resource, struct rlimit *rlim);
 
 int lfp_setrlimit(int resource, const struct rlimit *rlim);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LPF_RESOURCE_H_ */

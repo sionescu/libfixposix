@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <syslog.h>
 
@@ -47,6 +47,6 @@ int lfp_log_mask(int priority);
 
 int lfp_log_upto(int priority);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_SYSLOG_H_ */

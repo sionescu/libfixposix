@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <stdlib.h>
 
@@ -37,6 +37,6 @@ char* lfp_getpath(char *const envp[]);
 
 char *lfp_ptsname(int masterfd);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_STDLIB_H_ */

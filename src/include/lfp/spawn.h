@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <lfp/fcntl.h>
 #include <lfp/signal.h>
@@ -130,6 +130,6 @@ int lfp_spawnp(pid_t *restrict pid,
                const lfp_spawn_file_actions_t *restrict file_actions,
                const lfp_spawnattr_t *restrict attr);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_SPAWN_H_ */

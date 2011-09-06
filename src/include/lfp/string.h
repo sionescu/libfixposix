@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <string.h>
 
@@ -37,6 +37,6 @@ size_t lfp_strnlen(const char *s, size_t maxlen);
 
 char *lfp_strndup(const char *s, size_t maxlen);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_STRING_H_ */

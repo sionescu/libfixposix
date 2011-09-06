@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <sys/select.h>
 
@@ -44,6 +44,6 @@ void lfp_fd_set(int fd, fd_set *set);
 
 void lfp_fd_zero(fd_set *set);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_SELECT_H_ */

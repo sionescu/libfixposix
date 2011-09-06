@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <sys/stat.h>
 
@@ -55,6 +55,6 @@ bool lfp_islnk(mode_t mode);
 
 bool lfp_issock(mode_t mode);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_STAT_H_ */

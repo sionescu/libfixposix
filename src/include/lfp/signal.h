@@ -27,7 +27,7 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <signal.h>
 
@@ -45,6 +45,6 @@ int lfp_sigrtmin(void);
 
 int lfp_sigrtmax(void);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_SIGNAL_H_ */

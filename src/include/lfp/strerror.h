@@ -27,12 +27,12 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <sys/types.h>
 
 int lfp_strerror(int errnum, char *buf, size_t buflen);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_STRING_H_ */

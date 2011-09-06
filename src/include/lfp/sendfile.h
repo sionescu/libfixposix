@@ -27,12 +27,12 @@
 
 #include <lfp/aux.h>
 
-CPLUSPLUS_GUARD
+LFP_BEGIN_DECLS
 
 #include <sys/types.h>
 
 ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes);
 
-END_CPLUSPLUS_GUARD
+LFP_END_DECLS
 
 #endif /* _LFP_SENDFILE_H_ */
