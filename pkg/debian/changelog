@@ -1,0 +1,5 @@
+libfixposix (0.1-1) unstable; urgency=low
+
+  * Initial package
+
+ -- Stelian Ionescu <sionescu@cddr.org>  Tue, 6 Sep 2011 01:55:44 +0200

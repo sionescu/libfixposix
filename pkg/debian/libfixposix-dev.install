@@ -1,0 +1,4 @@
+debian/tmp/usr/include/
+debian/tmp/usr/lib/libfixposix.so
+debian/tmp/usr/lib/libfixposix.a
+debian/tmp/usr/lib/pkgconfig/libfixposix.pc

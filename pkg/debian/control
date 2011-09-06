@@ -1,0 +1,34 @@
+Source: libfixposix
+Priority: optional
+Section: libdevel
+Maintainer: Stelian Ionescu <sionescu@cddr.org>
+Standards-Version: 3.9.2
+Build-Depends: cdbs (>= 0.4.53), debhelper (>= 8.0.0)
+Homepage: http://common-lisp.net/project/iolib/
+
+Package: libfixposix0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Thin wrapper over POSIX syscalls.
+ The purpose of libfixposix is to offer replacements for parts of POSIX
+ whose behaviour is inconsistent across *NIX flavours
+ .
+ This package contains the shared library.
+
+Package: libfixposix-dev
+Section: libdevel
+Architecture: any
+Depends: libfixposix0 (= ${binary:Version}), libc6-dev, ${misc:Depends}
+Description: Development files for LibFixPOSIX
+ .
+ This package contains header files and static archives.
+
+Package: libfixposix-dbg
+Section: debug
+Priority: extra
+Depends: libfixposix0 (= ${binary:Version}), ${misc:Depends}
+Architecture: any
+Description: Debug package for LibFixPOSIX
+ .
+ This package contains debugging symbols useful for gdb.
