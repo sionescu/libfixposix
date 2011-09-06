@@ -17,13 +17,13 @@ AC_DEFUN([LFP_INIT], [
 AC_DEFUN([LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS], [
  case "$host" in
   *-*-linux*)
-    LFP_CFLAGS="$LFP_CFLAGS -D_GNU_SOURCE=1"
+    LFP_CFLAGS+=" -D_GNU_SOURCE=1"
     ;;
   *-apple-darwin*)
-    LFP_CFLAGS="$LFP_CFLAGS -D_DARWIN_C_SOURCE"
+    LFP_CFLAGS+=" -D_DARWIN_C_SOURCE"
     ;;
   *-sunos* | *-solaris*)
-    LFP_CFLAGS="$LFP_CFLAGS -D__EXTENSIONS__"
+    LFP_CFLAGS+=" -D__EXTENSIONS__"
     ;;
  esac
 ])
@@ -58,7 +58,7 @@ AC_DEFUN([LFP_REQUIRE_MONOTONIC_CLOCK], [
                  LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES
                  AC_DEFINE([HAVE_CLOCK_GETTIME], [1],
                            [We have the function clock_gettime()])
-                 LFP_LIBS="$LFP_LIBS $ac_cv_search_clock_gettime"
+                 LFP_LIBS+=" $ac_cv_search_clock_gettime"
                  LIBS=""],
                 [AC_SUBST([HAVE_CLOCK_GETTIME], [0])
                  AC_SUBST([HAVE_CLOCKID_T], [0])
