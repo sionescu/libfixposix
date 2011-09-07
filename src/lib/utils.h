@@ -33,7 +33,7 @@
 #endif
 
 static inline
-void _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv)
+void _lfp_timespec_to_timeval(const struct timespec *ts, struct timeval *tv)
 {
     tv->tv_sec  = ts->tv_sec;
     // Syscalls often have special code paths for null timeouts
@@ -46,7 +46,7 @@ void _lfp_timespec_to_timeval(struct timespec *ts, struct timeval *tv)
 
 #if defined(__APPLE__)
 static inline
-void _lfp_mach_timespec_t_to_timespec(mach_timespec_t *mts, struct timespec *ts)
+void _lfp_mach_timespec_t_to_timespec(const mach_timespec_t *mts, struct timespec *ts)
 {
     ts->tv_sec  = mts->tv_sec;
     ts->tv_nsec = mts->tv_nsec;
