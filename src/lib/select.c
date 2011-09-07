@@ -37,7 +37,7 @@ int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
 #else
     struct timeval tv;
     _lfp_timespec_to_timeval(timeout, &tv);
-    return select(nfds, readfds, writefds, exceptfds, timeout);
+    return select(nfds, readfds, writefds, exceptfds, &tv);
 #endif
 }
 
