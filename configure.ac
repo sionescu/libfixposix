@@ -57,7 +57,7 @@ LT_PREREQ([2.2.6])
 LFP_INIT
 
 dnl Checks for programs
-LFP_REQUIRE_PROG([SMAKKA], [awk])
+LFP_REQUIRE_PROG([GETCONF], [getconf])
 
 dnl Set compiler & linker flags
 LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS
