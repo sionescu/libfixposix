@@ -15,6 +15,13 @@ AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
 AC_COPYRIGHT([Copyright © 2010-2011 Stelian Ionescu <sionescu@cddr.org>])
 
+echo
+AC_MSG_NOTICE([srcdir:   $srcdir])
+AC_MSG_NOTICE([builddir: $builddir])
+AC_MSG_NOTICE([CPPFLAGS: $CPPFLAGS])
+AC_MSG_NOTICE([CFLAGS:   $CFLAGS])
+AC_MSG_NOTICE([LDFLAGS:  $LDFLAGS])
+echo
 if test "`/bin/pwd`" = "`cd $srcdir; /bin/pwd`" ; then
   AC_MSG_WARN([you should configure in a separate build directory])
 fi
