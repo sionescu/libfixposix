@@ -6,7 +6,7 @@
 #                                                                      #
 ########################################################################
 
-ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = -I build/m4
 
 AM_CFLAGS = $(LFP_CFLAGS)
 
