@@ -15,6 +15,10 @@ AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
 AC_COPYRIGHT([Copyright © 2010-2011 Stelian Ionescu <sionescu@cddr.org>])
 
+if test "`/bin/pwd`" = "`cd $srcdir; /bin/pwd`" ; then
+  AC_MSG_WARN([you should configure in a separate build directory])
+fi
+
 AC_CONFIG_HEADERS([config.h])
 
 dnl Where to generate output; srcdir location.
@@ -23,12 +27,9 @@ AC_CONFIG_SRCDIR([src/lib/spawn.c])
 dnl Auxiliary M4 macros
 AC_CONFIG_MACRO_DIR([build/m4])
 
-if test "`cd $srcdir; /bin/pwd`" = "`/bin/pwd`" ; then
-  AC_MSG_WARN([you should configure in a separate build directory])
-fi
-
 dnl Must come before AM_INIT_AUTOMAKE.
 AC_CONFIG_AUX_DIR([build/aux])
+
 AM_INIT_AUTOMAKE([1.10 foreign silent-rules subdir-objects
                   color-tests parallel-tests])
 
