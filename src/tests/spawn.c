@@ -1,12 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <string.h>
-
-#include <unistd.h>
-#include <signal.h>
-#include <sys/select.h>
 
 #include <lfp.h>
 
@@ -60,7 +52,7 @@ int main ()
     err = lfp_spawn_file_actions_addclose(&file_actions,10);
     err = lfp_spawn_file_actions_addopen(&file_actions,1,tempnam2,O_WRONLY|O_APPEND,0);
     err = lfp_spawn_file_actions_adddup2(&file_actions,1,2);
-    err = lfp_spawn(&pid,path,myargv,environ,&file_actions,&attr);
+    err = lfp_spawn(&pid, path, myargv, lfp_get_environ(), &file_actions, &attr);
     if (err) { error_abort("failed to spawn", true); }
     fprintf(stderr,"spawned child %d\n",pid);
     err = lfp_spawn_file_actions_destroy(&file_actions);
