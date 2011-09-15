@@ -77,6 +77,7 @@ AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for functions
 AC_CHECK_FUNCS([strnlen strndup])
+LFP_REQUIRE_FUNCS([strtok_r])
 LFP_SEARCH_LIBS([socket], [socket nsl])
 AC_CHECK_FUNCS([accept4 pipe2 sendfile])
 LFP_REQUIRE_FUNCS([pselect vsyslog])

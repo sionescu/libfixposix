@@ -136,11 +136,13 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     size_t filelen = lfp_strnlen(file, name_max);
     SYSCHECK(ENAMETOOLONG, filelen >= name_max);
 
-    char path[PATH_MAX], *searchpath=NULL, *tmpath=NULL, *bindir=NULL;
+    char path[PATH_MAX];
+    char *searchpath=NULL, *tmpath=NULL, *saveptr=NULL, *bindir=NULL;
 
     tmpath = searchpath = lfp_getpath(envp);
 
-    while ((bindir = strsep(&tmpath, ":")) != NULL)
+    while ((bindir = strtok_r(tmpath, ":", &saveptr)) != NULL) {
+        tmpath = NULL;
         if ( bindir[0] != '\0' ) {
             size_t dirlen = lfp_strnlen(bindir, PATH_MAX);
             // directory + / + file
@@ -154,6 +156,7 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
                  errno == ENOMEM || errno == ETXTBSY )
                 break;
         }
+    }
 
     free(searchpath);
 
