@@ -36,6 +36,8 @@ LFP_BEGIN_DECLS
 
 char **lfp_get_environ(void);
 
+int lfp_set_environ(char **newenv);
+
 int lfp_clearenv(void);
 
 off_t lfp_lseek(int fd, off_t offset, int whence);

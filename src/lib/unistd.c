@@ -50,6 +50,18 @@ char** lfp_get_environ(void)
 #endif
 }
 
+int lfp_set_environ(char **newenv)
+{
+    if (lfp_clearenv() < 0) {
+        return -1;
+    } else if (newenv != NULL) {
+        for(char **var = newenv; *var != NULL; var++) {
+            putenv(*var);
+        }
+    }
+    return 0;
+}
+
 static
 void _lfp_reset_environ()
 {
