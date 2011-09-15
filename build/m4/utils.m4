@@ -42,7 +42,7 @@ AC_DEFUN([LFP_REQUIRE_FUNCS], [
 AC_DEFUN([LFP_REQUIRE_TYPE], [
  _lfp_save_flags
  AC_CHECK_TYPES($1,,AC_MSG_FAILURE([Cannot find type $1 in $2]),
-                [m4_foreach_w([header], [$2], [[#]include [<]header[>]
+  [m4_foreach_w([header], [$2], [[#]include [<]header[>]
  ])])
  _lfp_restore_flags
 ])
@@ -51,7 +51,7 @@ AC_DEFUN([LFP_REQUIRE_TYPE], [
 AC_DEFUN([LFP_REQUIRE_DECL], [
  _lfp_save_flags
  AC_CHECK_DECL($1,,AC_MSG_FAILURE([Cannot find $1 in <$2>]),
-               [m4_foreach_w([header], [$2], [[#]include [<]header[>]
+  [m4_foreach_w([header], [$2], [[#]include [<]header[>]
  ])])
  _lfp_restore_flags
 ])

@@ -54,13 +54,13 @@ AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES], [
 
 AC_DEFUN([LFP_REQUIRE_MONOTONIC_CLOCK], [
  LFP_SEARCH_LIBS([clock_gettime], [rt], [
-                 AC_SUBST([HAVE_CLOCK_GETTIME], [1])
-                 LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES
-                 AC_DEFINE([HAVE_CLOCK_GETTIME], [1],
-                           [We have the function clock_gettime()])],
-                [AC_SUBST([HAVE_CLOCK_GETTIME], [0])
-                 AC_SUBST([HAVE_CLOCKID_T], [0])
-                 LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES])
+  AC_SUBST([HAVE_CLOCK_GETTIME], [1])
+  LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES
+  AC_DEFINE([HAVE_CLOCK_GETTIME], [1],
+            [We have the function clock_gettime()])],
+ [AC_SUBST([HAVE_CLOCK_GETTIME], [0])
+  AC_SUBST([HAVE_CLOCKID_T], [0])
+  LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES])
 ])
 
 AC_DEFUN([LFP_ARG_ENABLE_EMULATED_SIGNALFD], [
