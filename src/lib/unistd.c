@@ -49,6 +49,43 @@ char** lfp_get_environ(void)
     return environ;
 #endif
 }
+
+static
+void _lfp_reset_environ()
+{
+#if defined(__APPLE__)
+    char ***envptr = _NSGetEnviron();
+    *envptr = NULL;
+#else
+    environ = NULL;
+#endif
+}
+
+int lfp_clearenv(void)
+{
+#if defined(HAVE_CLEARENV)
+    return clearenv();
+#else
+    char **env = lfp_get_environ();
+    if (env == NULL) return 0;
+
+    for(char **var = env; *var != NULL; var++) {
+        char *tmp = strdup(*var);
+        char *eql = strchr(tmp, '=');
+        if (eql == NULL) {
+            free(tmp);
+            return -1;
+        } else {
+            eql = '\0';
+            unsetenv(eql);
+            free(tmp);
+        }
+    }
+
+    _lfp_reset_environ();
+    return 0;
+#endif
+}
 
 
 off_t lfp_lseek(int fd, off_t offset, int whence)

@@ -76,7 +76,7 @@ LFP_REQUIRE_HEADERS([sys/types.h unistd.h fcntl.h signal.h])
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for functions
-AC_CHECK_FUNCS([strnlen strndup])
+AC_CHECK_FUNCS([strnlen strndup clearenv])
 LFP_REQUIRE_FUNCS([strtok_r])
 LFP_SEARCH_LIBS([socket], [socket nsl])
 AC_CHECK_FUNCS([accept4 pipe2 sendfile])
