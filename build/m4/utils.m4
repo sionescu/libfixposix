@@ -34,7 +34,7 @@ AC_DEFUN([LFP_REQUIRE_HEADERS], [
 # Check for a function and print an error if not found
 AC_DEFUN([LFP_REQUIRE_FUNCS], [
  _lfp_save_flags
- AC_CHECK_FUNCS_ONCE($1,,AC_MSG_FAILURE([Cannot find function(s) $1]))
+ AC_CHECK_FUNCS($1,,AC_MSG_FAILURE([Cannot find function(s) $1]))
  _lfp_restore_flags
 ])
 
