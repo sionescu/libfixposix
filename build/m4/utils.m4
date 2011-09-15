@@ -56,6 +56,15 @@ AC_DEFUN([LFP_REQUIRE_DECL], [
  _lfp_restore_flags
 ])
 
+# Check for a declaration and print an error if not found
+AC_DEFUN([LFP_SEARCH_LIBS], [
+ _lfp_save_flags
+ AC_SEARCH_LIBS($1,$2,$3
+  [if test -n "$LIBS"; then LFP_LIBS+=" $LIBS"; fi],
+  m4_default_nblank_quoted([$4],AC_MSG_FAILURE([Cannot find $1 in <$2>])))
+ _lfp_restore_flags
+])
+
 AC_DEFUN([LFP_REQUIRE_PROG], [
  AC_CHECK_PROG($1, $2, [yes])
  if test "x$ac_cv_prog_$1" != xyes
