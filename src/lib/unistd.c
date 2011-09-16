@@ -200,7 +200,7 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
             SYSCHECK(ENAMETOOLONG, pathlen >= PATH_MAX);
             snprintf(path, PATH_MAX, "%s/%s", bindir, file);
             path[pathlen] = '\0';
-            lfp_execve(path, argv, envp);
+            execve(path, argv, envp);
             if ( errno == E2BIG  || errno == ENOEXEC ||
                  errno == ENOMEM || errno == ETXTBSY )
                 break;
