@@ -53,10 +53,10 @@ int lfp_truncate(const char *path, off_t length);
 int lfp_ftruncate(int fd, off_t length);
 
 int lfp_execve(const char *path, char *const argv[], char *const envp[])
-    __attribute__((nonnull (1)));
+    __attribute__((nonnull (1, 2)));
 
 int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
-    __attribute__((nonnull (1)));
+    __attribute__((nonnull (1, 2)));
 
 LFP_END_DECLS
 
