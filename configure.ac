@@ -84,7 +84,7 @@ LFP_REQUIRE_FUNCS([pselect vsyslog])
 LFP_REQUIRE_MONOTONIC_CLOCK
 
 dnl Checks for declarations
-LFP_REQUIRE_DECL([NSIG], [signal.h])
+LFP_REQUIRE_DECL([NSIG], [sys/signal.h signal.h])
 LFP_REQUIRE_DECL([IP_HDRINCL], [sys/types.h sys/socket.h netinet/in.h])
 
 dnl Checks for types

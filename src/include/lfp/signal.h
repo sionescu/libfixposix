@@ -29,6 +29,7 @@
 
 LFP_BEGIN_DECLS
 
+#include <sys/signal.h>
 #include <signal.h>
 
 typedef void (*lfp_sighandler_t) (int);
