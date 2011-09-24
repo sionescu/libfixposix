@@ -47,7 +47,11 @@ AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES], [
 AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES], [
  case "$host" in
   *-apple-darwin*)
-    # We could check for Mach functions here
+    LFP_REQUIRE_HEADERS([mach/mach.h mach/clock.h])
+    LFP_REQUIRE_FUNCS([host_get_clock_service clock_get_attributes])
+    dnl LFP_REQUIRE_DECL([CLOCK_GET_TIME_RES], [mach/mach.h mach/clock.h])
+    dnl LFP_REQUIRE_DECL([CALENDAR_CLOCK], [mach/mach.h mach/clock.h])
+    dnl LFP_REQUIRE_DECL([REALTIME_CLOCK], [mach/mach.h mach/clock.h])
     ;;
   *)
     AC_MSG_ERROR([clock_gettime not found and no workaround available])
