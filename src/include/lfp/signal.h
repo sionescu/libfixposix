@@ -29,6 +29,7 @@
 
 LFP_BEGIN_DECLS
 
+#include <sys/types.h>
 #include <sys/signal.h>
 #include <signal.h>
 

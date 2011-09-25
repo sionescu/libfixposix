@@ -15,18 +15,21 @@ AC_DEFUN([LFP_INIT], [
 ])
 
 AC_DEFUN([LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS], [
- case "$host" in
-  *-*-linux*)
-    LFP_CFLAGS+=" -D_XOPEN_SOURCE=600 -D_GNU_SOURCE=1"
+ case $host_os in
+  linux*)
+    LFP_CFLAGS="$LFP_CFLAGS -D_XOPEN_SOURCE=600 -D_GNU_SOURCE=1"
     ;;
-  *-*-freebsd* | *-*-openbsd* | *-*-netbsd*)
-    LFP_CFLAGS+=" -D_XOPEN_SOURCE=600"
+  freebsd* | openbsd*)
+    LFP_CFLAGS="$LFP_CFLAGS -D_XOPEN_SOURCE=600"
     ;;
-  *-apple-darwin*)
-    LFP_CFLAGS+=" -D_DARWIN_C_SOURCE"
+  netbsd*)
+    LFP_CFLAGS="$LFP_CFLAGS -D_XOPEN_SOURCE=600 -D_NETBSD_SOURCE"
     ;;
-  *-sunos* | *-solaris*)
-    LFP_CFLAGS+=" -D_XOPEN_SOURCE=600 -D__EXTENSIONS__"
+  darwin*)
+    LFP_CFLAGS="$LFP_CFLAGS -D_DARWIN_C_SOURCE"
+    ;;
+  sunos* | solaris*)
+    LFP_CFLAGS="$LFP_CFLAGS -D_XOPEN_SOURCE=600 -D__EXTENSIONS__"
     ;;
  esac
 ])

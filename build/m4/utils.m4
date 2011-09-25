@@ -60,7 +60,7 @@ AC_DEFUN([LFP_REQUIRE_DECL], [
 AC_DEFUN([LFP_SEARCH_LIBS], [
  _lfp_save_flags
  AC_SEARCH_LIBS($1,$2,$3
-  [if test -n "$LIBS"; then LFP_LIBS+=" $LIBS"; fi],
+  [if test -n "$LIBS"; then LFP_LIBS="$LFP_LIBS $LIBS"; fi],
   m4_default_nblank_quoted([$4],AC_MSG_FAILURE([Cannot find $1 in <$2>])))
  _lfp_restore_flags
 ])

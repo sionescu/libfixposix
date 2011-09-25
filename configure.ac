@@ -15,13 +15,11 @@ AC_INIT([LibFixPOSIX], [0.1], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
 AC_COPYRIGHT([Copyright © 2010-2011 Stelian Ionescu <sionescu@cddr.org>])
 
-echo
 AC_MSG_NOTICE([srcdir:   $srcdir])
 AC_MSG_NOTICE([builddir: $builddir])
 AC_MSG_NOTICE([CPPFLAGS: $CPPFLAGS])
 AC_MSG_NOTICE([CFLAGS:   $CFLAGS])
 AC_MSG_NOTICE([LDFLAGS:  $LDFLAGS])
-echo
 if test "`/bin/pwd`" = "`cd $srcdir; /bin/pwd`" ; then
   AC_MSG_WARN([you should configure in a separate build directory])
 fi
@@ -64,9 +62,9 @@ LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS
 AX_PTHREAD
 LFP_SYS_LARGEFILE
 
-LFP_CFLAGS+=" $LFS_CFLAGS $PTHREAD_CFLAGS"
-LFP_LDFLAGS+=" $LFS_LDFLAGS"
-LFP_LIBS+=" $PTHREAD_LIBS $LFS_LIBS"
+LFP_CFLAGS="$LFP_CFLAGS $LFS_CFLAGS $PTHREAD_CFLAGS"
+LFP_LDFLAGS="$LFP_LDFLAGS $LFS_LDFLAGS"
+LFP_LIBS="$LFP_LIBS $PTHREAD_LIBS $LFS_LIBS"
 
 dnl Checks for C99 & POSIX headers
 AC_HEADER_ASSERT
@@ -84,7 +82,7 @@ LFP_REQUIRE_FUNCS([pselect vsyslog])
 LFP_REQUIRE_MONOTONIC_CLOCK
 
 dnl Checks for declarations
-LFP_REQUIRE_DECL([NSIG], [sys/signal.h signal.h])
+LFP_REQUIRE_DECL([NSIG], [sys/types.h sys/signal.h signal.h])
 LFP_REQUIRE_DECL([IP_HDRINCL], [sys/types.h sys/socket.h netinet/in.h])
 
 dnl Checks for types
