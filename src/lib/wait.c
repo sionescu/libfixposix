@@ -67,5 +67,9 @@ int lfp_wstopsig (int status)
 
 bool lfp_wifcontinued (int status)
 {
+#ifdef WIFCONTINUED
   return WIFCONTINUED(status);
+#else
+  return false;
+#endif
 }
