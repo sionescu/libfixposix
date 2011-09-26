@@ -44,6 +44,8 @@ AM_SILENT_RULES([yes])
 dnl Contains replacement functions
 # AC_CONFIG_LIBOBJ_DIR([lib])
 
+AC_LANG([C])
+
 dnl Checks for programs.
 # We need a C compiler.
 AC_PROG_CC_C99
