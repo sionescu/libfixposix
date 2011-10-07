@@ -56,7 +56,7 @@ AC_DEFUN([LFP_REQUIRE_DECL], [
  _lfp_restore_flags
 ])
 
-# Check for a declaration and print an error if not found
+# Check for a library and print an error if not found
 AC_DEFUN([LFP_SEARCH_LIBS], [
  _lfp_save_flags
  AC_SEARCH_LIBS($1,$2,$3
