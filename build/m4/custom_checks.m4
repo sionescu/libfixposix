@@ -48,8 +48,8 @@ AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES], [
 ])
 
 AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES], [
- case "$host" in
-  *-apple-darwin*)
+ case $host_os in
+  darwin*)
     LFP_REQUIRE_HEADERS([mach/mach.h mach/clock.h])
     LFP_REQUIRE_FUNCS([host_get_clock_service clock_get_attributes])
     dnl LFP_REQUIRE_DECL([CLOCK_GET_TIME_RES], [mach/mach.h mach/clock.h])
