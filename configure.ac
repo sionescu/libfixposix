@@ -73,6 +73,8 @@ AC_HEADER_ASSERT
 AC_HEADER_STDBOOL
 LFP_REQUIRE_HEADERS([stdlib.h stdio.h string.h errno.h time.h])
 LFP_REQUIRE_HEADERS([sys/types.h unistd.h fcntl.h sys/signal.h signal.h])
+
+dnl Checks for non-standard headers
 AC_CHECK_HEADER([sys/signalfd.h])
 
 dnl Checks for functions
