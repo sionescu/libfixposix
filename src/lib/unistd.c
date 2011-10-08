@@ -244,7 +244,5 @@ int lfp_getpeereid(int socket, uid_t *euid, gid_t *egid)
     *egid = ucred.gid;
 
     return 0;
-#else
-    SYSERR(ENOSYS);
 #endif
 }
