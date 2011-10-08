@@ -226,12 +226,12 @@ int lfp_getpeereid(int socket, uid_t *euid, gid_t *egid)
 #if defined(HAVE_GETPEEREID)
     return getpeereid(socket, euid, egid);
 #elif defined(HAVE_GETPEERUCRED)
-    ucred_t *ucred = NULL;
+    ucred_t stack_ucred;
+    ucred_t *ucred = &stack_ucred;
 
     SYSGUARD(getpeerucred(socket, &ucred));
     *euid = ucred_geteuid(ucred);
     *egid = ucred_getegid(ucred);
-    ucred_free(ucred);
 
     return (*euid < 0 || *egid < 0) ? -1 : 0;
 #elif defined(SO_PEERCRED)
