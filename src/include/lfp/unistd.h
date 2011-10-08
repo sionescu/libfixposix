@@ -58,6 +58,8 @@ int lfp_execve(const char *path, char *const argv[], char *const envp[])
 int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     __attribute__((nonnull (1, 2)));
 
+int lfp_getpeereid(int socket, uid_t *euid, gid_t *egid);
+
 LFP_END_DECLS
 
 #endif /* _LFP_UNISTD_H_ */

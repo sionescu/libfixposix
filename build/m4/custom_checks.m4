@@ -73,6 +73,15 @@ AC_DEFUN([LFP_REQUIRE_MONOTONIC_CLOCK], [
   LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES])
 ])
 
+AC_DEFUN([LFP_REQUIRE_GETPEEREID], [
+ AC_CHECK_FUNCS([getpeereid],
+  [AC_DEFINE([HAVE_GETPEEREID], [1], [We have the function getpeereid()])],
+  AC_CHECK_FUNCS([getpeerucred],
+   [LFP_REQUIRE_HEADERS([ucred.h])
+    AC_DEFINE([HAVE_GETPEERUCRED], [1], [We have the function getpeerucred()])],
+   [LFP_REQUIRE_DECL([SO_PEERCRED], [sys/types.h sys/socket.h])]))
+])
+
 AC_DEFUN([LFP_ARG_ENABLE_EMULATED_SIGNALFD], [
 AC_ARG_ENABLE([emulated-signalfd],
   [AS_HELP_STRING([--enable-emulated-signalfd={yes|no|check}],

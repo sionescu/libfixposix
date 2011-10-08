@@ -82,6 +82,7 @@ LFP_SEARCH_LIBS([socket], [socket nsl])
 AC_CHECK_FUNCS([accept4 pipe2 sendfile])
 LFP_REQUIRE_FUNCS([pselect vsyslog])
 LFP_REQUIRE_MONOTONIC_CLOCK
+LFP_REQUIRE_GETPEEREID
 
 dnl Checks for declarations
 LFP_REQUIRE_DECL([NSIG], [sys/types.h sys/signal.h signal.h])

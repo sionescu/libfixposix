@@ -30,6 +30,14 @@
 #include <lfp/errno.h>
 #include <lfp/fcntl.h>
 
+#if !defined(HAVE_GETPEEREID)
+# if defined(HAVE_UCRED_H)
+#  include <ucred.h>
+# else
+#  include <sys/socket.h>
+# endif
+#endif
+
 #if defined(__APPLE__)
 # include <crt_externs.h>
 #else
@@ -210,4 +218,33 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     free(searchpath);
 
     return -1;
+}
+
+
+int lfp_getpeereid(int socket, uid_t *euid, gid_t *egid)
+{
+#if defined(HAVE_GETPEEREID)
+    return getpeereid(socket, euid, egid);
+#elif defined(HAVE_GETPEERUCRED)
+    ucred_t *ucred = NULL;
+
+    SYSGUARD(getpeerucred(socket, &ucred));
+    *euid = ucred_geteuid(ucred);
+    *egid = ucred_getegid(ucred);
+    ucred_free(ucred);
+
+    return (*euid < 0 || *egid < 0) ? -1 : 0;
+#elif defined(SO_PEERCRED)
+    struct ucred ucred;
+    socklen_t len = sizeof(ucred);
+
+    SYSGUARD(getsockopt(socket, SOL_SOCKET, SO_PEERCRED, &ucred, &len));
+
+    *euid = ucred.uid;
+    *egid = ucred.gid;
+
+    return 0;
+#else
+    SYSERR(ENOSYS);
+#endif
 }
