@@ -15,7 +15,7 @@ AC_DEFUN([LFP_INIT], [
 ])
 
 AC_DEFUN([LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS], [
- case $host_os in
+ case "$host_os" in
   linux*)
     LFP_CFLAGS="$LFP_CFLAGS -D_XOPEN_SOURCE=600 -D_GNU_SOURCE=1"
     ;;
@@ -48,7 +48,7 @@ AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_TYPES], [
 ])
 
 AC_DEFUN([LFP_CHECK_POSIX_REALTIME_CLOCK_ALTERNATIVES], [
- case $host_os in
+ case "$host_os" in
   darwin*)
     LFP_REQUIRE_HEADERS([mach/mach.h mach/clock.h])
     LFP_REQUIRE_FUNCS([host_get_clock_service clock_get_attributes])
