@@ -30,7 +30,8 @@
 #include <unistd.h>
 #include <pthread.h>
 
-int lfp_mkstemp(char *template)
+DSO_PUBLIC int
+lfp_mkstemp(char *template)
 {
     return mkstemp(template);
 }
@@ -56,7 +57,8 @@ char* _lfp_default_path(void)
     return default_path;
 }
 
-char* lfp_getpath(char *const envp[])
+DSO_PUBLIC char*
+lfp_getpath(char *const envp[])
 {
     char *envpath = _lfp_getenv("PATH=", sizeof("PATH=") - 1, envp);
     if (envpath != NULL) {
@@ -68,7 +70,8 @@ char* lfp_getpath(char *const envp[])
 
 static pthread_mutex_t ptsname_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-char *lfp_ptsname(int masterfd)
+DSO_PUBLIC char*
+lfp_ptsname(int masterfd)
 {
     pthread_mutex_lock(&ptsname_mutex);
 

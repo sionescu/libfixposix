@@ -126,24 +126,26 @@ int _lfp_spawn(execfun *execfun,
     }
 }
 
-int lfp_spawn(pid_t *restrict pid,
-              const char *restrict path,
-              char *const argv[restrict],
-              char *const envp[restrict],
-              const lfp_spawn_file_actions_t *restrict file_actions,
-              const lfp_spawnattr_t *restrict attr)
+DSO_PUBLIC int
+lfp_spawn(pid_t *restrict pid,
+          const char *restrict path,
+          char *const argv[restrict],
+          char *const envp[restrict],
+          const lfp_spawn_file_actions_t *restrict file_actions,
+          const lfp_spawnattr_t *restrict attr)
 {
     SYSCHECK(EINVAL, pid == NULL);
 
     return _lfp_spawn(&lfp_execve, pid, path, argv, envp, file_actions, attr);
 }
 
-int lfp_spawnp(pid_t *restrict pid,
-               const char *restrict file,
-               char *const argv[restrict],
-               char *const envp[restrict],
-               const lfp_spawn_file_actions_t *restrict file_actions,
-               const lfp_spawnattr_t *restrict attr)
+DSO_PUBLIC int
+lfp_spawnp(pid_t *restrict pid,
+           const char *restrict file,
+           char *const argv[restrict],
+           char *const envp[restrict],
+           const lfp_spawn_file_actions_t *restrict file_actions,
+           const lfp_spawnattr_t *restrict attr)
 {
     SYSCHECK(EINVAL, pid == NULL);
 

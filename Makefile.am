@@ -8,7 +8,7 @@
 
 ACLOCAL_AMFLAGS = -I build/m4
 
-AM_CFLAGS = $(LFP_CFLAGS)
+AM_CFLAGS = $(LFP_CFLAGS) -fvisibility=hidden
 
 INCLUDES = -include $(top_builddir)/config.h \
 	   -include $(top_srcdir)/src/lib/aux/macros.h \

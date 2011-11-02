@@ -45,7 +45,8 @@ extern char** environ;
 #include <limits.h>
 #include <stdio.h>
 
-char** lfp_get_environ(void)
+DSO_PUBLIC char**
+lfp_get_environ(void)
 {
 #if defined(__APPLE__)
     return *_NSGetEnviron();
@@ -54,7 +55,8 @@ char** lfp_get_environ(void)
 #endif
 }
 
-int lfp_set_environ(char **newenv)
+DSO_PUBLIC int
+lfp_set_environ(char **newenv)
 {
     if (lfp_clearenv() < 0) {
         return -1;
@@ -77,7 +79,8 @@ void _lfp_reset_environ()
 #endif
 }
 
-int lfp_clearenv(void)
+DSO_PUBLIC int
+lfp_clearenv(void)
 {
 #if defined(HAVE_CLEARENV)
     return clearenv();
@@ -104,14 +107,16 @@ int lfp_clearenv(void)
 }
 
 
-off_t lfp_lseek(int fd, off_t offset, int whence)
+DSO_PUBLIC off_t
+lfp_lseek(int fd, off_t offset, int whence)
 {
     return lseek(fd, offset, whence);
 }
 
 
 
-int lfp_pipe (int pipefd[2], uint64_t flags)
+DSO_PUBLIC int
+lfp_pipe (int pipefd[2], uint64_t flags)
 {
 #if defined(HAVE_PIPE2)
     // We assume that if pipe2() is defined then O_CLOEXEC too
@@ -145,31 +150,36 @@ int lfp_pipe (int pipefd[2], uint64_t flags)
 
 
 
-ssize_t lfp_pread(int fd, void *buf, size_t count, off_t offset)
+DSO_PUBLIC ssize_t
+lfp_pread(int fd, void *buf, size_t count, off_t offset)
 {
     return pread(fd, buf, count, offset);
 }
 
-ssize_t lfp_pwrite(int fd, const void *buf, size_t count, off_t offset)
+DSO_PUBLIC ssize_t
+lfp_pwrite(int fd, const void *buf, size_t count, off_t offset)
 {
     return pwrite(fd, buf, count, offset);
 }
 
 
 
-int lfp_truncate(const char *path, off_t length)
+DSO_PUBLIC int
+lfp_truncate(const char *path, off_t length)
 {
     return truncate(path, length);
 }
 
-int lfp_ftruncate(int fd, off_t length)
+DSO_PUBLIC int
+lfp_ftruncate(int fd, off_t length)
 {
     return ftruncate(fd, length);
 }
 
 
 
-int lfp_execve(const char *path, char *const argv[], char *const envp[])
+DSO_PUBLIC int
+lfp_execve(const char *path, char *const argv[], char *const envp[])
 {
     SYSCHECK(EINVAL, path == NULL);
     SYSCHECK(ENOENT, path[0] == '\0');
@@ -177,7 +187,8 @@ int lfp_execve(const char *path, char *const argv[], char *const envp[])
     return execve(path, argv, envp);
 }
 
-int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
+DSO_PUBLIC int
+lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 {
     SYSCHECK(EINVAL, file == NULL);
     SYSCHECK(ENOENT, file[0] == '\0');
@@ -217,7 +228,8 @@ int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 }
 
 
-int lfp_getpeereid(int socket, uid_t *euid, gid_t *egid)
+DSO_PUBLIC int
+lfp_getpeereid(int socket, uid_t *euid, gid_t *egid)
 {
 #if defined(HAVE_GETPEEREID)
     return getpeereid(socket, euid, egid);

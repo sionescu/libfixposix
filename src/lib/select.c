@@ -27,8 +27,9 @@
 
 #include "aux/inlines.h"
 
-int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
-               fd_set *exceptfds, const struct timespec *timeout)
+DSO_PUBLIC int
+lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
+           fd_set *exceptfds, const struct timespec *timeout)
 {
 #if defined(HAVE_PSELECT)
     return pselect(nfds, readfds, writefds, exceptfds, timeout, NULL);
@@ -39,22 +40,26 @@ int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
 #endif
 }
 
-void lfp_fd_clr(int fd, fd_set *set)
+DSO_PUBLIC void
+lfp_fd_clr(int fd, fd_set *set)
 {
     FD_CLR(fd, set);
 }
 
-bool lfp_fd_isset(int fd, fd_set *set)
+DSO_PUBLIC bool
+lfp_fd_isset(int fd, fd_set *set)
 {
     return (bool) FD_ISSET(fd, set);
 }
 
-void lfp_fd_set(int fd, fd_set *set)
+DSO_PUBLIC void
+lfp_fd_set(int fd, fd_set *set)
 {
     FD_SET(fd, set);
 }
 
-void lfp_fd_zero(fd_set *set)
+DSO_PUBLIC void
+lfp_fd_zero(fd_set *set)
 {
     FD_ZERO(set);
 }

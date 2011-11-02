@@ -26,7 +26,8 @@
 #include <lfp/string.h>
 #include <lfp/errno.h>
 
-int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result)
+DSO_PUBLIC int
+lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result)
 {
     int ret = readdir_r(dirp, entry, result);
     if ( ret > 0 ) {

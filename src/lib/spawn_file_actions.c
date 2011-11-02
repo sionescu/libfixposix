@@ -47,7 +47,8 @@ typedef struct lfp_spawn_action {
     mode_t mode;
 } lfp_spawn_action;
 
-int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
+DSO_PUBLIC int
+lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 {
     SYSCHECK(EINVAL, file_actions == NULL);
     file_actions->initialized = 0;
@@ -64,7 +65,8 @@ void lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, int initialize
             free((void*)actions[i].path);
 }
 
-int lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
+DSO_PUBLIC int
+lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 {
     SYSCHECK(EINVAL, file_actions == NULL);
     if (file_actions->actions) {
@@ -103,9 +105,10 @@ lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file
     return actions + index;
 }
 
-int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
-                                   int fd, const char *path,
-                                   uint64_t oflags, mode_t mode)
+DSO_PUBLIC int
+lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
+                               int fd, const char *path,
+                               uint64_t oflags, mode_t mode)
 {
     SYSCHECK(EINVAL, file_actions == NULL);
     SYSCHECK(EBADF, INVALID_FD(fd));
@@ -122,8 +125,9 @@ int lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
     return 0;
 }
 
-int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
-                                    int fd)
+DSO_PUBLIC int
+lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
+                                int fd)
 {
     SYSCHECK(EINVAL, file_actions == NULL);
     SYSCHECK(EBADF, INVALID_FD(fd));
@@ -137,8 +141,9 @@ int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
     return 0;
 }
 
-int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
-                                   int fd, int newfd)
+DSO_PUBLIC int
+lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
+                               int fd, int newfd)
 {
     SYSCHECK(EINVAL, file_actions == NULL);
     SYSCHECK(EBADF, INVALID_FD(fd) || INVALID_FD(newfd));

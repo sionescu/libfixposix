@@ -26,7 +26,8 @@
 #include <lfp/fcntl.h>
 #include <lfp/unistd.h>
 
-int lfp_socket(int domain, int type, int protocol, uint64_t flags)
+DSO_PUBLIC int
+lfp_socket(int domain, int type, int protocol, uint64_t flags)
 {
 #if defined(SOCK_CLOEXEC) && defined(SOCK_NONBLOCK)
     return socket(domain,
@@ -51,10 +52,11 @@ int lfp_socket(int domain, int type, int protocol, uint64_t flags)
 #endif
 }
 
-int lfp_accept(int             sockfd,
-               struct sockaddr *addr,
-               socklen_t       *addrlen,
-               uint64_t        flags)
+DSO_PUBLIC int
+lfp_accept(int             sockfd,
+           struct sockaddr *addr,
+           socklen_t       *addrlen,
+           uint64_t        flags)
 {
 // FIXME: This branch requires that SOCK_CLOEXEC and SOCK_NONBLOCK be
 // defined when accept4(2) is present. Should we add an Autoconf check ?
@@ -82,27 +84,32 @@ int lfp_accept(int             sockfd,
 
 
 
-struct cmsghdr* lfp_cmsg_firsthdr (struct msghdr* msgh)
+DSO_PUBLIC struct cmsghdr*
+lfp_cmsg_firsthdr (struct msghdr* msgh)
 {
   return CMSG_FIRSTHDR(msgh);
 }
 
-struct cmsghdr* lfp_cmsg_nxthdr (struct msghdr* msgh, struct cmsghdr* cmsg)
+DSO_PUBLIC struct cmsghdr*
+lfp_cmsg_nxthdr (struct msghdr* msgh, struct cmsghdr* cmsg)
 {
   return CMSG_NXTHDR(msgh, cmsg);
 }
 
-size_t lfp_cmsg_space (size_t length)
+DSO_PUBLIC size_t
+lfp_cmsg_space (size_t length)
 {
   return CMSG_SPACE(length);
 }
 
-size_t lfp_cmsg_len (size_t length)
+DSO_PUBLIC size_t
+lfp_cmsg_len (size_t length)
 {
   return CMSG_LEN(length);
 }
 
-void* lfp_cmsg_data (struct cmsghdr* cmsg)
+DSO_PUBLIC void*
+lfp_cmsg_data (struct cmsghdr* cmsg)
 {
   return CMSG_DATA(cmsg);
 }

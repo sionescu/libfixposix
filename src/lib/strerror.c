@@ -30,7 +30,8 @@
 int __xpg_strerror_r (int errnum, char *buf, size_t buflen);
 #endif
 
-int lfp_strerror(int errnum, char *buf, size_t buflen)
+DSO_PUBLIC int
+lfp_strerror (int errnum, char *buf, size_t buflen)
 {
     SYSCHECK(EINVAL, buf == NULL);
 #if defined(HAVE___XPG_STRERROR_R)

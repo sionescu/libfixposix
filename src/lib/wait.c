@@ -24,27 +24,32 @@
 
 #include <lfp/wait.h>
 
-bool lfp_wifexited (int status)
+DSO_PUBLIC bool
+lfp_wifexited (int status)
 {
   return WIFEXITED(status);
 }
 
-int lfp_wexitstatus (int status)
+DSO_PUBLIC int
+lfp_wexitstatus (int status)
 {
   return WEXITSTATUS(status);
 }
 
-bool lfp_wifsignaled (int status)
+DSO_PUBLIC bool
+lfp_wifsignaled (int status)
 {
   return WIFSIGNALED(status);
 }
 
-int lfp_wtermsig (int status)
+DSO_PUBLIC int
+lfp_wtermsig (int status)
 {
   return WTERMSIG(status);
 }
 
-bool lfp_wcoredump (int status)
+DSO_PUBLIC bool
+lfp_wcoredump (int status)
 {
 #ifdef WCOREDUMP
   return WCOREDUMP(status);
@@ -53,17 +58,20 @@ bool lfp_wcoredump (int status)
 #endif
 }
 
-bool lfp_wifstopped (int status)
+DSO_PUBLIC bool
+lfp_wifstopped (int status)
 {
   return WIFSTOPPED(status);
 }
 
-int lfp_wstopsig (int status)
+DSO_PUBLIC int
+lfp_wstopsig (int status)
 {
   return WSTOPSIG(status);
 }
 
-bool lfp_wifcontinued (int status)
+DSO_PUBLIC bool
+lfp_wifcontinued (int status)
 {
 #ifdef WIFCONTINUED
   return WIFCONTINUED(status);

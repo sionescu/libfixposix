@@ -26,7 +26,8 @@
 #include <lfp/stdlib.h>
 #include <lfp/errno.h>
 
-size_t lfp_strnlen(const char *s, size_t maxlen)
+DSO_PUBLIC size_t
+lfp_strnlen(const char *s, size_t maxlen)
 {
 #if defined(HAVE_STRNLEN)
     return strnlen(s, maxlen);
@@ -40,7 +41,8 @@ size_t lfp_strnlen(const char *s, size_t maxlen)
 #endif
 }
 
-char *lfp_strndup(const char *s, size_t maxlen)
+DSO_PUBLIC char*
+lfp_strndup(const char *s, size_t maxlen)
 {
 #if defined(HAVE_STRNDUP)
     return strndup(s, maxlen);
