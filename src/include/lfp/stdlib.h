@@ -35,7 +35,7 @@ int lfp_mkstemp(char *tmplate);
 
 char* lfp_getpath(char *const envp[]);
 
-char *lfp_ptsname(int masterfd);
+char* lfp_ptsname(int masterfd);
 
 LFP_END_DECLS
 
