@@ -22,16 +22,12 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/fcntl.h>
 #include <lfp/stdlib.h>
 #include <lfp/unistd.h>
 
 #include <stdbool.h>
 #include <stdarg.h>
-
-#include "utils.h"
 
 int lfp_open (const char *pathname, uint64_t flags, ...)
 {

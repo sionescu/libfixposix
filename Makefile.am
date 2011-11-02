@@ -10,7 +10,10 @@ ACLOCAL_AMFLAGS = -I build/m4
 
 AM_CFLAGS = $(LFP_CFLAGS)
 
-INCLUDES = -I$(top_builddir)/src/include -I$(top_srcdir)/src/include
+INCLUDES = -include $(top_builddir)/config.h \
+	   -include $(top_srcdir)/src/lib/aux/macros.h \
+	   -I$(top_srcdir)/src/include \
+	   -I$(top_builddir)/src/include
 
 EXTRA_DIST = \
 	LICENCE \
@@ -40,7 +43,10 @@ lib_LTLIBRARIES = src/lib/libfixposix.la
 # Private headers, used only for internal definitions
 # The only purpose of this definition it to ensure that
 #  «make dist» knows about them
-noinst_HEADERS = src/lib/utils.h src/lib/spawn.h
+noinst_HEADERS = \
+	src/lib/aux/inlines.h \
+	src/lib/aux/macros.h \
+	src/lib/spawn.h
 
 include_HEADERS = src/include/lfp.h
 

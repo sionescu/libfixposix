@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/unistd.h>
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
@@ -46,8 +44,6 @@ extern char** environ;
 
 #include <limits.h>
 #include <stdio.h>
-
-#include "utils.h"
 
 char** lfp_get_environ(void)
 {

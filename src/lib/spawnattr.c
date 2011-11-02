@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/spawn.h>
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
@@ -36,7 +34,6 @@
 #include <sys/ioctl.h>
 #include <sys/termios.h>
 
-#include "utils.h"
 #include "spawn.h"
 
 #define LFP_SPAWN_ALLATTRS ( LFP_SPAWN_SETSIGMASK    | \

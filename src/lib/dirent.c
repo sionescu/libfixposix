@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/dirent.h>
 #include <lfp/string.h>
 #include <lfp/errno.h>

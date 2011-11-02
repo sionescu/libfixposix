@@ -22,11 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/signalfd.h>
-
-#include "utils.h"
 
 static struct signalfd_params {
     int read_fd;

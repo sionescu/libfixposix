@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/time.h>
 #include <lfp/errno.h>
 #include <lfp/unistd.h>
@@ -33,7 +31,7 @@
 # include <mach/clock.h>
 #endif
 
-#include "utils.h"
+#include "aux/inlines.h"
 
 /*******************/
 /* clock_settime() */

@@ -22,12 +22,10 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-
 #include <lfp/strerror.h>
 
 #include <string.h>
 
-#include "utils.h"
 #if defined(HAVE___XPG_STRERROR_R)
 int __xpg_strerror_r (int errnum, char *buf, size_t buflen);
 #endif

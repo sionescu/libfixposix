@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/resource.h>
 
 int lfp_getrlimit(int resource, struct rlimit *rlim)

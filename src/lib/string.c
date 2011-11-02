@@ -22,13 +22,9 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/string.h>
 #include <lfp/stdlib.h>
 #include <lfp/errno.h>
-
-#include "utils.h"
 
 size_t lfp_strnlen(const char *s, size_t maxlen)
 {

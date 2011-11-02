@@ -22,12 +22,10 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/select.h>
 #include <stddef.h>
 
-#include "utils.h"
+#include "aux/inlines.h"
 
 int lfp_select(int nfds, fd_set *readfds, fd_set *writefds,
                fd_set *exceptfds, const struct timespec *timeout)

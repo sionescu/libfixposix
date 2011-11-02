@@ -22,11 +22,7 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/signal.h>
-
-#include "utils.h"
 
 lfp_sighandler_t lfp_sig_dfl (void)
 {

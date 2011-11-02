@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/spawn.h>
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
@@ -32,7 +30,6 @@
 
 #include <limits.h>
 
-#include "utils.h"
 #include "spawn.h"
 
 typedef enum {

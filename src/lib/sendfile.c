@@ -22,8 +22,6 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/sendfile.h>
 
 #if defined(HAVE_SENDFILE)
@@ -38,8 +36,6 @@
 int sendfile(int, int, off_t, off_t *, void *, int);
 # endif
 #endif
-
-#include "utils.h"
 
 ssize_t lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)
 {

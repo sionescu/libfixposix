@@ -22,15 +22,11 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <config.h>
-
 #include <lfp/syslog.h>
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
 
 #include <pthread.h>
-
-#include "utils.h"
 
 static pthread_mutex_t syslog_mutex = PTHREAD_MUTEX_INITIALIZER;
 

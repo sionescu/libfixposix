@@ -22,52 +22,36 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#include <lfp/wait.h>
+#if !defined(_LFP_INTERNAL_AUX_INLINES_H_)
+# define _LFP_INTERNAL_AUX_INLINES_H_
 
-bool lfp_wifexited (int status)
-{
-  return WIFEXITED(status);
-}
-
-int lfp_wexitstatus (int status)
-{
-  return WEXITSTATUS(status);
-}
-
-bool lfp_wifsignaled (int status)
-{
-  return WIFSIGNALED(status);
-}
-
-int lfp_wtermsig (int status)
-{
-  return WTERMSIG(status);
-}
-
-bool lfp_wcoredump (int status)
-{
-#ifdef WCOREDUMP
-  return WCOREDUMP(status);
-#else
-  return false;
+#include <sys/types.h>
+#include <sys/time.h>
+#include <errno.h>
+#if defined(__APPLE__)
+# include <mach/mach.h>
 #endif
+
+static inline
+void _lfp_timespec_to_timeval(const struct timespec *ts, struct timeval *tv)
+{
+    tv->tv_sec  = ts->tv_sec;
+    // Syscalls often have special code paths for null timeouts
+    // so set this to 1 microsecond
+    if(ts->tv_sec == 0 && ts->tv_nsec > 0 && ts->tv_nsec <= 1000)
+        tv->tv_usec = 1;
+    else
+        tv->tv_usec = ts->tv_nsec / 1000;
 }
 
-bool lfp_wifstopped (int status)
+#if defined(__APPLE__)
+static inline
+void _lfp_mach_timespec_t_to_timespec(const mach_timespec_t *mts,
+                                      struct timespec *ts)
 {
-  return WIFSTOPPED(status);
+    ts->tv_sec  = mts->tv_sec;
+    ts->tv_nsec = mts->tv_nsec;
 }
-
-int lfp_wstopsig (int status)
-{
-  return WSTOPSIG(status);
-}
-
-bool lfp_wifcontinued (int status)
-{
-#ifdef WIFCONTINUED
-  return WIFCONTINUED(status);
-#else
-  return false;
 #endif
-}
+
+#endif /* _LFP_INTERNAL_AUX_INLINES_H_ */
