@@ -34,7 +34,7 @@
 #include "aux/inlines.h"
 
 /*******************/
-/* clock_settime() */
+/* clock_getres() */
 /*******************/
 
 #if defined(__APPLE__) && !HAVE_CLOCK_GETTIME
@@ -139,7 +139,7 @@ lfp_clock_gettime(clockid_t clk_id, struct timespec *tp)
 
 
 /*******************/
-/* clock_gettime() */
+/* clock_settime() */
 /*******************/
 
 #if defined(__APPLE__) && !HAVE_CLOCK_GETTIME
