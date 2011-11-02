@@ -14,7 +14,7 @@ INCLUDES = -I$(top_builddir)/src/include -I$(top_srcdir)/src/include
 
 EXTRA_DIST = \
 	LICENCE \
-	src/lib/libfixposix.libtool
+	src/libfixposix.libtool
 
 
 
@@ -25,7 +25,7 @@ EXTRA_DIST = \
 ########################################################################
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libfixposix.pc
+pkgconfig_DATA = src/libfixposix.pc
 
 
 
@@ -91,12 +91,12 @@ src_lib_libfixposix_la_SOURCES = \
 # src/lib/install_signalfd.c
 
 src_lib_libfixposix_la_DEPENDENCIES = \
-	src/lib/libfixposix.libtool
+	src/libfixposix.libtool
 
 src_lib_libfixposix_la_LIBADD = $(LFP_LIBS)
 
 src_lib_libfixposix_la_LDFLAGS = $(LFP_LDFLAGS) -no-undefined \
-	-version-info `@AWK@ '/^Version:/ { print $$2 }' $(top_srcdir)/src/lib/libfixposix.libtool`
+	-version-info `@AWK@ '/^Version:/ { print $$2 }' $(top_srcdir)/src/libfixposix.libtool`
 
 
 

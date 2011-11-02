@@ -96,6 +96,6 @@ dnl Configuration switches
 # LFP_ARG_ENABLE_EMULATED_SIGNALFD
 
 AC_CONFIG_FILES([Makefile
-                 libfixposix.pc
+                 src/libfixposix.pc
                  src/include/lfp/time.h])
 AC_OUTPUT
