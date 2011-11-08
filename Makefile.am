@@ -112,22 +112,19 @@ src_lib_libfixposix_la_LDFLAGS = $(LFP_LDFLAGS) -no-undefined \
 #                                                             	       #
 ########################################################################
 
-check_PROGRAMS	= src/tests/spawn src/tests/select
+check_PROGRAMS	= \
+	src/tests/spawn \
+	src/tests/select
 
 check_SCRIPTS	=
 
 TESTS		= ${check_PROGRAMS} ${check_SCRIPTS}
 XFAIL_TESTS	=
 
-
-# src_tests_signalfd_SOURCES = src/tests/signalfd.c
-
-# src_tests_signalfd_LDADD = src/lib/libfixposix.la
-
 src_tests_spawn_SOURCES = src/tests/spawn.c
-
-src_tests_spawn_LDADD = src/lib/libfixposix.la
+src_tests_spawn_CFLAGS  = @CHECK_CFLAGS@
+src_tests_spawn_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
 src_tests_select_SOURCES = src/tests/select.c
-
-src_tests_select_LDADD = src/lib/libfixposix.la
+src_tests_select_CFLAGS  = @CHECK_CFLAGS@
+src_tests_select_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la

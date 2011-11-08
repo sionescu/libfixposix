@@ -56,6 +56,8 @@ LT_PREREQ([2.2.6])
 
 LFP_INIT
 
+LFP_TESTS_CHECK
+
 dnl Checks for programs
 LFP_REQUIRE_PROG([GETCONF], [getconf])
 
