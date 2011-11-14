@@ -3,7 +3,7 @@ Priority: optional
 Section: libdevel
 Maintainer: Stelian Ionescu <sionescu@cddr.org>
 Standards-Version: 3.9.2
-Build-Depends: cdbs (>= 0.4.53), debhelper (>= 8.0.0)
+Build-Depends: cdbs (>= 0.4.53), debhelper (>= 8.0.0), check (>= 0.9.4)
 Homepage: http://common-lisp.net/project/iolib/
 
 Package: libfixposix0
