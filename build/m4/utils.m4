@@ -1,68 +1,62 @@
 # -*- Autoconf -*-
 
-AC_DEFUN([LFP_PROLOGUE], [
-_lfp_save_flags() {
- _lfp_saved_cppflags=$CPPFLAGS
- _lfp_saved_cflags=$CFLAGS
- _lfp_saved_ldflags=$LDFLAGS
- _lfp_saved_libs=$LIBS
+AC_DEFUN([LFP_SAVE_FLAGS], [
+ _lfp_saved_cppflags_$1=$CPPFLAGS
+ _lfp_saved_cflags_$1=$CFLAGS
+ _lfp_saved_ldflags_$1=$LDFLAGS
+ _lfp_saved_libs_$1=$LIBS
  CPPFLAGS="$LFP_CPPFLAGS"
  CFLAGS="$LFP_CFLAGS"
  LDFLAGS="$LFP_LDFLAGS"
  LIBS="$LFP_LIBS"
-}
+])
 
-_lfp_restore_flags() {
- CPPFLAGS="$_lfp_saved_cppflags"
- CFLAGS="$_lfp_saved_cflags"
- LDFLAGS="$_lfp_saved_ldflags"
- LIBS="$_lfp_saved_libs"
- unset _lfp_saved_cppflags
- unset _lfp_saved_cflags
- unset _lfp_saved_ldflags
- unset _lfp_saved_libs
-}
+AC_DEFUN([LFP_RESTORE_FLAGS], [
+ CPPFLAGS="$_lfp_saved_cppflags_$1"
+ CFLAGS="$_lfp_saved_cflags_$1"
+ LDFLAGS="$_lfp_saved_ldflags_$1"
+ LIBS="$_lfp_saved_libs_$1"
 ])
 
 # Check for some headers and print an error if not found
 AC_DEFUN([LFP_REQUIRE_HEADERS], [
- _lfp_save_flags
+ LFP_SAVE_FLAGS(AS_TR_CPP($1))
  AC_CHECK_HEADERS($1,,AC_MSG_FAILURE([Cannot find header(s) $1]))
- _lfp_restore_flags
+ LFP_RESTORE_FLAGS(AS_TR_CPP($1))
 ])
 
 # Check for a function and print an error if not found
 AC_DEFUN([LFP_REQUIRE_FUNCS], [
- _lfp_save_flags
+ LFP_SAVE_FLAGS(AS_TR_CPP($1))
  AC_CHECK_FUNCS($1,,AC_MSG_FAILURE([Cannot find function(s) $1]))
- _lfp_restore_flags
+ LFP_RESTORE_FLAGS(AS_TR_CPP($1))
 ])
 
 # Check for a type and print an error if not found
 AC_DEFUN([LFP_REQUIRE_TYPE], [
- _lfp_save_flags
+ LFP_SAVE_FLAGS(AS_TR_CPP($1))
  AC_CHECK_TYPES($1,,AC_MSG_FAILURE([Cannot find type $1 in $2]),
   [m4_foreach_w([header], [$2], [[#]include [<]header[>]
  ])])
- _lfp_restore_flags
+ LFP_RESTORE_FLAGS(AS_TR_CPP($1))
 ])
 
 # Check for a declaration and print an error if not found
 AC_DEFUN([LFP_REQUIRE_DECL], [
- _lfp_save_flags
+ LFP_SAVE_FLAGS(AS_TR_CPP($1))
  AC_CHECK_DECL($1,,AC_MSG_FAILURE([Cannot find $1 in <$2>]),
   [m4_foreach_w([header], [$2], [[#]include [<]header[>]
  ])])
- _lfp_restore_flags
+ LFP_RESTORE_FLAGS(AS_TR_CPP($1))
 ])
 
 # Check for a library and print an error if not found
 AC_DEFUN([LFP_SEARCH_LIBS], [
- _lfp_save_flags
+ LFP_SAVE_FLAGS(AS_TR_CPP($1))
  AC_SEARCH_LIBS($1,$2,$3
   [if test -n "$LIBS"; then LFP_LIBS="$LFP_LIBS $LIBS"; fi],
   m4_default_nblank_quoted([$4],AC_MSG_FAILURE([Cannot find $1 in <$2>])))
- _lfp_restore_flags
+ LFP_RESTORE_FLAGS(AS_TR_CPP($1))
 ])
 
 AC_DEFUN([LFP_REQUIRE_PROG], [
