@@ -29,6 +29,7 @@
 
 LFP_BEGIN_DECLS
 
+#include <sys/types.h>
 #include <string.h>
 
 #include <lfp/strerror.h>
@@ -36,6 +37,24 @@ LFP_BEGIN_DECLS
 size_t lfp_strnlen(const char *s, size_t maxlen);
 
 char* lfp_strndup(const char *s, size_t maxlen);
+
+enum lfp_memsize_measure_unit {
+    LFP_OCTETS = 0,
+    LFP_KB,
+    LFP_KIB,
+    LFP_MB,
+    LFP_MIB,
+    LFP_GB,
+    LFP_GIB,
+    LFP_TB,
+    LFP_TIB,
+    LFP_PB,
+    LFP_PIB,
+    LFP_EB,
+    LFP_EIB
+};
+
+ssize_t lfp_parse_memsize(const char *s, enum lfp_memsize_measure_unit default_unit);
 
 LFP_END_DECLS
 
