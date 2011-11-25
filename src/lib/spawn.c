@@ -30,12 +30,12 @@
 
 #include "spawn.h"
 
-typedef int (execfun)(const char*, char *const[], char *const[]);
+typedef int (*execfun)(const char*, char *const[], char *const[]);
 
 static
-void child_exit(int pipe, int child_errno)
+void child_exit(int pipefd, int child_errno)
 {
-    int noctets = write(pipe, &child_errno, sizeof(int));
+    int noctets = write(pipefd, &child_errno, sizeof(int));
     if (noctets == sizeof(int))
         _exit(255);
     else
@@ -54,7 +54,7 @@ int _lfp_spawn_apply_default_attributes(const lfp_spawnattr_t *attr)
 }
 
 static
-void handle_child(execfun *execfun,
+void handle_child(execfun execfn,
                   const char *path,
                   char *const argv[],
                   char *const envp[],
@@ -69,7 +69,7 @@ void handle_child(execfun *execfun,
         (child_errno = lfp_spawn_apply_file_actions(file_actions)) != 0) {
         child_exit(pipes[1], child_errno);
     }
-    execfun(path, argv, envp);
+    execfn(path, argv, envp);
     child_exit(pipes[1], lfp_errno());
 }
 
@@ -97,7 +97,7 @@ int handle_parent(pid_t child_pid, int pipes[2])
 }
 
 static
-int _lfp_spawn(execfun *execfun,
+int _lfp_spawn(execfun execfn,
                pid_t *restrict pid,
                const char *restrict path,
                char *const argv[restrict],
@@ -118,7 +118,7 @@ int _lfp_spawn(execfun *execfun,
     case -1:
         return -1;
     case 0:
-        handle_child(execfun, path, argv, envp, file_actions, attr, pipes);
+        handle_child(execfn, path, argv, envp, file_actions, attr, pipes);
         // Flow reaches this point only if child_exit() mysteriously fails
         SYSERR(EBUG);
     default:

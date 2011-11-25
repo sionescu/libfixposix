@@ -80,13 +80,13 @@ lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 static
 lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file_actions)
 {
-    int index = file_actions->initialized++;
+    int init_index = file_actions->initialized++;
     int allocated = file_actions->allocated;
     lfp_spawn_action *actions = file_actions->actions;
     int new_allocated;
     lfp_spawn_action *new_actions;
 
-    if (index >= allocated) {
+    if (init_index >= allocated) {
         /* Note: this code assumes we run out of memory before we overflow. */
         new_allocated = 4 + allocated * 3 / 2;
         new_actions = calloc(new_allocated, sizeof(lfp_spawn_action));
@@ -100,9 +100,9 @@ lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file
         actions = new_actions;
         file_actions->actions = actions;
         file_actions->allocated = new_allocated;
-        memset(actions+index, 0, (new_allocated - index) * sizeof(lfp_spawn_action));
+        memset(actions + init_index, 0, (new_allocated - init_index) * sizeof(lfp_spawn_action));
     }
-    return actions + index;
+    return actions + init_index;
 }
 
 DSO_PUBLIC int

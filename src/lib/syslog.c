@@ -34,8 +34,8 @@ static char *syslog_ident = NULL;
 
 #define SYSLOG_IDENT_SIZE 1024
 
-static
-void _lfp_closelog()
+static void
+_lfp_closelog(void)
 {
     closelog();
     if (syslog_ident) {
@@ -44,8 +44,8 @@ void _lfp_closelog()
     }
 }
 
-static
-void copy_syslog_ident(const char *ident)
+static void
+copy_syslog_ident(const char *ident)
 {
     if (ident) {
         syslog_ident = malloc(SYSLOG_IDENT_SIZE);

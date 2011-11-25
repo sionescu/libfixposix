@@ -68,16 +68,18 @@ lfp_set_environ(char **newenv)
     return 0;
 }
 
-static
-void _lfp_reset_environ()
+#if !defined(HAVE_CLEARENV)
+static void
+_lfp_reset_environ(void)
 {
-#if defined(__APPLE__)
+# if defined(__APPLE__)
     char ***envptr = _NSGetEnviron();
     *envptr = NULL;
-#else
+# else
     environ = NULL;
-#endif
+# endif
 }
+#endif
 
 DSO_PUBLIC int
 lfp_clearenv(void)
@@ -229,15 +231,15 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 
 
 DSO_PUBLIC int
-lfp_getpeereid(int socket, uid_t *euid, gid_t *egid)
+lfp_getpeereid(int sockfd, uid_t *euid, gid_t *egid)
 {
 #if defined(HAVE_GETPEEREID)
-    return getpeereid(socket, euid, egid);
+    return getpeereid(sockfd, euid, egid);
 #elif defined(HAVE_GETPEERUCRED)
     ucred_t stack_ucred;
     ucred_t *ucred = &stack_ucred;
 
-    SYSGUARD(getpeerucred(socket, &ucred));
+    SYSGUARD(getpeerucred(sockfd, &ucred));
     *euid = ucred_geteuid(ucred);
     *egid = ucred_getegid(ucred);
 
@@ -246,7 +248,7 @@ lfp_getpeereid(int socket, uid_t *euid, gid_t *egid)
     struct ucred ucred;
     socklen_t len = sizeof(ucred);
 
-    SYSGUARD(getsockopt(socket, SOL_SOCKET, SO_PEERCRED, &ucred, &len));
+    SYSGUARD(getsockopt(sockfd, SOL_SOCKET, SO_PEERCRED, &ucred, &len));
 
     *euid = ucred.uid;
     *egid = ucred.gid;

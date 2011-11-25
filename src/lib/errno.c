@@ -25,7 +25,7 @@
 #include <lfp/errno.h>
 
 DSO_PUBLIC int
-lfp_errno ()
+lfp_errno (void)
 {
   return errno;
 }
