@@ -35,7 +35,7 @@ LFP_BEGIN_DECLS
 
 size_t lfp_strnlen(const char *s, size_t maxlen);
 
-char *lfp_strndup(const char *s, size_t maxlen);
+char* lfp_strndup(const char *s, size_t maxlen);
 
 LFP_END_DECLS
 
