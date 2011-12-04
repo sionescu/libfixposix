@@ -88,8 +88,6 @@ compute_multiplier(enum lfp_memsize_measure_unit unit)
     }
 }
 
-#include <stdio.h>
-
 DSO_PUBLIC ssize_t
 lfp_parse_memsize(const char *s, enum lfp_memsize_measure_unit default_unit)
 {
