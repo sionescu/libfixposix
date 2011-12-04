@@ -56,13 +56,11 @@ lfp_strndup(const char *s, size_t maxlen)
     } else {
         size_t len = lfp_strnlen(s, maxlen);
         char *newstr = malloc(len + 1);
-        if (newstr == NULL) {
-            return NULL;
-        } else {
+        if (newstr != NULL) {
             memcpy(newstr, s, len);
             newstr[len] = '\0';
-            return newstr;
         }
+        return newstr;
     }
 #endif
 }
