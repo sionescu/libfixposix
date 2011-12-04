@@ -24,6 +24,7 @@
 
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
+#include <lfp/unistd.h>
 
 #include <limits.h>
 #include <stdbool.h>
@@ -67,7 +68,8 @@ _lfp_default_path(void)
 DSO_PUBLIC char*
 lfp_getpath(char *const envp[])
 {
-    char *envpath = _lfp_getenv("PATH=", sizeof("PATH=") - 1, envp);
+    char *envpath = _lfp_getenv("PATH=", sizeof("PATH=") - 1,
+                                envp ? envp : lfp_get_environ());
     if (envpath != NULL) {
         return strdup(envpath);
     } else {
