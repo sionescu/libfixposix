@@ -13,7 +13,7 @@ void error_abort (const char* msg, int perrorp)
     abort();
 }
 
-int main ()
+int main (void)
 {
     // Not implemented yet
     pid_t pid;

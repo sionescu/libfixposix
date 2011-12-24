@@ -2,7 +2,7 @@
 
 #include <lfp.h>
 
-int main()
+int main(void)
 {
     fd_set rset, wset, eset;
 
