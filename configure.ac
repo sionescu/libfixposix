@@ -20,9 +20,9 @@ AC_MSG_NOTICE([builddir: $builddir])
 AC_MSG_NOTICE([CPPFLAGS: $CPPFLAGS])
 AC_MSG_NOTICE([CFLAGS:   $CFLAGS])
 AC_MSG_NOTICE([LDFLAGS:  $LDFLAGS])
-if test "`/bin/pwd`" = "`cd $srcdir; /bin/pwd`" ; then
+AS_IF([test "`/bin/pwd`" = "`cd $srcdir; /bin/pwd`"], [
   AC_MSG_WARN([you should configure in a separate build directory])
-fi
+])
 
 AC_CONFIG_HEADERS([config.h])
 
