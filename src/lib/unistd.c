@@ -211,7 +211,7 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
         tmpath = NULL;
         if ( bindir[0] != '\0' ) {
             size_t dirlen = lfp_strnlen(bindir, PATH_MAX);
-            // directory + / + file
+            // directory + '/' + file
             size_t pathlen = dirlen + 1 + filelen;
             // if pathlen == PATH_MAX there's no room for the final \0
             SYSCHECK(ENAMETOOLONG, pathlen >= PATH_MAX);
