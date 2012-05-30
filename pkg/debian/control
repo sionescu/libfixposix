@@ -2,7 +2,7 @@ Source: libfixposix
 Priority: optional
 Section: libdevel
 Maintainer: Stelian Ionescu <sionescu@cddr.org>
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Build-Depends: cdbs (>= 0.4.53), debhelper (>= 8.0.0), pkg-config (>= 0.25), check (>= 0.9.4)
 Homepage: http://common-lisp.net/project/iolib/
 
