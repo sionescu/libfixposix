@@ -2,7 +2,7 @@ URL:      http://common-lisp.net/project/iolib/
 
 Name:     libfixposix
 Summary:  Thin wrapper over POSIX syscalls
-Version:  0.2.1
+Version:  0.2.2
 Release:  1
 License:  Boost 1.0
 Group:    Development/Libraries/C and C++
@@ -58,5 +58,7 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 %{_libdir}/pkgconfig/libfixposix.pc
 
 %changelog
+* Wed May 30 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.2-1
+- Release 0.2.2
 * Wed Apr 18 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.1-1
 - First package.

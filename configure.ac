@@ -11,9 +11,9 @@ dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 dnl Minimum Autoconf version required.
 AC_PREREQ([2.67])
 
-AC_INIT([LibFixPOSIX], [0.2.1], [iolib-devel@common-lisp.net],
+AC_INIT([LibFixPOSIX], [0.2.2], [iolib-devel@common-lisp.net],
         [libfixposix], [http://common-lisp.net/project/iolib/])
-AC_COPYRIGHT([Copyright © 2010-2011 Stelian Ionescu <sionescu@cddr.org>])
+AC_COPYRIGHT([Copyright © 2010-2012 Stelian Ionescu <sionescu@cddr.org>])
 
 AC_MSG_NOTICE([srcdir:   $srcdir])
 AC_MSG_NOTICE([builddir: $builddir])
