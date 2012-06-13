@@ -157,7 +157,7 @@ DSO_PUBLIC int
 lfp_spawnattr_setctty(lfp_spawnattr_t *attr, const char *path)
 {
     SYSCHECK(EINVAL, attr == NULL || path == NULL);
-    attr->flags |= LFP_SPAWN_SETCTTY;
+    attr->flags |= LFP_SPAWN_SETCTTY | LFP_SPAWN_SETSID;
     if (attr->pts_path) {
         free(attr->pts_path);
     }
