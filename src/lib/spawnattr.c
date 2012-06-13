@@ -27,6 +27,7 @@
 #include <lfp/string.h>
 #include <lfp/errno.h>
 #include <lfp/unistd.h>
+#include <lfp/ioctl.h>
 #include <lfp/signal.h>
 
 #include <stdio.h>
@@ -267,20 +268,12 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
         }
 
     if (attr->flags & LFP_SPAWN_SETCTTY) {
-        int ttyfd = lfp_open(attr->pts_path, O_RDWR | O_NOCTTY);
-        if (ttyfd  < 0) {
+        if (lfp_tty_attach(attr->pts_path) < 0) {
 #if !defined(NDEBUG)
-		perror("LFP_SPAWN_APPLY_ATTR:SETCTTY:lfp_open");
+            perror("LFP_SPAWN_APPLY_ATTR:SETCTTY:lfp_tty_attach");
 #endif
-		goto error_return;
-        } else {
-	    if (ioctl(ttyfd, TIOCSCTTY) < 0) {
-#if !defined(NDEBUG)
-		perror("LFP_SPAWN_APPLY_ATTR:SETCTTY:ioctl");
-#endif
-		goto error_return;
-	    }
-	}
+            goto error_return;
+        }
     }
 
     if (attr->flags & LFP_SPAWN_SETCWD)

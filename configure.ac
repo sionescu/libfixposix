@@ -89,6 +89,7 @@ LFP_REQUIRE_MONOTONIC_CLOCK
 LFP_REQUIRE_GETPEEREID
 
 dnl Checks for declarations
+LFP_REQUIRE_DECL([TIOCSCTTY], [sys/ioctl.h])
 LFP_REQUIRE_DECL([NSIG], [sys/types.h sys/signal.h signal.h])
 LFP_REQUIRE_DECL([IP_HDRINCL], [sys/types.h sys/socket.h netinet/in.h])
 
