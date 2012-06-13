@@ -23,6 +23,7 @@
 /*******************************************************************************/
 
 #include <lfp/ioctl.h>
+#include <lfp/unistd.h>
 #include <lfp/fcntl.h>
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
@@ -37,7 +38,13 @@ lfp_tty_attach(const char *path)
     int ttyfd;
 
     SYSGUARD(ttyfd = lfp_open(path, O_RDONLY | O_NOCTTY));
-    SYSGUARD(lfp_tty_fattach(ttyfd));
+    if (lfp_tty_fattach(ttyfd) < 0) {
+        int saved_errno = lfp_errno();
+        close(ttyfd);
+        SYSERR(saved_errno);
+    } else {
+        close(ttyfd);
+    }
 
     return 0;
 }
