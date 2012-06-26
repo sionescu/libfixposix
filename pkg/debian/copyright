@@ -1,7 +1,7 @@
-Format: http://dep.debian.net/deps/dep5/
-Upstream-Name: libfixposix
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: LibFixPOSIX
 Upstream-Contact: Stelian Ionescu <sionescu@cddr.org>
-Source: http://common-lisp.net/project/iolib/
+Source: http://common-lisp.net/project/iolib/files/libfixposix/
 
 Files: *
 Copyright: 2010-2012 Stelian Ionescu <sionescu@cddr.org>

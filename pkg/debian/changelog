@@ -1,3 +1,21 @@
+libfixposix (1:0.2.4-3) unstable; urgency=low
+
+  * Add symbols file
+
+ -- Stelian Ionescu <sionescu@cddr.org>  Tue, 26 Jun 2012 20:48:00 +0200
+
+libfixposix (1:0.2.4-2) unstable; urgency=low
+
+  * Update copyright file
+
+ -- Stelian Ionescu <sionescu@cddr.org>  Tue, 26 Jun 2012 20:23:00 +0200
+
+libfixposix (1:0.2.4-1) unstable; urgency=low
+
+  * Increase epoch to 1
+
+ -- Stelian Ionescu <sionescu@cddr.org>  Tue, 26 Jun 2012 19:17:00 +0200
+
 libfixposix (0.2.4-1) unstable; urgency=low
 
   * Release 0.2.4

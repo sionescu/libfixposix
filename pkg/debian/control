@@ -10,7 +10,7 @@ Package: libfixposix1
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Thin wrapper over POSIX syscalls.
+Description: Thin wrapper over POSIX syscalls
  The purpose of libfixposix is to offer replacements for parts of POSIX
  whose behaviour is inconsistent across *NIX flavours
  .
