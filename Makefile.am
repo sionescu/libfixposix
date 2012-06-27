@@ -133,12 +133,4 @@ src_tests_select_SOURCES = src/tests/select.c
 src_tests_select_CFLAGS  = @CHECK_CFLAGS@
 src_tests_select_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
-else
-
-check:
-	@echo
-	@echo "Test suite disabled"
-	@echo
-	@exit 1
-
 endif
