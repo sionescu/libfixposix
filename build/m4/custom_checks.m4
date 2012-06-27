@@ -3,9 +3,9 @@
 AC_DEFUN([LFP_TESTS_CHECK], [
 AC_ARG_ENABLE([tests],
   [AS_HELP_STRING([--enable-tests],
-    [enable test suite using CHECK @<:@default=yes@:>@])],
+    [enable test suite using CHECK @<:@default=no@:>@])],
   [],
-  [enable_tests=yes])
+  [enable_tests=no])
 AS_CASE($enable_tests,
   [yes], [PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
           AC_SUBST([CHECK_CFLAGS])
