@@ -21,14 +21,14 @@ AC_DEFUN([LFP_RESTORE_FLAGS], [
 # Check for some headers and print an error if not found
 AC_DEFUN([LFP_REQUIRE_HEADERS], [
  LFP_SAVE_FLAGS(AS_TR_CPP($1))
- AC_CHECK_HEADERS($1,,AC_MSG_FAILURE([Cannot find header(s) $1]))
+ AC_CHECK_HEADERS($1,,AC_MSG_FAILURE([Cannot find header $ac_header]))
  LFP_RESTORE_FLAGS(AS_TR_CPP($1))
 ])
 
 # Check for a function and print an error if not found
 AC_DEFUN([LFP_REQUIRE_FUNCS], [
  LFP_SAVE_FLAGS(AS_TR_CPP($1))
- AC_CHECK_FUNCS($1,,AC_MSG_FAILURE([Cannot find function(s) $1]))
+ AC_CHECK_FUNCS($1,,AC_MSG_FAILURE([Cannot find function $ac_func]))
  LFP_RESTORE_FLAGS(AS_TR_CPP($1))
 ])
 
