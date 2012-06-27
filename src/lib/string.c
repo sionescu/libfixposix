@@ -27,8 +27,9 @@
 #include <lfp/errno.h>
 
 #include <limits.h>
+#include <inttypes.h>
 
-ssize_t compute_multiplier(enum lfp_memsize_measure_unit unit);
+static int64_t compute_multiplier(enum lfp_memsize_measure_unit unit);
 
 DSO_PUBLIC size_t
 lfp_strnlen(const char *s, size_t maxlen)
@@ -65,31 +66,31 @@ lfp_strndup(const char *s, size_t maxlen)
 #endif
 }
 
-ssize_t
+static inline int64_t
 compute_multiplier(enum lfp_memsize_measure_unit unit)
 {
     switch(unit) {
     case LFP_OCTETS: return 1;
-    case LFP_KB:     return 1000ULL;
-    case LFP_KIB:    return 1024ULL;
-    case LFP_MB:     return 1000ULL*1000ULL;
-    case LFP_MIB:    return 1024ULL*1024ULL;
-    case LFP_GB:     return 1000ULL*1000ULL*1000ULL;
-    case LFP_GIB:    return 1024ULL*1024ULL*1024ULL;
-    case LFP_TB:     return 1000ULL*1000ULL*1000ULL*1000ULL;
-    case LFP_TIB:    return 1024ULL*1024ULL*1024ULL*1024ULL;
-    case LFP_PB:     return 1000ULL*1000ULL*1000ULL*1000ULL*1000ULL;
-    case LFP_PIB:    return 1024ULL*1024ULL*1024ULL*1024ULL*1024ULL;
-    case LFP_EB:     return 1000ULL*1000ULL*1000ULL*1000ULL*1000ULL*1000ULL;
-    case LFP_EIB:    return 1024ULL*1024ULL*1024ULL*1024ULL*1024ULL*1024ULL;
+    case LFP_KB:     return 1000LL;
+    case LFP_KIB:    return 1024LL;
+    case LFP_MB:     return 1000LL*1000LL;
+    case LFP_MIB:    return 1024LL*1024LL;
+    case LFP_GB:     return 1000LL*1000LL*1000LL;
+    case LFP_GIB:    return 1024LL*1024LL*1024LL;
+    case LFP_TB:     return 1000LL*1000LL*1000LL*1000LL;
+    case LFP_TIB:    return 1024LL*1024LL*1024LL*1024LL;
+    case LFP_PB:     return 1000LL*1000LL*1000LL*1000LL*1000LL;
+    case LFP_PIB:    return 1024LL*1024LL*1024LL*1024LL*1024LL;
+    case LFP_EB:     return 1000LL*1000LL*1000LL*1000LL*1000LL*1000LL;
+    case LFP_EIB:    return 1024LL*1024LL*1024LL*1024LL*1024LL*1024LL;
     default:         SYSERR(EINVAL);
     }
 }
 
-DSO_PUBLIC ssize_t
+DSO_PUBLIC int64_t
 lfp_parse_memsize(const char *s, enum lfp_memsize_measure_unit default_unit)
 {
-    ssize_t default_multiplier, multiplier, amount;
+    int64_t default_multiplier, multiplier, amount;
 
     SYSCHECK(EINVAL, s == NULL || *s == '\0');
     SYSGUARD(default_multiplier=compute_multiplier(default_unit));
@@ -103,35 +104,35 @@ lfp_parse_memsize(const char *s, enum lfp_memsize_measure_unit default_unit)
         return 0;
     } else if (*endptr) {
         if        (strcasecmp(endptr, "KB")  == 0) {
-            multiplier = 1000ULL;
+            multiplier = 1000LL;
         } else if (strcasecmp(endptr, "K")   == 0 ||
                    strcasecmp(endptr, "KiB") == 0) {
-            multiplier = 1024ULL;
+            multiplier = 1024LL;
         } else if (strcasecmp(endptr, "MB")  == 0) {
-            multiplier = 1000ULL*1000ULL;
+            multiplier = 1000LL*1000LL;
         } else if (strcasecmp(endptr, "M")   == 0 ||
                    strcasecmp(endptr, "MiB") == 0) {
-            multiplier = 1024ULL*1024ULL;
+            multiplier = 1024LL*1024LL;
         } else if (strcasecmp(endptr, "GB")  == 0) {
-            multiplier = 1000ULL*1000ULL*1000ULL;
+            multiplier = 1000LL*1000LL*1000LL;
         } else if (strcasecmp(endptr, "G")   == 0 ||
                    strcasecmp(endptr, "GiB") == 0) {
-            multiplier = 1024ULL*1024ULL*1024ULL;
+            multiplier = 1024LL*1024LL*1024LL;
         } else if (strcasecmp(endptr, "TB")  == 0) {
-            multiplier = 1000ULL*1000ULL*1000ULL*1000ULL;
+            multiplier = 1000LL*1000LL*1000LL*1000LL;
         } else if (strcasecmp(endptr, "T")   == 0 ||
                    strcasecmp(endptr, "TiB") == 0) {
-            multiplier = 1024ULL*1024ULL*1024ULL*1024ULL;
+            multiplier = 1024LL*1024LL*1024LL*1024LL;
         } else if (strcasecmp(endptr, "PB")  == 0) {
-            multiplier = 1000ULL*1000ULL*1000ULL*1000ULL*1000ULL;
+            multiplier = 1000LL*1000LL*1000LL*1000LL*1000LL;
         } else if (strcasecmp(endptr, "P")   == 0 ||
                    strcasecmp(endptr, "PiB") == 0) {
-            multiplier = 1024ULL*1024ULL*1024ULL*1024ULL*1024ULL;
+            multiplier = 1024LL*1024LL*1024LL*1024LL*1024LL;
         } else if (strcasecmp(endptr, "EB")  == 0) {
-            multiplier = 1000ULL*1000ULL*1000ULL*1000ULL*1000ULL*1000ULL;
+            multiplier = 1000LL*1000LL*1000LL*1000LL*1000LL*1000LL;
         } else if (strcasecmp(endptr, "E")   == 0 ||
                    strcasecmp(endptr, "EiB") == 0) {
-            multiplier = 1024ULL*1024ULL*1024ULL*1024ULL*1024ULL*1024ULL;
+            multiplier = 1024LL*1024LL*1024LL*1024LL*1024LL*1024LL;
         } else {
             SYSERR(EINVAL);
         }
@@ -140,7 +141,7 @@ lfp_parse_memsize(const char *s, enum lfp_memsize_measure_unit default_unit)
     }
 
     // Check for overflow
-    if (amount > (SSIZE_MAX / multiplier)) {
+    if (amount > (INT64_MAX / multiplier)) {
         SYSERR(ERANGE);
     } else {
         return amount * multiplier;

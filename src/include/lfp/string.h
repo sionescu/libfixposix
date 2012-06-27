@@ -30,6 +30,7 @@
 LFP_BEGIN_DECLS
 
 #include <sys/types.h>
+#include <inttypes.h>
 #include <string.h>
 
 #include <lfp/strerror.h>
@@ -54,7 +55,7 @@ enum lfp_memsize_measure_unit {
     LFP_EIB
 };
 
-ssize_t lfp_parse_memsize(const char *s, enum lfp_memsize_measure_unit default_unit);
+int64_t lfp_parse_memsize(const char *s, enum lfp_memsize_measure_unit default_unit);
 
 LFP_END_DECLS
 
