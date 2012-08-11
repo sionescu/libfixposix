@@ -33,6 +33,12 @@
 
 #include "aux/inlines.h"
 
+#define MACH_SYSERR(errcode) \
+ do { errno = errcode; ret = -1; goto cleanup; } while(0)
+
+#define MACH_SYSCHECK(errcode, expr) \
+ do { if(expr) MACH_SYSERR(errcode); } while(0)
+
 /*******************/
 /* clock_getres() */
 /*******************/

@@ -32,6 +32,9 @@
 
 #include "spawn.h"
 
+/* not checking for OPEN_MAX, which might not be valid, on Linux */
+#define INVALID_FD(fd) ( fd < 0 )
+
 typedef enum {
     LFP_SPAWN_FILE_ACTION_OPEN,
     LFP_SPAWN_FILE_ACTION_CLOSE,

@@ -36,15 +36,6 @@
 #define SYSGUARD(expr) \
  do { if((expr) < 0) return(-1); } while(0)
 
-#define MACH_SYSERR(errcode) \
- do { errno = errcode; ret = -1; goto cleanup; } while(0)
-
-#define MACH_SYSCHECK(errcode, expr) \
- do { if(expr) MACH_SYSERR(errcode); } while(0)
-
-/* not checking for OPEN_MAX, which might not be valid, on Linux */
-#define INVALID_FD(fd) ( fd < 0 )
-
 #define DSO_PUBLIC __attribute__ ((visibility ("default")))
 
 #endif /* _LFP_INTERNAL_AUX_MACROS_H_ */
