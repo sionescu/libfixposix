@@ -3,8 +3,8 @@ URL:      http://common-lisp.net/project/iolib/
 Name:     libfixposix
 Summary:  Thin wrapper over POSIX syscalls
 Version:  0.2.4
-Release:  1
-License:  Boost 1.0
+Release:  2
+License:  Boost-1
 Group:    Development/Libraries/C and C++
 Source:   http://common-lisp.net/iolib/files/%{name}/%{name}_%{version}.orig.tar.gz
 
@@ -58,6 +58,8 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 %{_libdir}/pkgconfig/libfixposix.pc
 
 %changelog
+* Sun Jul 29 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.4-2
+- Fix license: correct spelling is Boost-1 not "Boost 1.0"
 * Wed Jun 13 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.4-1
 - Release 0.2.4
 * Wed Jun 13 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.3-1
