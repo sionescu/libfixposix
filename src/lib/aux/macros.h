@@ -36,6 +36,9 @@
 #define SYSGUARD(expr) \
  do { if((expr) < 0) return(-1); } while(0)
 
+#define GET_ERRNO(expr) \
+    (expr) == -1 ? lfp_errno() : 0
+
 #define DSO_PUBLIC __attribute__ ((visibility ("default")))
 
 #endif /* _LFP_INTERNAL_AUX_MACROS_H_ */
