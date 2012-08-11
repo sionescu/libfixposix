@@ -169,12 +169,15 @@ int lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
     switch (action->type) {
     case LFP_SPAWN_FILE_ACTION_OPEN:
         fd = lfp_open(action->path, action->flags, action->mode);
-        if (fd == -1) { return errno; }
+        if (fd == -1) { return lfp_errno(); }
         if (fd != action->fd) {
-            err = dup2(fd, action->fd);
-            if (err == -1) { return errno; }
-            err = close(fd);
-            if (err == -1) { return errno; }
+            int dup2_errno = GET_ERRNO(dup2(fd, action->fd));
+            int close_errno = GET_ERRNO(close(fd));
+            if (dup2_errno) {
+                return dup2_errno;
+            } else if (close_errno) {
+                return close_errno;
+            }
         }
         return 0;
     case LFP_SPAWN_FILE_ACTION_CLOSE:
