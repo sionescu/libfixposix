@@ -198,9 +198,7 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     if (strchr(file, '/'))
         return execve(file, argv, envp);
 
-    size_t name_max = (size_t) pathconf(file, _PC_NAME_MAX);
-    size_t filelen = lfp_strnlen(file, name_max);
-    SYSCHECK(ENAMETOOLONG, filelen >= name_max);
+    size_t filelen = strlen(file);
 
     char path[PATH_MAX];
     char *searchpath=NULL, *tmpath=NULL, *saveptr=NULL, *bindir=NULL;
