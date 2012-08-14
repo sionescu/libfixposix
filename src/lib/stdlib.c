@@ -25,16 +25,76 @@
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
 #include <lfp/unistd.h>
+#include <lfp/fcntl.h>
+#include <lfp/errno.h>
 
 #include <limits.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include <pthread.h>
 
+static char*
+_valid_template_p(char *s, size_t len)
+{
+    size_t start_offset = len - 6;
+    for (size_t off = start_offset; off < len; off++) {
+        if (s[off] != 'X') return NULL;
+    }
+    return s + start_offset;
+}
+
+static int
+_randomize_template(int randfd, char *s)
+{
+    int retval = 0;
+
+    char random_value[6];
+    int ret = read(randfd, &random_value, sizeof(random_value));
+
+    if (ret == -1) {
+        retval = -1;
+        goto end;
+    } else {
+        char bag[] = "0123456789QWERTYUIOPASDFGHJKLZXCVBNM";
+        for (unsigned i = 0; i < sizeof(random_value) / sizeof(char); i++) {
+            s[i] = bag[random_value[i] % sizeof(bag)];
+        }
+    }
+
+  end:
+    (void) close(randfd);
+    return retval;
+}
+
 DSO_PUBLIC int
 lfp_mkstemp(char *template)
 {
-    return mkstemp(template);
+    size_t len = strlen(template);
+    SYSCHECK(EINVAL, len < 6 || template[0] != '/');
+
+    char *x_start = _valid_template_p(template, len);
+    SYSCHECK(EINVAL, x_start != NULL);
+
+    int randfd = lfp_open("/dev/urandom", O_RDONLY | O_CLOEXEC);
+    SYSGUARD(randfd);
+
+    for (int i = 0; i < 1024; i++) {
+        SYSGUARD(_randomize_template(randfd, x_start));
+        int fd = lfp_open(template,
+                          O_RDWR | O_EXCL | O_CREAT | O_CLOEXEC,
+                          S_IRUSR | S_IWUSR);
+        if (fd >= 0) {
+            return fd;
+        } else {
+            switch (lfp_errno()) {
+            case EEXIST:
+                continue;
+            default:
+                return -1;
+            }
+        }
+    }
+    SYSERR(EEXIST);
 }
 
 static bool
