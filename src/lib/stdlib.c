@@ -69,6 +69,12 @@ _randomize_template(int randfd, char *s)
 DSO_PUBLIC int
 lfp_mkstemp(char *template)
 {
+    return mkostemp(template, O_RDWR | O_CLOEXEC);
+}
+
+DSO_PUBLIC int
+lfp_mkostemp(char *template, int flags)
+{
     size_t len = strlen(template);
     SYSCHECK(EINVAL, len < 6 || template[0] != '/');
 
@@ -80,9 +86,7 @@ lfp_mkstemp(char *template)
 
     for (int i = 0; i < 1024; i++) {
         SYSGUARD(_randomize_template(randfd, x_start));
-        int fd = lfp_open(template,
-                          O_RDWR | O_EXCL | O_CREAT | O_CLOEXEC,
-                          S_IRUSR | S_IWUSR);
+        int fd = lfp_open(template, O_EXCL | O_CREAT | flags, S_IRUSR | S_IWUSR);
         if (fd >= 0) {
             return fd;
         } else {

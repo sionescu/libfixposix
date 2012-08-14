@@ -33,6 +33,8 @@ LFP_BEGIN_DECLS
 
 int lfp_mkstemp(char *template);
 
+int lfp_mkostemp(char *template, int flags);
+
 char* lfp_getpath(char *const envp[]);
 
 char* lfp_ptsname(int masterfd);
