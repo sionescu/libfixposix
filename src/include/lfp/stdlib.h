@@ -31,7 +31,7 @@ LFP_BEGIN_DECLS
 
 #include <stdlib.h>
 
-int lfp_mkstemp(char *tmplate);
+int lfp_mkstemp(char *template);
 
 char* lfp_getpath(char *const envp[]);
 
