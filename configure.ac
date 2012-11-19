@@ -74,6 +74,11 @@ LFP_CFLAGS="$LFP_CFLAGS $LFS_CFLAGS $PTHREAD_CFLAGS"
 LFP_LDFLAGS="$LFP_LDFLAGS $LFS_LDFLAGS"
 LFP_LIBS="$LFP_LIBS $PTHREAD_LIBS $LFS_LIBS"
 
+dnl Checks for declarations
+LFP_REQUIRE_DECL([TIOCSCTTY], [sys/ioctl.h])
+LFP_REQUIRE_DECL([NSIG], [sys/types.h sys/signal.h signal.h])
+LFP_REQUIRE_DECL([IP_HDRINCL], [sys/types.h sys/socket.h netinet/in.h])
+
 dnl Checks for non-standard headers
 AC_CHECK_HEADER([sys/signalfd.h])
 
@@ -85,11 +90,6 @@ AC_CHECK_FUNCS([accept4 pipe2 sendfile])
 LFP_REQUIRE_FUNCS([pselect vsyslog])
 LFP_REQUIRE_MONOTONIC_CLOCK
 LFP_REQUIRE_GETPEEREID
-
-dnl Checks for declarations
-LFP_REQUIRE_DECL([TIOCSCTTY], [sys/ioctl.h])
-LFP_REQUIRE_DECL([NSIG], [sys/types.h sys/signal.h signal.h])
-LFP_REQUIRE_DECL([IP_HDRINCL], [sys/types.h sys/socket.h netinet/in.h])
 
 dnl Checks for types
 
