@@ -37,6 +37,8 @@ int sendfile(int, int, off_t, off_t *, void *, int);
 # endif
 #endif
 
+#include <stdlib.h>
+
 DSO_PUBLIC ssize_t
 lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)
 {
