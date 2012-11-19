@@ -69,7 +69,7 @@ _randomize_template(int randfd, char *s)
 DSO_PUBLIC int
 lfp_mkstemp(char *template)
 {
-    return mkostemp(template, O_RDWR | O_CLOEXEC);
+    return lfp_mkostemp(template, O_RDWR | O_CLOEXEC);
 }
 
 DSO_PUBLIC int
