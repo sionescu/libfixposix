@@ -46,14 +46,11 @@ _valid_template_p(char *s, size_t len)
 static int
 _randomize_template(int randfd, char *s)
 {
-    int retval = 0;
-
     char random_value[6];
     int ret = read(randfd, &random_value, sizeof(random_value));
 
     if (ret == -1) {
-        retval = -1;
-        goto end;
+        return -1;
     } else {
         char bag[] = "0123456789QWERTYUIOPASDFGHJKLZXCVBNM";
         for (unsigned i = 0; i < sizeof(random_value) / sizeof(char); i++) {
@@ -61,9 +58,7 @@ _randomize_template(int randfd, char *s)
         }
     }
 
-  end:
-    (void) close(randfd);
-    return retval;
+    return 0;
 }
 
 DSO_PUBLIC int
@@ -84,20 +79,31 @@ lfp_mkostemp(char *template, int flags)
     int randfd = lfp_open("/dev/urandom", O_RDONLY | O_CLOEXEC);
     SYSGUARD(randfd);
 
+    int saved_errno;
     for (int i = 0; i < 1024; i++) {
-        SYSGUARD(_randomize_template(randfd, x_start));
+        if (_randomize_template(randfd, x_start) < 0) {
+            saved_errno = lfp_errno();
+            (void) close(randfd);
+            lfp_set_errno(saved_errno);
+            return -1;
+        }
         int fd = lfp_open(template, O_EXCL | O_CREAT | flags, S_IRUSR | S_IWUSR);
         if (fd >= 0) {
+            (void) close(randfd);
             return fd;
         } else {
             switch (lfp_errno()) {
             case EEXIST:
                 continue;
             default:
+                saved_errno = lfp_errno();
+                (void) close(randfd);
+                lfp_set_errno(saved_errno);
                 return -1;
             }
         }
     }
+    close(randfd);
     SYSERR(EEXIST);
 }
 
