@@ -86,8 +86,8 @@ dnl Checks for functions
 AC_CHECK_FUNCS([__xpg_strerror_r strnlen strndup clearenv])
 LFP_REQUIRE_FUNCS([strtok_r])
 LFP_SEARCH_LIBS([socket], [socket nsl])
-AC_CHECK_FUNCS([accept4 pipe2 sendfile])
-LFP_REQUIRE_FUNCS([pselect vsyslog])
+AC_CHECK_FUNCS([accept4 pipe2 sendfile pselect])
+LFP_REQUIRE_FUNCS([vsyslog])
 LFP_REQUIRE_MONOTONIC_CLOCK
 LFP_REQUIRE_GETPEEREID
 
