@@ -24,6 +24,10 @@
 
 #include <lfp/signal.h>
 
+#if defined(HAVE_SYS_SIGNALVAR_H)
+# include <sys/signalvar.h>
+#endif
+
 DSO_PUBLIC lfp_sighandler_t
 lfp_sig_dfl (void)
 {
