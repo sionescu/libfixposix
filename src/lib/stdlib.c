@@ -148,19 +148,19 @@ lfp_getpath(char *const envp[])
     }
 }
 
-static pthread_mutex_t ptsname_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-DSO_PUBLIC char*
-lfp_ptsname(int masterfd)
+DSO_PUBLIC int
+lfp_ptsname(int masterfd, char *buf, size_t buflen)
 {
-    pthread_mutex_lock(&ptsname_mutex);
+#if defined(HAVE_PTSNAME_R)
+    return ptsname_r(masterfd, buf, buflen);
+#elif (defined(__FreeBSD__) || defined(__OpenBSD__)) && defined(HAVE_TTYNAME_R)
+    if (ttyname_r(masterfd, buf, buflen) == -1 ||
+        strncmp(buf, "/dev/pty", 8) != 0 || path[8] == '\0')
+        return -1;
 
-    char *_name = ptsname(masterfd);
-    if (_name != NULL) {
-        _name = strdup(_name);
-    }
-
-    pthread_mutex_unlock(&ptsname_mutex);
-
-    return _name;
+    buf[5] = 't';
+    return 0;
+#else
+# error "Neither ptsname_r() nor ttyname_r() are present"
+#endif
 }
