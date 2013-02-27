@@ -81,7 +81,6 @@ LFP_REQUIRE_DECL([IP_HDRINCL], [sys/types.h sys/socket.h netinet/in.h])
 
 dnl Checks for non-standard headers
 AC_CHECK_HEADER([sys/signalfd.h])
-AC_CHECK_HEADER([sys/signalvar.h])
 
 dnl Checks for functions
 AC_CHECK_FUNCS([__xpg_strerror_r strnlen strndup clearenv])
