@@ -74,7 +74,7 @@ lfp_mkostemp(char *template, int flags)
     SYSCHECK(EINVAL, len < 6 || template[0] != '/');
 
     char *x_start = _valid_template_p(template, len);
-    SYSCHECK(EINVAL, x_start != NULL);
+    SYSCHECK(EINVAL, x_start == NULL);
 
     int randfd = lfp_open("/dev/urandom", O_RDONLY | O_CLOEXEC);
     SYSGUARD(randfd);
