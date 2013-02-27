@@ -30,6 +30,7 @@
 LFP_BEGIN_DECLS
 
 #include <sys/select.h>
+#include <string.h>
 
 #include <stdbool.h>
 
