@@ -32,6 +32,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/stat.h>
 
 static char*
 _valid_template_p(char *s, size_t len)
