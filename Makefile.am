@@ -116,9 +116,11 @@ src_lib_libfixposix_la_LDFLAGS = $(LFP_LDFLAGS) -no-undefined \
 
 if TESTS
 
-check_PROGRAMS	= \
+check_PROGRAMS = \
 	src/tests/spawn \
-	src/tests/select
+	src/tests/select \
+	src/tests/mkstemp \
+	src/tests/mkstemp2
 
 check_SCRIPTS	=
 
@@ -132,5 +134,13 @@ src_tests_spawn_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 src_tests_select_SOURCES = src/tests/select.c
 src_tests_select_CFLAGS  = @CHECK_CFLAGS@
 src_tests_select_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
+
+src_tests_mkstemp_SOURCES = src/tests/mkstemp.c
+src_tests_mkstemp_CFLAGS  = @CHECK_CFLAGS@
+src_tests_mkstemp_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
+
+src_tests_mkstemp2_SOURCES = src/tests/mkstemp2.c
+src_tests_mkstemp2_CFLAGS  = @CHECK_CFLAGS@
+src_tests_mkstemp2_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
 endif

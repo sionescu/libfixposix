@@ -27,6 +27,7 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <stdint.h>
 #include <errno.h>
 #if defined(__APPLE__)
 # include <mach/mach.h>
@@ -53,5 +54,19 @@ void _lfp_mach_timespec_t_to_timespec(const mach_timespec_t *mts,
     ts->tv_nsec = mts->tv_nsec;
 }
 #endif
+
+/* xorshift rng from Marsaglia */
+static inline uint32_t
+_xorshift(uint32_t y)
+{
+    if (y == 0) return 1; /* 0 is a degenerate case
+                             we won't reach this unless
+                             stores to uint32_t are non-atomic
+                             for thread-safety we need this.
+                          */
+    y ^= y << 13;
+    y ^= y >> 17;
+    return (y ^ (y << 5));
+}
 
 #endif /* _LFP_INTERNAL_AUX_INLINES_H_ */
