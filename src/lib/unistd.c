@@ -226,31 +226,3 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 
     return -1;
 }
-
-
-DSO_PUBLIC int
-lfp_getpeereid(int sockfd, uid_t *euid, gid_t *egid)
-{
-#if defined(HAVE_GETPEEREID)
-    return getpeereid(sockfd, euid, egid);
-#elif defined(HAVE_GETPEERUCRED)
-    ucred_t stack_ucred;
-    ucred_t *ucred = &stack_ucred;
-
-    SYSGUARD(getpeerucred(sockfd, &ucred));
-    *euid = ucred_geteuid(ucred);
-    *egid = ucred_getegid(ucred);
-
-    return (*euid < 0 || *egid < 0) ? -1 : 0;
-#elif defined(SO_PEERCRED)
-    struct ucred ucred;
-    socklen_t len = sizeof(ucred);
-
-    SYSGUARD(getsockopt(sockfd, SOL_SOCKET, SO_PEERCRED, &ucred, &len));
-
-    *euid = ucred.uid;
-    *egid = ucred.gid;
-
-    return 0;
-#endif
-}

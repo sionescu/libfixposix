@@ -50,6 +50,8 @@ size_t lfp_cmsg_len(size_t length);
 
 void* lfp_cmsg_data(struct cmsghdr* cmsg);
 
+int lfp_getpeereid(int socket, uid_t *euid, gid_t *egid);
+
 LFP_END_DECLS
 
 #endif /* _LFP_SOCKET_H_ */
