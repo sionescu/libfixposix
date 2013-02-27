@@ -81,7 +81,6 @@ lfp_accept(int             sockfd,
     return -1;
 #endif
 }
-
 
 
 DSO_PUBLIC struct cmsghdr*
