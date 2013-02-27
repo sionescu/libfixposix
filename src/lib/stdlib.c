@@ -155,7 +155,7 @@ lfp_ptsname(int masterfd, char *buf, size_t buflen)
     return ptsname_r(masterfd, buf, buflen);
 #elif (defined(__FreeBSD__) || defined(__OpenBSD__)) && defined(HAVE_TTYNAME_R)
     if (ttyname_r(masterfd, buf, buflen) == -1 ||
-        strncmp(buf, "/dev/pty", 8) != 0 || path[8] == '\0')
+        strncmp(buf, "/dev/pty", 8) != 0 || buf[8] == '\0')
         return -1;
 
     buf[5] = 't';
