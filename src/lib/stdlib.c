@@ -27,12 +27,21 @@
 #include <lfp/unistd.h>
 #include <lfp/fcntl.h>
 #include <lfp/errno.h>
+#include <lfp/time.h>
+#include <lfp/unistd.h>
+#include <lfp/time.h>
+#include "aux/inlines.h"
 
 #include <limits.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <sys/stat.h>
+
+/* #define TEST_MKOSTEMP_ITERS 1 */
+
+#ifdef TEST_MKOSTEMP_ITERS
+#include <stdio.h>
+#endif
 
 static char*
 _valid_template_p(char *s, size_t len)
@@ -44,22 +53,23 @@ _valid_template_p(char *s, size_t len)
     return s + start_offset;
 }
 
-static int
-_randomize_template(int randfd, char *s)
+static void
+_randomize_template(uint32_t *seed, char *s)
 {
-    char random_value[6];
-    int ret = read(randfd, &random_value, sizeof(random_value));
+    uint32_t internalSeed=*seed;
 
-    if (ret == -1) {
-        return -1;
-    } else {
-        char bag[] = "0123456789QWERTYUIOPASDFGHJKLZXCVBNM";
-        for (unsigned i = 0; i < sizeof(random_value) / sizeof(char); i++) {
-            s[i] = bag[random_value[i] % sizeof(bag)];
-        }
+    char random_value[6];
+    memcpy(random_value,&internalSeed,4);
+    internalSeed=_xorshift(internalSeed);
+    memcpy(random_value+4,&internalSeed,2);
+
+    char bag[] = "0123456789QWERTYUIOPASDFGHJKLZXCVBNM";
+    for (unsigned i = 0; i < 6; i++) {
+        s[i] = bag[random_value[i]%(sizeof(bag)-1)];
+        //random_value /= (sizeof(bag)-1);
     }
 
-    return 0;
+    *seed=internalSeed;
 }
 
 DSO_PUBLIC int
@@ -67,44 +77,54 @@ lfp_mkstemp(char *template)
 {
     return lfp_mkostemp(template, O_RDWR | O_CLOEXEC);
 }
+static inline uint32_t _pid_seed()
+{ 
+        /* Try to pick a seed different from everyone else */
+        struct timespec t;
+        SYSGUARD(lfp_clock_gettime(CLOCK_REALTIME,&t));
+        return (t.tv_nsec << 2) + getpid() + t.tv_sec;
+}
 
 DSO_PUBLIC int
 lfp_mkostemp(char *template, int flags)
 {
+    static uint32_t seed=0;
+#ifdef TEST_MKOSTEMP_ITERS
+    static int max_iters=0;
+#endif
+
     size_t len = strlen(template);
     SYSCHECK(EINVAL, len < 6 || template[0] != '/');
 
     char *x_start = _valid_template_p(template, len);
     SYSCHECK(EINVAL, x_start == NULL);
 
-    int randfd = lfp_open("/dev/urandom", O_RDONLY | O_CLOEXEC);
-    SYSGUARD(randfd);
-
-    int saved_errno;
     for (int i = 0; i < 1024; i++) {
-        if (_randomize_template(randfd, x_start) < 0) {
-            saved_errno = lfp_errno();
-            (void) close(randfd);
-            lfp_set_errno(saved_errno);
-            return -1;
-        }
+#ifdef TEST_MKOSTEMP_ITERS
+                if(i > max_iters) {
+                    fprintf(stderr, "DEBUG MKOSTEMP: New max_iters %d\n",i);
+                    max_iters=i;
+                }
+#endif
+        _randomize_template(&seed, x_start);
         int fd = lfp_open(template, O_EXCL | O_CREAT | flags, S_IRUSR | S_IWUSR);
         if (fd >= 0) {
-            (void) close(randfd);
             return fd;
         } else {
             switch (lfp_errno()) {
             case EEXIST:
+                /* If we hit here, we may be colliding with
+                 * a forked process, so make a new seed */
+                if(i==0) {
+                    seed=_pid_seed();
+                }
+                //seed+=1;
                 continue;
             default:
-                saved_errno = lfp_errno();
-                (void) close(randfd);
-                lfp_set_errno(saved_errno);
                 return -1;
             }
         }
     }
-    close(randfd);
     SYSERR(EEXIST);
 }
 
