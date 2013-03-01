@@ -153,14 +153,14 @@ lfp_ptsname(int masterfd, char *buf, size_t buflen)
 {
 #if defined(HAVE_PTSNAME_R)
     return ptsname_r(masterfd, buf, buflen);
-#elif (defined(__FreeBSD__) || defined(__OpenBSD__)) && defined(HAVE_TTYNAME_R)
-    if (ttyname_r(masterfd, buf, buflen) == -1 ||
-        strncmp(buf, "/dev/pty", 8) != 0 || buf[8] == '\0')
-        return -1;
-
-    buf[5] = 't';
-    return 0;
-#else
-# error "Neither ptsname_r() nor ttyname_r() are present"
+#elif defined(HAVE_PTSNAME)
+    char *pts = ptsname(masterfd);
+    size_t ptslen = strnlen(pts, buflen);
+    if (ptslen >= buflen) {
+        SYSERR(EINVAL);
+    } else {
+        memcpy(buf, pts, ptslen);
+        return 0;
+    }
 #endif
 }
