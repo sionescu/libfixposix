@@ -30,10 +30,10 @@ dnl Where to generate output; srcdir location.
 AC_CONFIG_SRCDIR([src/lib/spawn.c])
 
 dnl Auxiliary M4 macros
-AC_CONFIG_MACRO_DIR([build/m4])
+AC_CONFIG_MACRO_DIR([config/m4])
 
 dnl Must come before AM_INIT_AUTOMAKE.
-AC_CONFIG_AUX_DIR([build/aux])
+AC_CONFIG_AUX_DIR([config/aux])
 
 AM_INIT_AUTOMAKE([1.10 foreign silent-rules subdir-objects
                   color-tests parallel-tests])

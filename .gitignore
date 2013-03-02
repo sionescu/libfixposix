@@ -1,9 +1,9 @@
 aclocal.m4
 autom4te.cache/
-build/aux/
-build/m4/libtool.m4
-build/m4/lt*.m4
-builddir/
+config/aux/
+config/m4/libtool.m4
+config/m4/lt*.m4
+build/
 configure
 config.h.in*
 Makefile.in

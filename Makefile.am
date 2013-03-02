@@ -6,7 +6,7 @@
 #                                                                      #
 ########################################################################
 
-ACLOCAL_AMFLAGS = -I build/m4
+ACLOCAL_AMFLAGS = -I config/m4
 
 AM_CFLAGS = $(LFP_CFLAGS) -fvisibility=hidden
 
