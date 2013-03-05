@@ -4,7 +4,7 @@
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/autotools.mk
 
-DEB_CONFIGURE_EXTRA_FLAGS := --enable-static
+DEB_CONFIGURE_EXTRA_FLAGS := --enable-static --with-pic --enable-tests
 DEB_MAKE_CLEAN_TARGET     := distclean
 DEB_MAKE_BUILD_TARGET     := all
 DEB_MAKE_INSTALL_TARGET   := install DESTDIR=$(CURDIR)/debian/tmp

@@ -6,7 +6,7 @@ Standards-Version: 3.9.3
 Build-Depends: cdbs (>= 0.4.53), debhelper (>= 8.0.0), pkg-config (>= 0.25), check (>= 0.9.4)
 Homepage: http://common-lisp.net/project/iolib/
 
-Package: libfixposix1
+Package: libfixposix2
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -17,9 +17,8 @@ Description: Thin wrapper over POSIX syscalls
  This package contains the shared library.
 
 Package: libfixposix-dev
-Section: libdevel
 Architecture: any
-Depends: libfixposix1 (= ${binary:Version}), libc6-dev, ${misc:Depends}
+Depends: libfixposix2 (= ${binary:Version}), libc6-dev, ${misc:Depends}
 Description: Development files for LibFixPOSIX
  .
  This package contains header files and static archives.
@@ -27,7 +26,7 @@ Description: Development files for LibFixPOSIX
 Package: libfixposix-dbg
 Section: debug
 Priority: extra
-Depends: libfixposix1 (= ${binary:Version}), ${misc:Depends}
+Depends: libfixposix2 (= ${binary:Version}), ${misc:Depends}
 Architecture: any
 Description: Debug package for LibFixPOSIX
  .
