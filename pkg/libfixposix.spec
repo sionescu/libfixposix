@@ -3,7 +3,7 @@ URL:      http://common-lisp.net/project/iolib/
 Name:     libfixposix
 Summary:  Thin wrapper over POSIX syscalls
 Version:  0.3.0
-Release:  1
+Release:  2
 License:  Boost-1
 Group:    Development/Libraries/C and C++
 Source:   http://common-lisp.net/iolib/files/%{name}/%{name}_%{version}.orig.tar.gz
@@ -39,6 +39,9 @@ Header files and API documentation for using libfixposix.
 %configure --enable-static --with-pic --enable-tests
 make %{?_smp_mflags}
 
+%check
+make check
+
 %install
 %makeinstall
 rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
@@ -59,6 +62,8 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 %{_libdir}/pkgconfig/libfixposix.pc
 
 %changelog
+* Tue Mar 5 2013 Stelian Ionescu <sionescu@cddr.org> - 0.3.0-2
+- Run tests
 * Tue Mar 5 2013 Stelian Ionescu <sionescu@cddr.org> - 0.3.0-1
 - Release 0.3.0
 * Sun Jul 29 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.4-2
