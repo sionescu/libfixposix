@@ -24,7 +24,7 @@
 
 #include <lfp/signal.h>
 
-#if defined(__OpenBSD__)
+#if defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
 # include <sys/signalvar.h>
 #endif
 
