@@ -47,7 +47,7 @@ lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)
     off_t off = offset;
     return (ssize_t) sendfile(out_fd, in_fd, &off, nbytes);
 # elif defined(__FreeBSD__)
-    return (ssize_t) sendfile(in_fd, out_fd, offset, nbytes, NULL, SF_MNOWAIT);
+    return (ssize_t) sendfile(in_fd, out_fd, offset, nbytes, NULL, NULL, SF_MNOWAIT);
 # elif defined(__APPLE__)
     off_t len = nbytes;
     return (ssize_t) sendfile(in_fd, out_fd, offset, &len, NULL, 0);
