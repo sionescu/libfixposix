@@ -10,10 +10,10 @@ ACLOCAL_AMFLAGS = -I config/m4
 
 AM_CFLAGS = $(LFP_CFLAGS) -fvisibility=hidden
 
-INCLUDES = -include $(top_builddir)/config.h \
-	   -include $(top_srcdir)/src/lib/aux/macros.h \
-	   -I$(top_srcdir)/src/include \
-	   -I$(top_builddir)/src/include
+AM_CPPFLAGS = -include $(top_builddir)/config.h \
+	      -include $(top_srcdir)/src/lib/aux/macros.h \
+	      -I$(top_srcdir)/src/include \
+	      -I$(top_builddir)/src/include
 
 EXTRA_DIST = \
 	LICENCE \
