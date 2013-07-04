@@ -165,7 +165,7 @@ lfp_ptsname(int masterfd, char *buf, size_t buflen)
     return ptsname_r(masterfd, buf, buflen);
 #elif defined(HAVE_PTSNAME)
     char *pts = ptsname(masterfd);
-    size_t ptslen = strnlen(pts, buflen);
+    size_t ptslen = lfp_strnlen(pts, buflen);
     if (ptslen >= buflen) {
         SYSERR(EINVAL);
     } else {
