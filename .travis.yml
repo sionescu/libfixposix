@@ -16,7 +16,7 @@ script: autoreconf -f -i && ./configure --enable-tests && make && make check
 notifications:
   irc:
     channels:
-      - "irc.freenode.net#iolib"
+      - "chat.freenode.net#iolib"
     on_success: change
     on_failure: always
     use_notice: false
