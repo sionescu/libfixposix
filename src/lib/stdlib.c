@@ -85,7 +85,7 @@ _pid_seed(void)
 }
 
 DSO_PUBLIC int
-lfp_mkostemp(char *template, int flags)
+lfp_mkostemp(char *template, uint64_t flags)
 {
     static uint32_t seed = 0;
 

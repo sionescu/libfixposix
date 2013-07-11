@@ -29,11 +29,13 @@
 
 LFP_BEGIN_DECLS
 
+#include <inttypes.h>
+
 #include <stdlib.h>
 
 int lfp_mkstemp(char *tmplate);
 
-int lfp_mkostemp(char *tmplate, int flags);
+int lfp_mkostemp(char *tmplate, uint64_t flags);
 
 char* lfp_getpath(char *const envp[]);
 
