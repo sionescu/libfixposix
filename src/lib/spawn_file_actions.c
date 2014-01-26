@@ -64,6 +64,12 @@ lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
     return 0;
 }
 
+bool
+lfp_spawn_file_actions_emptyp(const lfp_spawn_file_actions_t *file_actions)
+{
+    return (file_actions->actions == NULL);
+}
+
 static
 void lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, int initialized)
 {
@@ -76,7 +82,7 @@ DSO_PUBLIC int
 lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 {
     SYSCHECK(EINVAL, file_actions == NULL);
-    if (file_actions->actions) {
+    if (!lfp_spawn_file_actions_emptyp(file_actions)) {
         lfp_spawn_file_actions_free_paths(file_actions->actions, file_actions->initialized);
         free(file_actions->actions);
     }
