@@ -36,8 +36,8 @@ LFP_BEGIN_DECLS
 #include <sys/types.h>
 
 typedef struct {
-    int initialized;
-    int allocated;
+    uint initialized;
+    uint allocated;
     struct lfp_spawn_action *actions;
 } lfp_spawn_file_actions_t;
 
