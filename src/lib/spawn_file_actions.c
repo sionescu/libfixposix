@@ -50,13 +50,17 @@ typedef struct lfp_spawn_action {
     mode_t mode;
 } lfp_spawn_action;
 
+static inline void
+_lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
+{
+    *file_actions = (lfp_spawn_file_actions_t) {0};
+}
+
 DSO_PUBLIC int
 lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 {
     SYSCHECK(EINVAL, file_actions == NULL);
-    file_actions->initialized = 0;
-    file_actions->allocated = 0;
-    file_actions->actions = NULL;
+    _lfp_spawn_file_actions_init(file_actions);
     return 0;
 }
 
