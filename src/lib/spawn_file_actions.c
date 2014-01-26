@@ -85,8 +85,8 @@ lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
     if (!lfp_spawn_file_actions_emptyp(file_actions)) {
         lfp_spawn_file_actions_free_paths(file_actions->actions, file_actions->initialized);
         free(file_actions->actions);
+        _lfp_spawn_file_actions_init(file_actions);
     }
-    // lfp_spawn_file_actions_init(file_actions);
     return 0;
 }
 
