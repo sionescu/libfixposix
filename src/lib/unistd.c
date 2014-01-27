@@ -216,8 +216,7 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
             snprintf(path, PATH_MAX, "%s/%s", bindir, file);
             path[pathlen] = '\0';
             execve(path, argv, envp);
-            if ( errno == E2BIG  || errno == ENOEXEC ||
-                 errno == ENOMEM || errno == ETXTBSY )
+            if ( errno == E2BIG  || errno == ENOMEM )
                 break;
         }
     }
