@@ -62,7 +62,7 @@ void handle_child(execfun execfn,
                   const lfp_spawnattr_t *attr,
                   int pipes[2])
 {
-    int child_errno; 
+    int child_errno;
     if ((child_errno = _lfp_spawn_apply_default_attributes(attr))  != 0 || \
         (child_errno = lfp_spawn_apply_attributes(attr))           != 0 || \
         (child_errno = lfp_spawn_apply_file_actions(file_actions)) != 0) {
