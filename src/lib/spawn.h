@@ -29,6 +29,8 @@
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr);
 
+bool lfp_spawn_attributes_emptyp(const lfp_spawnattr_t *attr);
+
 int lfp_spawn_apply_file_actions(const lfp_spawn_file_actions_t *file_actions);
 
 bool lfp_spawn_file_actions_emptyp(const lfp_spawn_file_actions_t *file_actions);
