@@ -32,8 +32,8 @@
 
 typedef int (*execfun)(const char*, char *const[], char *const[]);
 
-static
-void child_exit(int pipefd, int child_errno)
+static void
+child_exit(int pipefd, int child_errno)
 {
     int noctets = write(pipefd, &child_errno, sizeof(int));
     if (noctets == sizeof(int))
@@ -42,8 +42,8 @@ void child_exit(int pipefd, int child_errno)
         _exit(254);
 }
 
-static
-int _lfp_spawn_apply_default_attributes(const lfp_spawnattr_t *attr)
+static int
+_lfp_spawn_apply_default_attributes(const lfp_spawnattr_t *attr)
 {
     if (attr == NULL || ! (attr->flags & LFP_SPAWN_SETSIGMASK)) {
         sigset_t set;
@@ -53,14 +53,14 @@ int _lfp_spawn_apply_default_attributes(const lfp_spawnattr_t *attr)
     return 0;
 }
 
-static
-void handle_child(execfun execfn,
-                  const char *path,
-                  char *const argv[],
-                  char *const envp[],
-                  const lfp_spawn_file_actions_t *file_actions,
-                  const lfp_spawnattr_t *attr,
-                  int pipes[2])
+static void
+handle_child(execfun execfn,
+             const char *path,
+             char *const argv[],
+             char *const envp[],
+             const lfp_spawn_file_actions_t *file_actions,
+             const lfp_spawnattr_t *attr,
+             int pipes[2])
 {
     int child_errno;
     if ((child_errno = _lfp_spawn_apply_default_attributes(attr))  != 0 || \
@@ -72,8 +72,8 @@ void handle_child(execfun execfn,
     child_exit(pipes[1], lfp_errno());
 }
 
-static
-int handle_parent(pid_t child_pid, int pipes[2])
+static int
+handle_parent(pid_t child_pid, int pipes[2])
 {
     close(pipes[1]);
     int status, child_errno;
@@ -95,14 +95,14 @@ int handle_parent(pid_t child_pid, int pipes[2])
     }
 }
 
-static
-int _lfp_spawn(execfun execfn,
-               pid_t *restrict pid,
-               const char *restrict path,
-               char *const argv[restrict],
-               char *const envp[restrict],
-               const lfp_spawn_file_actions_t *restrict file_actions,
-               const lfp_spawnattr_t *restrict attr)
+static int
+_lfp_spawn(execfun execfn,
+           pid_t *restrict pid,
+           const char *restrict path,
+           char *const argv[restrict],
+           char *const envp[restrict],
+           const lfp_spawn_file_actions_t *restrict file_actions,
+           const lfp_spawnattr_t *restrict attr)
 {
     int pipes[2];
 
