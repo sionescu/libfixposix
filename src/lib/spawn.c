@@ -32,6 +32,14 @@
 
 typedef int (*execfun)(const char*, char *const[], char *const[]);
 
+static inline bool
+_lfp_spawn_use_vfork(const lfp_spawn_file_actions_t *file_actions,
+                     const lfp_spawnattr_t *attr)
+{
+    return (lfp_spawn_file_actions_emptyp(file_actions) ||
+            lfp_spawn_attributes_emptyp(attr));
+}
+
 static void
 child_exit(int pipefd, int child_errno)
 {
@@ -60,16 +68,22 @@ handle_child(execfun execfn,
              char *const envp[],
              const lfp_spawn_file_actions_t *file_actions,
              const lfp_spawnattr_t *attr,
-             int pipes[2])
+             int pipes[2],
+             bool use_vfork)
 {
     int child_errno;
-    if ((child_errno = _lfp_spawn_apply_default_attributes(attr))  != 0 || \
-        (child_errno = lfp_spawn_apply_attributes(attr))           != 0 || \
+    if (!use_vfork &&
+        (child_errno = _lfp_spawn_apply_default_attributes(attr))  != 0 ||
+        (child_errno = lfp_spawn_apply_attributes(attr))           != 0 ||
         (child_errno = lfp_spawn_apply_file_actions(file_actions)) != 0) {
-        child_exit(pipes[1], child_errno);
+        goto error;
     }
     execfn(path, argv, envp);
-    child_exit(pipes[1], lfp_errno());
+  error:
+    if (use_vfork)
+        _exit(255);
+    else
+        child_exit(pipes[1], lfp_errno());
 }
 
 static int
@@ -107,22 +121,28 @@ _lfp_spawn(execfun execfn,
 {
     int pipes[2];
 
+    bool use_vfork = _lfp_spawn_use_vfork(file_actions, attr);
+
     // Used for passing the error code from child to parent in case
     // some of the syscalls executed in the child fail
-    if (lfp_pipe(pipes, O_CLOEXEC) < 0)
+    if (!use_vfork && lfp_pipe(pipes, O_CLOEXEC) < 0)
         return -1;
 
-    *pid = fork();
+    if(use_vfork) {
+        *pid = vfork();
+    } else {
+        *pid = fork();
+    }
 
     switch (*pid) {
     case -1:
         return -1;
     case 0:
-        handle_child(execfn, path, argv, envp, file_actions, attr, pipes);
+        handle_child(execfn, path, argv, envp, file_actions, attr, pipes, use_vfork);
         // Flow reaches this point only if child_exit() mysteriously fails
         SYSERR(EBUG);
     default:
-        return handle_parent(*pid, pipes);
+        return use_vfork ? 0 : handle_parent(*pid, pipes);
     }
 }
 
