@@ -67,7 +67,7 @@ lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 bool
 lfp_spawn_file_actions_emptyp(const lfp_spawn_file_actions_t *file_actions)
 {
-    return (file_actions->actions == NULL);
+    return (file_actions == NULL || file_actions->actions == NULL);
 }
 
 static
