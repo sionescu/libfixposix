@@ -73,7 +73,8 @@ handle_child(execfun execfn,
 }
 
 static int
-handle_parent(pid_t child_pid, int pipes[2])
+handle_parent(pid_t child_pid,
+              int pipes[2])
 {
     close(pipes[1]);
     int status, child_errno;
