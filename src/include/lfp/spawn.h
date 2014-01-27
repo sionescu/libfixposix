@@ -85,6 +85,8 @@ typedef enum {
 #define LFP_SPAWN_SETSID        ( 1 << 7 )
         LFP_SPAWN_SETCTTY       = 1 << 8,
 #define LFP_SPAWN_SETCTTY       ( 1 << 8 )
+        LFP_SPAWN_USEVFORK      = 1 << 9,
+#define LFP_SPAWN_USEVFORK      ( 1 << 9 )
 } lfp_spawnattr_flags;
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr);

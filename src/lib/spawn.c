@@ -36,7 +36,8 @@ static inline bool
 _lfp_spawn_use_vfork(const lfp_spawn_file_actions_t *file_actions,
                      const lfp_spawnattr_t *attr)
 {
-    return (lfp_spawn_file_actions_emptyp(file_actions) ||
+    return ((attr && (attr->flags & LFP_SPAWN_USEVFORK)) ||
+            lfp_spawn_file_actions_emptyp(file_actions) ||
             lfp_spawn_attributes_emptyp(attr));
 }
 

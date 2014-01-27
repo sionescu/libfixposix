@@ -45,7 +45,8 @@
                              LFP_SPAWN_SETGID        | \
                              LFP_SPAWN_SETCWD        | \
                              LFP_SPAWN_SETSID        | \
-                             LFP_SPAWN_SETCTTY       )
+                             LFP_SPAWN_SETCTTY       | \
+                             LFP_SPAWN_USEVFORK      )
 
 DSO_PUBLIC int
 lfp_spawnattr_init(lfp_spawnattr_t *attr)
@@ -225,7 +226,6 @@ lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid)
     attr->gid = gid;
     return 0;
 }
-
 
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
