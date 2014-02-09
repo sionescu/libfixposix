@@ -222,10 +222,25 @@ lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
     }
 }
 
+static int
+_lfp_spawn_close_descriptors(const lfp_spawn_file_actions_t *file_actions)
+{
+    struct rlimit limit;
+
+    SYSGUARD(lfp_getrlimit(RLIMIT_NOFILE, &limit));
+
+    for (int i = 0; i < limit.rlim_max; i++)
+        if (!bitset_contains(file_actions->kfd, i))
+            SYSGUARD(lfp_set_fd_cloexec(i, true));
+}
+
 int
 lfp_spawn_apply_file_actions(const lfp_spawn_file_actions_t *file_actions)
 {
     if (file_actions == NULL) return 0;
+
+    if(file_actions->keep_descriptors)
+        _lfp_spawn_close_descriptors(file_actions);
 
     lfp_spawn_action *action = file_actions->actions;
     int err;
