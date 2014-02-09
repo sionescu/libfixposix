@@ -70,8 +70,8 @@ lfp_spawn_file_actions_emptyp(const lfp_spawn_file_actions_t *file_actions)
     return (file_actions == NULL || file_actions->actions == NULL);
 }
 
-static
-void lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, int initialized)
+static void
+lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, int initialized)
 {
     for (int i = 0; i < initialized; i++)
         if (actions[i].type == LFP_SPAWN_FILE_ACTION_OPEN)
@@ -90,8 +90,8 @@ lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
     return 0;
 }
 
-static
-lfp_spawn_action* lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file_actions)
+static lfp_spawn_action*
+lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file_actions)
 {
     int init_index = file_actions->initialized++;
     int allocated = file_actions->allocated;
@@ -171,8 +171,8 @@ lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
     return 0;
 }
 
-static
-int lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
+static int
+lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 {
     int err, fd;
 
@@ -203,7 +203,8 @@ int lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
     }
 }
 
-int lfp_spawn_apply_file_actions(const lfp_spawn_file_actions_t *file_actions)
+int
+lfp_spawn_apply_file_actions(const lfp_spawn_file_actions_t *file_actions)
 {
     if (file_actions == NULL) return 0;
 
