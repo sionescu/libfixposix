@@ -27,10 +27,12 @@
 #include <lfp/string.h>
 #include <lfp/errno.h>
 #include <lfp/unistd.h>
+#include <lfp/resource.h>
 
 #include <limits.h>
 
 #include "spawn.h"
+#include "bitset.h"
 
 /* not checking for OPEN_MAX, which might not be valid, on Linux */
 #define INVALID_FD(fd) ( fd < 0 )
@@ -50,24 +52,30 @@ typedef struct lfp_spawn_action {
     mode_t mode;
 } lfp_spawn_action;
 
-static inline void
-_lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
+static inline int
+_lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions, size_t kfd_size)
 {
     *file_actions = (lfp_spawn_file_actions_t) {0};
+    return bitset_alloc(&file_actions->kfd, kfd_size);
 }
 
 DSO_PUBLIC int
 lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 {
+    int fdlimit;
+    struct rlimit limit;
+
     SYSCHECK(EINVAL, file_actions == NULL);
-    _lfp_spawn_file_actions_init(file_actions);
-    return 0;
+    SYSGUARD(lfp_getrlimit(RLIMIT_NOFILE, &limit));
+
+    return _lfp_spawn_file_actions_init(file_actions, limit.rlim_max);
 }
 
 bool
 lfp_spawn_file_actions_emptyp(const lfp_spawn_file_actions_t *file_actions)
 {
-    return (file_actions == NULL || file_actions->actions == NULL);
+    return (file_actions == NULL ||
+            (file_actions->actions == NULL && file_actions->keep_descriptors == true));
 }
 
 static void
@@ -84,8 +92,11 @@ lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
     SYSCHECK(EINVAL, file_actions == NULL);
     if (!lfp_spawn_file_actions_emptyp(file_actions)) {
         lfp_spawn_file_actions_free_paths(file_actions->actions, file_actions->initialized);
-        free(file_actions->actions);
-        _lfp_spawn_file_actions_init(file_actions);
+        if (file_actions->actions)
+            free(file_actions->actions);
+        if (file_actions->kfd)
+            free(file_actions->kfd);
+        *file_actions = (lfp_spawn_file_actions_t) {0};
     }
     return 0;
 }
@@ -169,6 +180,14 @@ lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
     action->newfd = newfd;
 
     return 0;
+}
+
+int
+lfp_spawn_file_actions_addkeep(lfp_spawn_file_actions_t *file_actions,
+                               int fd)
+{
+    file_actions->keep_descriptors = true;
+    return bitset_insert(file_actions->kfd, fd);
 }
 
 static int

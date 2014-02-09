@@ -39,6 +39,8 @@ typedef struct {
     uint initialized;
     uint allocated;
     struct lfp_spawn_action *actions;
+    bool keep_descriptors;
+    int *kfd;
 } lfp_spawn_file_actions_t;
 
 int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions);
@@ -54,6 +56,9 @@ int lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
 
 int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
                                    int fd, int newfd);
+
+int lfp_spawn_file_actions_addkeep(lfp_spawn_file_actions_t *file_actions,
+                                   int fd);
 
 typedef struct {
     uint32_t flags;
