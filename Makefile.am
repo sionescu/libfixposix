@@ -89,6 +89,7 @@ src_lib_libfixposix_la_SOURCES = \
 	src/lib/wait.c \
 	src/lib/signal.c \
 	src/lib/spawnattr.c \
+	src/lib/bitset.c \
 	src/lib/spawn_file_actions.c \
 	src/lib/spawn.c \
 	src/lib/dirent.c \
