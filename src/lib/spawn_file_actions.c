@@ -75,7 +75,7 @@ bool
 lfp_spawn_file_actions_emptyp(const lfp_spawn_file_actions_t *file_actions)
 {
     return (file_actions == NULL ||
-            (file_actions->actions == NULL && file_actions->keep_descriptors == true));
+            (file_actions->actions == NULL && file_actions->keep_descriptors == false));
 }
 
 static void
