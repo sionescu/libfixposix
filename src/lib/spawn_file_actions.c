@@ -182,7 +182,7 @@ lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
     return 0;
 }
 
-int
+DSO_PUBLIC int
 lfp_spawn_file_actions_addkeep(lfp_spawn_file_actions_t *file_actions,
                                int fd)
 {
