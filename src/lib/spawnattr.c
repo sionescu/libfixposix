@@ -57,12 +57,6 @@ lfp_spawnattr_init(lfp_spawnattr_t *attr)
     return 0;
 }
 
-bool
-lfp_spawn_attributes_emptyp(const lfp_spawnattr_t *attr)
-{
-    return (attr == NULL || attr->flags == 0);
-}
-
 DSO_PUBLIC int
 lfp_spawnattr_destroy(lfp_spawnattr_t *attr)
 {
