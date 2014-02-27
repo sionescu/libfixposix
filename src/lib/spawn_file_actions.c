@@ -227,6 +227,7 @@ _lfp_spawn_close_descriptors(const lfp_spawn_file_actions_t *file_actions)
             if(ret < 0 && lfp_errno() != EBADF)
                 return -1;
         }
+    return 0;
 }
 
 int
