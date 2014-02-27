@@ -201,7 +201,7 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
     size_t filelen = strlen(file);
 
     char path[PATH_MAX];
-    char *searchpath=NULL, *tmpath=NULL, *saveptr=NULL, *bindir=NULL;
+    char *searchpath, *tmpath, *bindir, *saveptr = NULL;
 
     tmpath = searchpath = lfp_getpath(envp);
 
@@ -212,7 +212,10 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
             // directory + '/' + file
             size_t pathlen = dirlen + 1 + filelen;
             // if pathlen == PATH_MAX there's no room for the final \0
-            SYSCHECK(ENAMETOOLONG, pathlen >= PATH_MAX);
+            if (pathlen >= PATH_MAX) {
+                errno = ENAMETOOLONG;
+                break;
+            }
             snprintf(path, PATH_MAX, "%s/%s", bindir, file);
             path[pathlen] = '\0';
             execve(path, argv, envp);
