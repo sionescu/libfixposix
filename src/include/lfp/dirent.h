@@ -31,7 +31,17 @@ LFP_BEGIN_DECLS
 
 #include <dirent.h>
 
+DIR* lfp_opendir(const char *name);
+
 int lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result);
+
+long lfp_telldir(DIR *dirp);
+
+void lfp_seekdir(DIR *dirp, long offset);
+
+void lfp_rewinddir(DIR *dirp);
+
+int lfp_closedir(DIR *dirp);
 
 LFP_END_DECLS
 

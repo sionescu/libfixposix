@@ -26,6 +26,12 @@
 #include <lfp/string.h>
 #include <lfp/errno.h>
 
+DSO_PUBLIC DIR*
+lfp_opendir(const char *name)
+{
+    return opendir(name);
+}
+
 DSO_PUBLIC int
 lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result)
 {
@@ -38,4 +44,28 @@ lfp_readdir(DIR *dirp, struct dirent *entry, struct dirent **result)
     } else {
         return 1;
     }
+}
+
+DSO_PUBLIC long
+lfp_telldir(DIR *dirp)
+{
+    return telldir(dirp);
+}
+
+DSO_PUBLIC void
+lfp_seekdir(DIR *dirp, long offset)
+{
+    return seekdir(dirp, offset);
+}
+
+DSO_PUBLIC void
+lfp_rewinddir(DIR *dirp)
+{
+    return rewinddir(dirp);
+}
+
+DSO_PUBLIC int
+lfp_closedir(DIR *dirp)
+{
+    return closedir(dirp);
 }
