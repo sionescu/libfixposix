@@ -56,6 +56,7 @@ static inline int
 _lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions, size_t kfd_size)
 {
     *file_actions = (lfp_spawn_file_actions_t) {0};
+    file_actions->kfd_size = kfd_size;
     return bitset_alloc(&file_actions->kfd, kfd_size);
 }
 
@@ -68,7 +69,7 @@ lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
     SYSCHECK(EINVAL, file_actions == NULL);
     SYSGUARD(lfp_getrlimit(RLIMIT_NOFILE, &limit));
 
-    return _lfp_spawn_file_actions_init(file_actions, limit.rlim_max);
+    return _lfp_spawn_file_actions_init(file_actions, limit.rlim_cur);
 }
 
 static void
@@ -216,11 +217,7 @@ lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 static int
 _lfp_spawn_close_descriptors(const lfp_spawn_file_actions_t *file_actions)
 {
-    struct rlimit limit;
-
-    SYSGUARD(lfp_getrlimit(RLIMIT_NOFILE, &limit));
-
-    for (int i = 0; i < limit.rlim_max; i++)
+    for (int i = 0; i < file_actions->kfd_size; i++)
         if (!bitset_contains(file_actions->kfd, i)) {
             // Ignore EBADF
             int ret = lfp_set_fd_cloexec(i, true);

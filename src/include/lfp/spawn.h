@@ -41,6 +41,7 @@ typedef struct {
     struct lfp_spawn_action *actions;
     bool keep_descriptors;
     int *kfd;
+    int kfd_size;
 } lfp_spawn_file_actions_t;
 
 int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions);
