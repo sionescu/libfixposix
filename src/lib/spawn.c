@@ -64,10 +64,9 @@ handle_child(execfun execfn,
              bool use_vfork)
 {
     int child_errno;
-    if (!use_vfork &&
-        (child_errno = _lfp_spawn_apply_default_attributes(attr))  != 0 ||
-        (child_errno = lfp_spawn_apply_attributes(attr))           != 0 ||
-        (child_errno = lfp_spawn_apply_file_actions(file_actions)) != 0) {
+    if (_lfp_spawn_apply_default_attributes(attr) ||
+        lfp_spawn_apply_attributes(attr)          ||
+        lfp_spawn_apply_file_actions(file_actions)) {
         goto error;
     }
     execfn(path, argv, envp);
