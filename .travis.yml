@@ -11,7 +11,20 @@ before_install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq check
 
+env:
+  global:
+    # Coverity Scan token
+    secure: "jJirBkZOyJ8KuYXMbjUpKem2FGaCsLBq7roP9oHs5mz8wIKENGB3i7pBe5USVLCwVAuqJ+TPjbfSo4nSnCIf5mLdJoNnyrq8FAYhSRzA/zl4COW6eN0Of9dgCOzcOriPY9rXUVbIapWoMogntnAS6MpmbiSxQCsq99VsIHq3TYk="
+
 script: autoreconf -f -i && ./configure --enable-tests && make && make check
+
+addons:
+  coverity_scan:
+    project:
+      name: sionescu/libfixposix
+    build_command_prepend: autoreconf -f -i && ./configure --enable-tests
+    build_command: make -j4
+    branch_pattern: coverity
 
 notifications:
   irc:
