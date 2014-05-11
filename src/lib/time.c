@@ -57,7 +57,7 @@ int _lfp_clock_getres(clock_id_t clk_id, struct timespec *tp)
 
     natural_t attributes[4];
     mach_msg_type_number_t count = sizeof(attributes) / sizeof(natural_t);
-    kr = clock_get_attributes(clk_serv, CLOCK_GET_TIME_RES, attributes, &count);
+    kr = clock_get_attributes(clk_serv, CLOCK_GET_TIME_RES, (clock_attr_t)attributes, &count);
     MACH_SYSCHECK(EINVAL, kr != KERN_SUCCESS);
 
     tp->tv_sec  = attributes[0] / 10^9;
