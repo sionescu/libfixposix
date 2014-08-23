@@ -25,8 +25,6 @@
 #if !defined(_LFP_H_)
 # define _LFP_H_
 
-#include <lfp/aux.h>
-
 #include <lfp/stdlib.h>
 
 #include <lfp/string.h>
