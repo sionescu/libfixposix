@@ -7,3 +7,5 @@ build/
 configure
 config.h.in*
 Makefile.in
+*~
+#*
