@@ -4,12 +4,15 @@
   :author "Masataro Asai"
   :mailto "guicho2.71828@gmail.com"
   :license "MIT"
-  :components ((:module :build
+  :depends-on (:cffi)
+  :components ((:module "."
                 :perform
                 (compile-op (o c)
-                            (run-shell-command "../configure")
-                            (run-shell-command "make")))))
-
-(defmethod perform :before ((op compile-op) (c (eql (find-system 'libfixposix))))
-  (run-shell-command "autoreconf -i -f"))
-
+                            (flet ((sh (string)
+                                     (run-program string
+                                                  :output *standard-output*
+                                                  :error-output *error-output*)))
+                              (sh "autoreconf -i -f")
+                              (sh "./configure")
+                              (sh "make"))))
+               (:file "lfp" :depends-on ("."))))
