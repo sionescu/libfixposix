@@ -7,6 +7,21 @@ compiler:
   - gcc
   - clang
 
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+  irc:
+    channels:
+      - "chat.freenode.net#iolib"
+    template:
+      - "%{repository} (%{commit}) : %{message}"
+      - "Build details: %{build_url}"
+    on_success: always
+    on_failure: always
+    use_notice: true
+    skip_join: true
+
 before_install:
  - sudo apt-get update -qq
  - sudo apt-get install -qq check
@@ -26,12 +41,3 @@ addons:
     build_command: make -j4
     branch_pattern: coverity
     notification_email: sionescu@cddr.org
-
-notifications:
-  irc:
-    channels:
-      - "chat.freenode.net#iolib"
-    on_success: change
-    on_failure: always
-    use_notice: true
-    skip_join: true
