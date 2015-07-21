@@ -10,6 +10,10 @@ compiler:
   - gcc
   - clang
 
+matrix:
+  allow_failures:
+    - os: osx
+
 notifications:
   email:
     on_success: change
@@ -23,8 +27,8 @@ notifications:
     skip_join: true
 
 before_install:
- - sudo apt-get update -qq
- - sudo apt-get install -qq check
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update -qq; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get install -qq check; fi
 
 env:
   global:
