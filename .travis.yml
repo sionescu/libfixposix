@@ -35,7 +35,11 @@ env:
     # Coverity Scan token
     secure: "jJirBkZOyJ8KuYXMbjUpKem2FGaCsLBq7roP9oHs5mz8wIKENGB3i7pBe5USVLCwVAuqJ+TPjbfSo4nSnCIf5mLdJoNnyrq8FAYhSRzA/zl4COW6eN0Of9dgCOzcOriPY9rXUVbIapWoMogntnAS6MpmbiSxQCsq99VsIHq3TYk="
 
-script: autoreconf -f -i && ./configure --enable-tests && make && make check
+script:
+  - autoreconf -f -i
+  - ./configure --enable-tests
+  - make -j2
+  - make check
 
 addons:
   coverity_scan:
