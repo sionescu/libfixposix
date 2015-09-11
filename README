@@ -7,7 +7,7 @@ whose behaviour is inconsistent across *NIX flavours.
 
 If you've downloaded this library through git, you'll first need to
 generate the ./configure script; in order to do that you need to have
-at least autoconf-2.67, automake-1.10, libtool-2.2.6b and check(for
+at least autoconf-2.67, automake-1.10, libtool-2.2.6b, pkg-config and check (for
 the test suite: see http://check.sf.net) then run this inside the top
 directory:
 > autoreconf -i -f
