@@ -1,4 +1,4 @@
--*- outline -*-
+-*- markdown -*-
 
 The purpose of libfixposix is to offer replacements for parts of POSIX
 whose behaviour is inconsistent across *NIX flavours.
@@ -21,3 +21,12 @@ the configure script directly in the source tree:
 
 On Linux, you might need to run «ldconfig» as superuser after
 installing, otherwise the *nix linker won't be able to find the library
+
+* Installation through distro repositories
+
+For a certain number of Linux distributions, there are officially
+supported repositories.
+http://article.gmane.org/gmane.lisp.iolib.devel/422 has the
+instructions about installing on Debian-based distros and the current
+list of such repositories can be found at
+https://build.opensuse.org/package/show/home:sionescu/libfixposix
