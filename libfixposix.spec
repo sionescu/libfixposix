@@ -5,7 +5,7 @@ Release:  1
 License:  Boost-1
 Group:    Development/Libraries/C and C++
 URL:      https://github.com/sionescu/%{name}
-Source:   http://common-lisp.net/iolib/files/%{name}/%{name}_%{version}.tar.gz
+Source:   https://github.com/sionescu/%{name}/releases/download/v%{version}/%{name}_%{version}.tar.gz
 
 %define srcdir %{name}
 

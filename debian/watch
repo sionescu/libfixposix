@@ -1,2 +1,3 @@
 version=3
-http://common-lisp.net/project/iolib/files/libfixposix/libfixposix-(.+)\.tar\.gz
+opts=filenamemangle=s/.+\/v?(\d\S*)\.tar\.gz/libfixposix-$1\.tar\.gz/ \
+  https://github.com/sionescu/libfixposix/tags .*/v?(\d\S*)\.tar\.gz
