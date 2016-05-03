@@ -4,13 +4,13 @@ Upstream-Contact: Stelian Ionescu <sionescu@cddr.org>
 Source: http://common-lisp.net/project/iolib/files/libfixposix/
 
 Files: *
-Copyright: 2010-2013 Stelian Ionescu <sionescu@cddr.org>
+Copyright: 2010-2016 Stelian Ionescu <sionescu@cddr.org>
            2010 Francois-Rene Rideau <fare@tunes.org>
            2011 David Lichteblau <david@lichteblau.com>
 License: BSL
 
 Files: debian/*
-Copyright: 2010-2013 Stelian Ionescu <sionescu@cddr.org>
+Copyright: 2010-2016 Stelian Ionescu <sionescu@cddr.org>
 License: BSL
 
 License: BSL

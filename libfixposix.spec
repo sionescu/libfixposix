@@ -1,14 +1,13 @@
-URL:      http://common-lisp.net/project/iolib/
-
 Name:     libfixposix
 Summary:  Thin wrapper over POSIX syscalls
-Version:  0.3.0
-Release:  2
+Version:  0.4.0
+Release:  1
 License:  Boost-1
 Group:    Development/Libraries/C and C++
-Source:   http://common-lisp.net/iolib/files/%{name}/%{name}_%{version}.orig.tar.gz
+URL:      https://github.com/sionescu/%{name}
+Source:   http://common-lisp.net/iolib/files/%{name}/%{name}_%{version}.tar.gz
 
-%define srcdir %{name}-%{version}
+%define srcdir %{name}
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 BuildRequires: pkg-config check-devel
@@ -16,18 +15,18 @@ BuildRequires: pkg-config check-devel
 %description
 Thin wrapper over POSIX syscalls.
 
-%package -n libfixposix2
+%package -n libfixposix3
 Summary: Shared object for libfixposix
 Group: Development/Libraries/C and C++
 
-%description -n libfixposix2
+%description -n libfixposix3
 Thin wrapper over POSIX syscalls.
 
 %package -n libfixposix-devel
 Summary: Development headers and libraries for using libfixposix
 Group: Development/Libraries/C and C++
 Provides: %{name}-static = %{version}-%{release}
-Requires: libfixposix2 = %{version}-%{release} glibc-devel
+Requires: libfixposix3 = %{version}-%{release} glibc-devel
 
 %description devel
 Header files and API documentation for using libfixposix.
@@ -46,11 +45,11 @@ make check
 %makeinstall
 rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 
-%post -n libfixposix2 -p /sbin/ldconfig
+%post -n libfixposix3 -p /sbin/ldconfig
 
-%postun -n libfixposix2 -p /sbin/ldconfig
+%postun -n libfixposix3 -p /sbin/ldconfig
 
-%files -n libfixposix2
+%files -n libfixposix3
 %defattr(-,root,root)
 %{_libdir}/lib*so.*
 
@@ -62,6 +61,8 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 %{_libdir}/pkgconfig/libfixposix.pc
 
 %changelog
+* Tue May 3 2016 Stelian Ionescu <sionescu@cddr.org> - 0.4.0
+- Release 0.4.0
 * Tue Mar 5 2013 Stelian Ionescu <sionescu@cddr.org> - 0.3.0-2
 - Run tests
 * Tue Mar 5 2013 Stelian Ionescu <sionescu@cddr.org> - 0.3.0-1

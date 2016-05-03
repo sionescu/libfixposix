@@ -26,7 +26,9 @@ installing, otherwise the *nix linker won't be able to find the library
 
 For a certain number of Linux distributions, there are officially
 supported repositories.
-http://article.gmane.org/gmane.lisp.iolib.devel/422 has the
-instructions about installing on Debian-based distros and the current
-list of such repositories can be found at
-https://build.opensuse.org/package/show/home:sionescu/libfixposix
+You can find the instructions to configure the binary repository at
+https://software.opensuse.org/download.html?project=home:sionescu&package=libfixposix.
+Just click on your distribution, if present.
+
+http://article.gmane.org/gmane.lisp.iolib.devel/422 also has a set of
+older instructions about installing on Debian-based distros.
