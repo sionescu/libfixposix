@@ -46,6 +46,7 @@ lib_LTLIBRARIES = src/lib/libfixposix.la
 noinst_HEADERS = \
 	src/lib/aux/inlines.h \
 	src/lib/aux/macros.h \
+	src/lib/bitset.h \
 	src/lib/spawn.h
 
 include_HEADERS = src/include/lfp.h
