@@ -2,7 +2,7 @@ Name:     libfixposix
 Summary:  Thin wrapper over POSIX syscalls
 Version:  0.4.1
 Release:  1
-License:  Boost-1
+License:  BSL-1.0
 Group:    Development/Libraries/C and C++
 URL:      https://github.com/sionescu/%{name}
 Source:   https://github.com/sionescu/%{name}/releases/download/v%{version}/%{name}_%{version}.tar.gz
