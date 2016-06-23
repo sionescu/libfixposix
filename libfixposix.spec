@@ -1,7 +1,7 @@
 Name:     libfixposix
-Summary:  Thin wrapper over POSIX syscalls
+Summary:  POSIX syscall wrappers
 Version:  0.4.1
-Release:  1
+Release:  0
 License:  BSL-1.0
 Group:    Development/Libraries/C and C++
 URL:      https://github.com/sionescu/%{name}
@@ -9,27 +9,29 @@ Source:   https://github.com/sionescu/%{name}/releases/download/v%{version}/%{na
 
 %define srcdir %{name}
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
-BuildRequires: pkg-config check-devel
+BuildRequires:  check-devel
+BuildRequires:  pkgconfig
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
-Thin wrapper over POSIX syscalls.
+Thin wrapper over POSIX syscalls and some replacement functionality, most notably lfp_spawn().
 
 %package -n libfixposix3
-Summary: Shared object for libfixposix
-Group: Development/Libraries/C and C++
+Summary:        Shared library for libfixposix
+Group:          Development/Libraries/C and C++
 
 %description -n libfixposix3
 Thin wrapper over POSIX syscalls.
 
 %package -n libfixposix-devel
-Summary: Development headers and libraries for using libfixposix
-Group: Development/Libraries/C and C++
-Provides: %{name}-static = %{version}-%{release}
-Requires: libfixposix3 = %{version}-%{release} glibc-devel
+Summary:        Development files
+Group:          Development/Libraries/C and C++
+Requires:       glibc-devel
+Requires:       libfixposix3 = %{version}-%{release}
+Provides:       %{name}-static = %{version}-%{release}
 
 %description devel
-Header files and API documentation for using libfixposix.
+Header files, static libraries and API documentation for using libfixposix.
 
 %prep
 %setup -q -n %{srcdir}
@@ -39,14 +41,13 @@ Header files and API documentation for using libfixposix.
 make %{?_smp_mflags}
 
 %check
-make check
+make %{?_smp_mflags} check
 
 %install
-%makeinstall
-rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
+make %{?_smp_mflags} DESTDIR=%{buildroot} install
+find %{buildroot} -type f -name "*.la" -delete -print
 
 %post -n libfixposix3 -p /sbin/ldconfig
-
 %postun -n libfixposix3 -p /sbin/ldconfig
 
 %files -n libfixposix3
