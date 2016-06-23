@@ -1,6 +1,6 @@
 Name:     libfixposix
 Summary:  Thin wrapper over POSIX syscalls
-Version:  0.4.0
+Version:  0.4.1
 Release:  1
 License:  Boost-1
 Group:    Development/Libraries/C and C++
@@ -61,6 +61,8 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
 %{_libdir}/pkgconfig/libfixposix.pc
 
 %changelog
+* Thu Jun 23 2016 Stelian Ionescu <sionescu@cddr.org> - 0.4.1
+- Release 0.4.1
 * Tue May 3 2016 Stelian Ionescu <sionescu@cddr.org> - 0.4.0
 - Release 0.4.0
 * Tue Mar 5 2013 Stelian Ionescu <sionescu@cddr.org> - 0.3.0-2

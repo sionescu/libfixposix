@@ -1,3 +1,9 @@
+libfixposix (1:0.4.1) unstable; urgency=low
+
+  * Release 0.4.1
+
+ -- Stelian Ionescu <sionescu@cddr.org>  Thu, 23 Jun 2016 21:00:00 +0200
+
 libfixposix (1:0.4.0) unstable; urgency=low
 
   * Release 0.4.0
