@@ -63,7 +63,6 @@ _lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions, size_t kfd_
 DSO_PUBLIC int
 lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 {
-    int fdlimit;
     struct rlimit limit;
 
     SYSCHECK(EINVAL, file_actions == NULL);

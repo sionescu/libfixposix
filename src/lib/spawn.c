@@ -63,7 +63,6 @@ handle_child(execfun execfn,
              int pipes[2],
              bool use_vfork)
 {
-    int child_errno;
     if (_lfp_spawn_apply_default_attributes(attr) ||
         lfp_spawn_apply_attributes(attr)          ||
         lfp_spawn_apply_file_actions(file_actions)) {
@@ -74,7 +73,7 @@ handle_child(execfun execfn,
     if (use_vfork)
         _exit(255);
     else
-        child_exit(pipes[1], lfp_errno());
+        child_exit(pipes[1], errno);
 }
 
 static int
