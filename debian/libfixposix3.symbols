@@ -1,9 +1,10 @@
-libfixposix.so.2 libfixposix2 #MINVER#
+libfixposix.so.3 libfixposix3 #MINVER#
  lfp_accept@Base 0.3.0
  lfp_clearenv@Base 0.3.0
  lfp_clock_getres@Base 0.3.0
  lfp_clock_gettime@Base 0.3.0
  lfp_clock_settime@Base 0.3.0
+ lfp_closedir@Base 0.4.0
  lfp_closelog@Base 0.3.0
  lfp_cmsg_data@Base 0.3.0
  lfp_cmsg_firsthdr@Base 0.3.0
@@ -43,6 +44,7 @@ libfixposix.so.2 libfixposix2 #MINVER#
  lfp_mmap@Base 0.3.0
  lfp_munmap@Base 0.3.0
  lfp_open@Base 0.3.0
+ lfp_opendir@Base 0.4.0
  lfp_openlog@Base 0.3.0
  lfp_openpt@Base 0.3.0
  lfp_parse_memsize@Base 0.3.0
@@ -51,6 +53,8 @@ libfixposix.so.2 libfixposix2 #MINVER#
  lfp_ptsname@Base 0.3.0
  lfp_pwrite@Base 0.3.0
  lfp_readdir@Base 0.3.0
+ lfp_rewinddir@Base 0.4.0
+ lfp_seekdir@Base 0.4.0
  lfp_select@Base 0.3.0
  lfp_sendfile@Base 0.3.0
  lfp_set_environ@Base 0.3.0
@@ -69,6 +73,7 @@ libfixposix.so.2 libfixposix2 #MINVER#
  lfp_spawn@Base 0.3.0
  lfp_spawn_file_actions_addclose@Base 0.3.0
  lfp_spawn_file_actions_adddup2@Base 0.3.0
+ lfp_spawn_file_actions_addkeep@Base 0.4.0
  lfp_spawn_file_actions_addopen@Base 0.3.0
  lfp_spawn_file_actions_destroy@Base 0.3.0
  lfp_spawn_file_actions_init@Base 0.3.0
@@ -97,6 +102,7 @@ libfixposix.so.2 libfixposix2 #MINVER#
  lfp_strndup@Base 0.3.0
  lfp_strnlen@Base 0.3.0
  lfp_syslog@Base 0.3.0
+ lfp_telldir@Base 0.4.0
  lfp_truncate@Base 0.3.0
  lfp_tty_attach@Base 0.3.0
  lfp_tty_fattach@Base 0.3.0
