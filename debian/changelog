@@ -1,3 +1,9 @@
+libfixposix (0.4.2) unstable; urgency=low
+
+  * Release 0.4.2
+
+ -- Stelian Ionescu <sionescu@cddr.org>  Sat, 17 Feb 2018 15:00:00 +0100
+
 libfixposix (0.4.1) unstable; urgency=low
 
   * Release 0.4.1

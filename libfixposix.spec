@@ -1,6 +1,6 @@
 Name:     libfixposix
 Summary:  POSIX syscall wrappers
-Version:  0.4.1
+Version:  0.4.2
 Release:  0
 License:  BSL-1.0
 Group:    Development/Libraries/C and C++
@@ -62,6 +62,8 @@ find %{buildroot} -type f -name "*.la" -delete -print
 %{_libdir}/pkgconfig/libfixposix.pc
 
 %changelog
+* Sat Feb 17 2018 Stelian Ionescu <sionescu@cddr.org> - 0.4.2
+- Release 0.4.2
 * Thu Jun 23 2016 Stelian Ionescu <sionescu@cddr.org> - 0.4.1
 - Release 0.4.1
 * Tue May 3 2016 Stelian Ionescu <sionescu@cddr.org> - 0.4.0
