@@ -1,34 +1,34 @@
-libfixposix (1:0.4.1) unstable; urgency=low
+libfixposix (0.4.1) unstable; urgency=low
 
   * Release 0.4.1
 
  -- Stelian Ionescu <sionescu@cddr.org>  Thu, 23 Jun 2016 21:00:00 +0200
 
-libfixposix (1:0.4.0) unstable; urgency=low
+libfixposix (0.4.0) unstable; urgency=low
 
   * Release 0.4.0
 
  -- Stelian Ionescu <sionescu@cddr.org>  Tue, 3 May 2016 20:00:00 +0200
 
-libfixposix (1:0.3.0-1) unstable; urgency=low
+libfixposix (0.3.0-1) unstable; urgency=low
 
   * Release 0.3.0
 
  -- Stelian Ionescu <sionescu@cddr.org>  Tue, 5 Mar 2013 12:00:00 +0200
 
-libfixposix (1:0.2.4-3) unstable; urgency=low
+libfixposix (0.2.4-3) unstable; urgency=low
 
   * Add symbols file
 
  -- Stelian Ionescu <sionescu@cddr.org>  Tue, 26 Jun 2012 20:48:00 +0200
 
-libfixposix (1:0.2.4-2) unstable; urgency=low
+libfixposix (0.2.4-2) unstable; urgency=low
 
   * Update copyright file
 
  -- Stelian Ionescu <sionescu@cddr.org>  Tue, 26 Jun 2012 20:23:00 +0200
 
-libfixposix (1:0.2.4-1) unstable; urgency=low
+libfixposix (0.2.4-1) unstable; urgency=low
 
   * Increase epoch to 1
 
