@@ -1,5 +1,6 @@
 libfixposix.so.3 libfixposix3 #MINVER#
  lfp_accept@Base 0.3.0
+ lfp_buildinfo@Base 0.4.3
  lfp_clearenv@Base 0.3.0
  lfp_clock_getres@Base 0.3.0
  lfp_clock_gettime@Base 0.3.0
