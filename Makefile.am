@@ -19,7 +19,9 @@ EXTRA_DIST = \
 	LICENCE \
 	VERSION \
 	libfixposix.spec \
-	debian/
+	debian \
+	src/tests/lib \
+	$(wildcard $(top_srcdir)/src/tests/*.in)
 
 
 
@@ -123,8 +125,10 @@ src_lib_libfixposix_la_LDFLAGS = $(LFP_LDFLAGS) -no-undefined \
 
 if TESTS
 
-LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
-	$(top_srcdir)/config/aux/tap-driver.sh
+LOG_DRIVER = env AM_TAP_AWK='$(AWK)' \
+	TOP_SRCDIR=$(top_srcdir) \
+	TOP_BUILDDIR=$(top_builddir) \
+	$(SHELL) $(top_srcdir)/config/aux/tap-driver.sh
 
 compile_tests = \
 	src/tests/buildinfo
@@ -138,6 +142,13 @@ check_PROGRAMS = $(compile_tests) $(run_tests)
 
 check_SCRIPTS	= \
 	src/tests/buildinfo.bats
+
+# Bats tests must be created by /.configure to get the correct path of
+# the Bats interpreter, but the configure script fails to preserve the
+# execute bit, so we restore it here.
+%.bats: %.bats.in $(top_builddir)/Makefile
+	sed 's:\@BATSPATH\@:$(BATSPATH):' < $< > $@
+	chmod +x $@
 
 TESTS		= ${run_tests} ${check_SCRIPTS}
 XFAIL_TESTS	=

@@ -1,6 +1,6 @@
 Name:     libfixposix
 Summary:  POSIX syscall wrappers
-Version:  0.4.2
+Version:  @PACKAGE_VERSION@
 Release:  0
 License:  BSL-1.0
 Group:    Development/Libraries/C and C++
@@ -9,8 +9,7 @@ Source:   https://github.com/sionescu/%{name}/releases/download/v%{version}/%{na
 
 %define srcdir %{name}
 
-BuildRequires:  check-devel
-BuildRequires:  pkgconfig
+BuildRequires:  check-devel pkgconfig
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -60,25 +59,3 @@ find %{buildroot} -type f -name "*.la" -delete -print
 %{_libdir}/lib*.so
 %{_libdir}/lib*.a
 %{_libdir}/pkgconfig/libfixposix.pc
-
-%changelog
-* Sat Feb 17 2018 Stelian Ionescu <sionescu@cddr.org> - 0.4.2
-- Release 0.4.2
-* Thu Jun 23 2016 Stelian Ionescu <sionescu@cddr.org> - 0.4.1
-- Release 0.4.1
-* Tue May 3 2016 Stelian Ionescu <sionescu@cddr.org> - 0.4.0
-- Release 0.4.0
-* Tue Mar 5 2013 Stelian Ionescu <sionescu@cddr.org> - 0.3.0-2
-- Run tests
-* Tue Mar 5 2013 Stelian Ionescu <sionescu@cddr.org> - 0.3.0-1
-- Release 0.3.0
-* Sun Jul 29 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.4-2
-- Fix license: correct spelling is Boost-1 not "Boost 1.0"
-* Wed Jun 13 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.4-1
-- Release 0.2.4
-* Wed Jun 13 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.3-1
-- Release 0.2.3
-* Wed May 30 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.2-1
-- Release 0.2.2
-* Wed Apr 18 2012 Stelian Ionescu <sionescu@cddr.org> - 0.2.1-1
-- First package.

@@ -55,6 +55,7 @@ AC_PROG_AWK
 LT_INIT([pic-only disable-static disable-fast-install])
 LT_PREREQ([2.2.6])
 
+AC_SUBST([PACKAGE_VERSION])
 LFP_INIT($PACKAGE_VERSION)
 
 dnl Checks for programs
@@ -99,8 +100,10 @@ dnl Configuration switches
 
 # Test suite.
 LFP_TESTS_CHECK
+AC_SUBST([BATSPATH], [$srcdir/src/tests/lib])
 
 AC_CONFIG_FILES([Makefile
+                 libfixposix.spec
                  src/libfixposix.pc
                  src/lib/buildinfo.c
                  src/include/lfp/time.h])

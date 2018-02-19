@@ -1,8 +1,9 @@
-#!/usr/bin/env bats
-# -*- shell -*-
+#!@BATSPATH@/bats
+# -*- shell-script -*-
 
+srcdir="${BATS_PREFIX}/../.."
 testbin="./src/tests/buildinfo"
-verfile=${BATS_TEST_DIRNAME}/../../VERSION
+verfile=${srcdir}/VERSION
 
 @test "should return correct status code" {
     run "${testbin}"
@@ -15,11 +16,11 @@ verfile=${BATS_TEST_DIRNAME}/../../VERSION
     got_release=$(echo "${output}" | cut -d \; -f 1)
     got_vcsid=$(echo "${output}" | cut -d \; -f 2)
 
-    echo $(env) >&2
+    env 1>&2
 
     release=$(< "${verfile}")
     [ ${release} == "${got_release}" ]
 
-    vcsid=$(git rev-parse --short HEAD 2>/dev/null)
+    vcsid=$(git rev-parse --short HEAD 2>/dev/null || true)
     [ x"${vcsid}" == x"${got_vcsid}" ]
 }
