@@ -6,6 +6,8 @@ int main(void)
 {
     fd_set rset, wset, eset;
 
+    printf("1..1\n");
+
     lfp_fd_zero(&rset);
     lfp_fd_zero(&wset);
     lfp_fd_zero(&eset);
@@ -16,5 +18,6 @@ int main(void)
         }
     }
 
+    printf("ok 1\n");
     return 0;
 }

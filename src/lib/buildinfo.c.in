@@ -22,43 +22,23 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#if !defined(_LFP_H_)
-# define _LFP_H_
-
-#include <lfp/stdlib.h>
-
-#include <lfp/string.h>
-
-#include <lfp/errno.h>
-
-#include <lfp/fcntl.h>
-
-#include <lfp/stat.h>
-
-#include <lfp/unistd.h>
-
-#include <lfp/mman.h>
-
-#include <lfp/select.h>
-
-#include <lfp/socket.h>
-
-#include <lfp/wait.h>
-
-#include <lfp/signal.h>
-
-#include <lfp/spawn.h>
-
-#include <lfp/dirent.h>
-
-#include <lfp/time.h>
-
-#include <lfp/resource.h>
-
-#include <lfp/sendfile.h>
-
-#include <lfp/syslog.h>
-
 #include <lfp/buildinfo.h>
 
-#endif /* _LFP_H_ */
+#include <string.h>
+
+#define MAJOR__ (@LFP_MAJOR_VERSION@ << 16)
+#define MINOR__ (@LFP_MINOR_VERSION@ <<  8)
+#define MICRO__ @LFP_MICRO_VERSION@
+#define VCSID__ "@LFP_VCSID@"
+
+DSO_PUBLIC int
+lfp_buildinfo(struct lfp_buildinfo *v)
+{
+    SYSCHECK(EINVAL, v == NULL);
+    v->release = (uint64_t) MAJOR__ | MINOR__ | MICRO__;
+    memset(v->vcsid, 0, sizeof(v->vcsid));
+    // TODO: Switch sources to C11 and use _Static_assert.
+    SYSCHECK(EINVAL, sizeof(VCSID__) > sizeof(v->vcsid));
+    strncpy(v->vcsid, VCSID__, sizeof(v->vcsid));
+    return 0;
+}

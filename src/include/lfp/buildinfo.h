@@ -22,43 +22,21 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
-#if !defined(_LFP_H_)
-# define _LFP_H_
+#if !defined(_LFP_BUILDINFO_H_)
+# define _LFP_BUILDINFO_H_
 
-#include <lfp/stdlib.h>
-
-#include <lfp/string.h>
-
-#include <lfp/errno.h>
-
-#include <lfp/fcntl.h>
-
-#include <lfp/stat.h>
-
+#include <lfp/aux.h>
 #include <lfp/unistd.h>
 
-#include <lfp/mman.h>
+LFP_BEGIN_DECLS
 
-#include <lfp/select.h>
+struct lfp_buildinfo {
+    uint64_t release;
+    char vcsid[32+1];
+};
 
-#include <lfp/socket.h>
+int lfp_buildinfo(struct lfp_buildinfo *v);
 
-#include <lfp/wait.h>
+LFP_END_DECLS
 
-#include <lfp/signal.h>
-
-#include <lfp/spawn.h>
-
-#include <lfp/dirent.h>
-
-#include <lfp/time.h>
-
-#include <lfp/resource.h>
-
-#include <lfp/sendfile.h>
-
-#include <lfp/syslog.h>
-
-#include <lfp/buildinfo.h>
-
-#endif /* _LFP_H_ */
+#endif /* _LFP_BUILDINFO_H_ */

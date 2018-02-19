@@ -11,7 +11,8 @@ dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 dnl Minimum Autoconf version required.
 AC_PREREQ([2.67])
 
-AC_INIT([LibFixPOSIX], [0.4.2], [iolib-devel@common-lisp.net],
+AC_INIT([LibFixPOSIX], m4_esyscmd_s([cat VERSION]),
+        [iolib-devel@common-lisp.net],
         [libfixposix], [https://github.com/sionescu/libfixposix])
 AC_COPYRIGHT([Copyright © 2010-2018 Stelian Ionescu <sionescu@cddr.org>])
 
@@ -54,7 +55,7 @@ AC_PROG_AWK
 LT_INIT([pic-only disable-static disable-fast-install])
 LT_PREREQ([2.2.6])
 
-LFP_INIT
+LFP_INIT($PACKAGE_VERSION)
 
 dnl Checks for programs
 LFP_REQUIRE_PROG([GETCONF], [getconf])
@@ -96,9 +97,13 @@ dnl Checks for types
 dnl Configuration switches
 # LFP_ARG_ENABLE_EMULATED_SIGNALFD
 
+# Test suite.
 LFP_TESTS_CHECK
 
 AC_CONFIG_FILES([Makefile
                  src/libfixposix.pc
+                 src/lib/buildinfo.c
                  src/include/lfp/time.h])
+
+AC_REQUIRE_AUX_FILE([tap-driver.sh])
 AC_OUTPUT

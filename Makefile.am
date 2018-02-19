@@ -17,6 +17,7 @@ AM_CPPFLAGS = -include $(top_builddir)/config.h \
 
 EXTRA_DIST = \
 	LICENCE \
+	VERSION \
 	libfixposix.spec \
 	debian/
 
@@ -73,7 +74,8 @@ include_lfp_HEADERS = \
 	$(top_builddir)/src/include/lfp/time.h \
 	src/include/lfp/resource.h \
 	src/include/lfp/sendfile.h \
-	src/include/lfp/syslog.h
+	src/include/lfp/syslog.h \
+	src/include/lfp/buildinfo.h
 # src/include/lfp/signalfd.h
 
 src_lib_libfixposix_la_SOURCES = \
@@ -99,7 +101,8 @@ src_lib_libfixposix_la_SOURCES = \
 	src/lib/time.c \
 	src/lib/resource.c \
 	src/lib/sendfile.c \
-	src/lib/syslog.c
+	src/lib/syslog.c \
+	src/lib/buildinfo.c
 # src/lib/install_signalfd.c
 
 src_lib_libfixposix_la_DEPENDENCIES = \
@@ -120,16 +123,28 @@ src_lib_libfixposix_la_LDFLAGS = $(LFP_LDFLAGS) -no-undefined \
 
 if TESTS
 
-check_PROGRAMS = \
+LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
+	$(top_srcdir)/config/aux/tap-driver.sh
+
+compile_tests = \
+	src/tests/buildinfo
+
+run_tests = \
 	src/tests/spawn \
 	src/tests/select \
-	src/tests/mkstemp \
-	src/tests/mkstemp2
+	src/tests/mkstemp
 
-check_SCRIPTS	=
+check_PROGRAMS = $(compile_tests) $(run_tests)
 
-TESTS		= ${check_PROGRAMS} ${check_SCRIPTS}
+check_SCRIPTS	= \
+	src/tests/buildinfo.bash
+
+TESTS		= ${run_tests} ${check_SCRIPTS}
 XFAIL_TESTS	=
+
+src_tests_buildinfo_SOURCES = src/tests/buildinfo.c
+src_tests_buildinfo_CFLAGS  = @CHECK_CFLAGS@
+src_tests_buildinfo_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
 src_tests_spawn_SOURCES = src/tests/spawn.c
 src_tests_spawn_CFLAGS  = @CHECK_CFLAGS@
@@ -142,9 +157,5 @@ src_tests_select_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 src_tests_mkstemp_SOURCES = src/tests/mkstemp.c
 src_tests_mkstemp_CFLAGS  = @CHECK_CFLAGS@
 src_tests_mkstemp_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
-
-src_tests_mkstemp2_SOURCES = src/tests/mkstemp2.c
-src_tests_mkstemp2_CFLAGS  = @CHECK_CFLAGS@
-src_tests_mkstemp2_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
 endif

@@ -18,12 +18,26 @@ AM_CONDITIONAL(TESTS, test x$enable_tests = xyes)
 ])
 
 AC_DEFUN([LFP_INIT], [
+ # Build flags
  LFP_CFLAGS=""
- LFP_LDFLAGS=""
- LFP_LIBS=""
  AC_SUBST(LFP_CFLAGS)
+ LFP_LDFLAGS=""
  AC_SUBST(LFP_LDFLAGS)
+ LFP_LIBS=""
  AC_SUBST(LFP_LIBS)
+ # Version Info
+ major=`echo $1 | cut -d . -f 1`
+ AC_SUBST(LFP_MAJOR_VERSION, $major)
+ minor=`echo $1 | cut -d . -f 2`
+ AC_SUBST(LFP_MINOR_VERSION, $minor)
+ micro=`echo $1 | cut -d . -f 3`
+ AC_SUBST(LFP_MICRO_VERSION, $micro)
+ AC_CHECK_PROG([GIT], [git], [yes])
+ if test "x$ac_cv_prog_GIT" = xyes
+ then
+   vcsid=`git rev-parse --short HEAD`
+ fi
+ AC_SUBST(LFP_VCSID, $vcsid)
 ])
 
 AC_DEFUN([LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS], [

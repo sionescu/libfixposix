@@ -15,6 +15,7 @@ void error_abort (const char* msg, int perrorp)
 
 int main (void)
 {
+    printf("1..1\n");
     // Not implemented yet
     pid_t pid;
     char *path = "/bin/sh";
@@ -80,5 +81,6 @@ int main (void)
     unlink(tempnam2);
     if (err == -1) { error_abort("failed to remove the output file", true); }
     fprintf(stderr,"spawn test successful\n");
-    exit(0);
+    printf("ok 1\n");
+    return 0;
 }
