@@ -137,7 +137,7 @@ run_tests = \
 check_PROGRAMS = $(compile_tests) $(run_tests)
 
 check_SCRIPTS	= \
-	src/tests/buildinfo.bash
+	src/tests/buildinfo.bats
 
 TESTS		= ${run_tests} ${check_SCRIPTS}
 XFAIL_TESTS	=
