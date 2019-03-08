@@ -38,6 +38,9 @@ int sendfile(int, int, off_t, off_t *, void *, int);
 #endif
 
 #include <stdlib.h>
+# if defined(__FreeBSD__) || defined(__DragonFly__)
+#include <errno.h>
+# endif
 
 DSO_PUBLIC ssize_t
 lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)
@@ -46,8 +49,13 @@ lfp_sendfile(int out_fd, int in_fd, off_t offset, size_t nbytes)
 # if defined(__linux__)
     off_t off = offset;
     return (ssize_t) sendfile(out_fd, in_fd, &off, nbytes);
-# elif defined(__FreeBSD__)
-    return (ssize_t) sendfile(in_fd, out_fd, offset, nbytes, NULL, NULL, SF_MNOWAIT);
+# elif defined(__FreeBSD__) || defined(__DragonFly__)
+    off_t sbytes;
+    int res = sendfile(in_fd, out_fd, offset, nbytes, NULL, &sbytes, 0);
+    if (res == -1 && errno == EAGAIN)
+        res = 0;
+    if (res == 0) res = sbytes;
+    return res;
 # elif defined(__DragonFly__)
     return (ssize_t) sendfile(in_fd, out_fd, offset, nbytes, NULL, NULL, 0);
 # elif defined(__APPLE__)
