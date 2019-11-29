@@ -5,6 +5,7 @@ branches:
 os:
   - linux
   - osx
+dist: bionic
 language: c
 compiler:
   - gcc
