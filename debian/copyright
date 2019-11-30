@@ -1,16 +1,12 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: LibFixPOSIX
 Upstream-Contact: Stelian Ionescu <sionescu@cddr.org>
 Source: https://github.com/sionescu/libfixposix/releases/
 
 Files: *
-Copyright: 2010-2016 Stelian Ionescu <sionescu@cddr.org>
+Copyright: 2010-2019 Stelian Ionescu <sionescu@cddr.org>
            2010 Francois-Rene Rideau <fare@tunes.org>
            2011 David Lichteblau <david@lichteblau.com>
-License: BSL
-
-Files: debian/*
-Copyright: 2010-2016 Stelian Ionescu <sionescu@cddr.org>
 License: BSL
 
 License: BSL

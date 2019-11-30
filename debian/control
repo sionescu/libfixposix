@@ -2,19 +2,9 @@ Source: libfixposix
 Priority: optional
 Section: libdevel
 Maintainer: Stelian Ionescu <sionescu@cddr.org>
-Standards-Version: 3.9.8
-Build-Depends: cdbs (>= 0.4.58), debhelper (>= 9), pkg-config (>= 0.25), check (>= 0.9.4)
+Standards-Version: 4.1.4
+Build-Depends: debhelper (>= 11), pkg-config, check (>= 0.10.0)
 Homepage: https://github.com/sionescu/libfixposix
-
-Package: libfixposix3
-Section: libs
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Thin wrapper over POSIX syscalls
- The purpose of libfixposix is to offer replacements for parts of POSIX
- whose behaviour is inconsistent across *NIX flavours
- .
- This package contains the shared library.
 
 Package: libfixposix-dev
 Architecture: any
@@ -23,11 +13,13 @@ Description: Development files for LibFixPOSIX
  .
  This package contains header files and static archives.
 
-Package: libfixposix-dbg
-Section: debug
-Priority: extra
-Depends: libfixposix3 (= ${binary:Version}), ${misc:Depends}
+Package: libfixposix3
+Section: libs
 Architecture: any
-Description: Debug package for LibFixPOSIX
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Thin wrapper over POSIX syscalls
+ The purpose of libfixposix is to offer replacements for parts of POSIX
+ whose behaviour is inconsistent across *NIX flavours
  .
- This package contains debugging symbols useful for gdb.
+ This package contains the shared library.

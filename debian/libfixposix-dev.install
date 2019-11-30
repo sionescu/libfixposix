@@ -1,4 +1,4 @@
-usr/include/
-usr/lib/libfixposix.so
-usr/lib/libfixposix.a
-usr/lib/pkgconfig/libfixposix.pc
+usr/include/*
+usr/lib/*/lib*.a
+usr/lib/*/lib*.so
+usr/lib/*/pkgconfig/

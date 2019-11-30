@@ -1,1 +1,1 @@
-usr/lib/libfixposix.so.*
+usr/lib/*/lib*.so.*
