@@ -4,4 +4,4 @@
 	dh $@
 
 override_dh_auto_configure:
-	dh_auto_configure -- --enable-static --with-pic --enable-tests
+	dh_auto_configure -- --enable-static

@@ -36,7 +36,7 @@ Header files, static libraries and API documentation for using libfixposix.
 %setup -q -n %{srcdir}
 
 %build
-%configure --enable-static --with-pic --enable-tests
+%configure --enable-static
 make %{?_smp_mflags}
 
 %check
