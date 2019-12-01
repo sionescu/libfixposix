@@ -38,7 +38,7 @@ env:
 
 script:
   - autoreconf -f -i
-  - tests=disable; [ "$TRAVIS_OS_NAME" = "linux" ] && tests=enable
+  - tests=disable; if [ "$TRAVIS_OS_NAME" = "linux" ]; then tests=enable; fi
   - ./configure --${tests}-tests
   - make -j2
   - make check
