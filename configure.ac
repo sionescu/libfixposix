@@ -14,7 +14,7 @@ AC_PREREQ([2.67])
 AC_INIT([LibFixPOSIX], m4_esyscmd_s([cat VERSION]),
         [iolib-devel@common-lisp.net],
         [libfixposix], [https://github.com/sionescu/libfixposix])
-AC_COPYRIGHT([Copyright © 2010-2018 Stelian Ionescu <sionescu@cddr.org>])
+AC_COPYRIGHT([Copyright © 2010-2020 Stelian Ionescu <sionescu@cddr.org>])
 
 AC_MSG_NOTICE([srcdir:   $srcdir])
 AC_MSG_NOTICE([builddir: $builddir])
@@ -43,15 +43,15 @@ dnl Have Kbuild-like build output
 AM_SILENT_RULES([yes])
 
 dnl Contains replacement functions
-# AC_CONFIG_LIBOBJ_DIR([lib])
+dnl AC_CONFIG_LIBOBJ_DIR([lib])
 
 AC_LANG([C])
 
 dnl Checks for programs.
-# We need a C compiler.
+dnl We need a C compiler.
 AC_PROG_CC_C99
 AC_PROG_AWK
-# And we need libtool for building the shared library
+dnl And we need libtool for building the shared library
 LT_INIT([pic-only disable-static disable-fast-install])
 LT_PREREQ([2.2.6])
 
@@ -96,9 +96,9 @@ LFP_REQUIRE_GETPEEREID
 dnl Checks for types
 
 dnl Configuration switches
-# LFP_ARG_ENABLE_EMULATED_SIGNALFD
+dnl LFP_ARG_ENABLE_EMULATED_SIGNALFD
 
-# Test suite.
+dnl Test suite.
 LFP_TESTS_CHECK
 AC_SUBST([BATSPATH], [$srcdir/src/tests/lib])
 
