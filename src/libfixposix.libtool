@@ -1,3 +1,5 @@
+# -*- conf -*-
+#
 # Makes sure that the library is properly re-linked
 # when the version changes
 #
