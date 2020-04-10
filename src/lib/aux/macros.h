@@ -28,13 +28,16 @@
 #include <errno.h>
 
 #define SYSERR(errcode) \
- do { errno = errcode; return -1; } while(0)
+    do { errno = errcode; return -1; } while(0)
 
 #define SYSCHECK(errcode,expr) \
- do { if(expr) SYSERR(errcode); } while(0)
+    do { if(expr) SYSERR(errcode); } while(0)
 
 #define SYSGUARD(expr) \
- do { if((expr) < 0) return(-1); } while(0)
+    SYSGUARD_ERR(expr, -1)
+
+#define SYSGUARD_ERR(expr, errval)                     \
+    do { if((expr) < 0) return(errval); } while(0)
 
 #define GET_ERRNO(expr) \
     (expr) == -1 ? lfp_errno() : 0
