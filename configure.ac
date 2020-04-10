@@ -11,6 +11,9 @@ dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 dnl Minimum Autoconf version required.
 AC_PREREQ([2.67])
 
+dnl Ensures that ./configure will be automatically re-run when VERSION changes.
+m4_include([VERSION])
+
 AC_INIT([LibFixPOSIX], m4_esyscmd_s([cat VERSION]),
         [iolib-devel@common-lisp.net],
         [libfixposix], [https://github.com/sionescu/libfixposix])
