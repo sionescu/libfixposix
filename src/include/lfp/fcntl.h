@@ -44,6 +44,8 @@ LFP_BEGIN_DECLS
 
 int lfp_open(const char *pathname, uint64_t flags, ...);
 
+int lfp_open_k(int *newfd, const char *pathname, uint64_t flags, mode_t mode);
+
 int lfp_openpt(uint64_t flags);
 
 int lfp_creat(const char *pathname, mode_t mode);

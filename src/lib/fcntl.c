@@ -32,15 +32,38 @@
 DSO_PUBLIC int
 lfp_open (const char *pathname, uint64_t flags, ...)
 {
+    mode_t mode = 0;
     if (flags & O_CREAT) {
         va_list args;
         va_start(args, flags);
-        mode_t mode = va_arg(args, int);
+        mode = va_arg(args, mode_t);
         va_end(args);
-        return open(pathname, (int)flags & 0xFFFFFFFF, mode);
-    } else {
-        return open(pathname, (int)flags & 0xFFFFFFFF);
     }
+
+    int newfd = 0;
+    int errval = lfp_open_k(&newfd, pathname, flags, mode);
+    if (errval < 0) {
+        errno = -errval;
+        return -1;
+    }
+    return newfd;
+}
+
+DSO_PUBLIC int
+lfp_open_k (int *newfd, const char *pathname, uint64_t flags, mode_t mode)
+{
+    SYSGUARD_ERR(newfd == NULL, -EINVAL);
+
+    int fd = 0;
+    if (flags & O_CREAT) {
+        fd = open(pathname, (int)flags & 0xFFFFFFFF, mode);
+    } else {
+        fd = open(pathname, (int)flags & 0xFFFFFFFF);
+    }
+
+    if (fd < 0) { return errno; }
+    *newfd = fd;
+    return 0;
 }
 
 DSO_PUBLIC int
