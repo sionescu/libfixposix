@@ -41,11 +41,8 @@ lfp_open (const char *pathname, uint64_t flags, ...)
     }
 
     int newfd = 0;
-    int errval = lfp_open_k(&newfd, pathname, flags, mode);
-    if (errval < 0) {
-        errno = -errval;
-        return -1;
-    }
+    errno = -lfp_open_k(&newfd, pathname, flags, mode);
+    if (errno != 0) { return -1; }
     return newfd;
 }
 
