@@ -49,7 +49,7 @@ lfp_open (const char *pathname, uint64_t flags, ...)
 DSO_PUBLIC int
 lfp_open_k (int *newfd, const char *pathname, uint64_t flags, mode_t mode)
 {
-    SYSGUARD_ERR(newfd == NULL, -EINVAL);
+    SYSCHECK_K(newfd == NULL, EINVAL);
 
     int fd = 0;
     if (flags & O_CREAT) {
