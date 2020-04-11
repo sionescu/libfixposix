@@ -61,7 +61,7 @@ lfp_open_k (int *newfd, const char *pathname, uint64_t flags, mode_t mode)
         fd = open(pathname, (int)flags & 0xFFFFFFFF);
     }
 
-    if (fd < 0) { return errno; }
+    if (fd < 0) { return -errno; }
     *newfd = fd;
     return 0;
 }
