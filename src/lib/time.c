@@ -40,7 +40,7 @@
  do { if(expr) MACH_SYSERR(errcode); } while(0)
 
 /*******************/
-/* clock_getres() */
+/* clock_getres()  */
 /*******************/
 
 #if defined(__APPLE__) && !HAVE_CLOCK_GETTIME

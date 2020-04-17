@@ -93,6 +93,8 @@ LFP_REQUIRE_FUNCS([strtok_r])
 LFP_SEARCH_LIBS([socket], [socket nsl])
 AC_CHECK_FUNCS([accept4 pipe2 sendfile pselect ptsname_r])
 LFP_REQUIRE_FUNCS([vsyslog ptsname posix_openpt])
+# OSX 10.12 added clock_gettime to libc
+# TODO(2025): Remove compat functions
 LFP_REQUIRE_MONOTONIC_CLOCK
 LFP_REQUIRE_GETPEEREID
 
