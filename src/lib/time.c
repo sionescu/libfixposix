@@ -60,8 +60,8 @@ int _lfp_clock_getres(clock_id_t clk_id, struct timespec *tp)
     kr = clock_get_attributes(clk_serv, CLOCK_GET_TIME_RES, (clock_attr_t)attributes, &count);
     MACH_SYSCHECK(EINVAL, kr != KERN_SUCCESS);
 
-    tp->tv_sec  = attributes[0] / 10^9;
-    tp->tv_nsec = attributes[0] % 10^9;
+    tp->tv_sec  = attributes[0] / 1000000000;
+    tp->tv_nsec = attributes[0] % 1000000000;
 
   cleanup:
     mach_port_deallocate(mach_task_self(), host_self);
