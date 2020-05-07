@@ -58,6 +58,8 @@ int lfp_execve(const char *path, char *const argv[], char *const envp[])
 int lfp_execvpe(const char *file, char *const argv[], char *const envp[])
  ATTRIBUTE_NONNULL;
 
+int lfp_nice_k(int incr, int *new_nice);
+
 LFP_END_DECLS
 
 #endif /* _LFP_UNISTD_H_ */

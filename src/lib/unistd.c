@@ -228,3 +228,14 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 
     return -1;
 }
+
+DSO_PUBLIC int
+lfp_nice_k (int incr, int *new_nice)
+{
+    SYSCHECK_K(new_nice == NULL, EINVAL);
+    errno = 0;
+    int ret = nice(incr);
+    if (ret == -1 && errno != 0) { return -errno; }
+    *new_nice = ret;
+    return 0;
+}
