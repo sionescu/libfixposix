@@ -22,6 +22,10 @@
 /* DEALINGS IN THE SOFTWARE.                                                   */
 /*******************************************************************************/
 
+#if defined(HAVE_UCRED_H)
+#include <ucred.h>
+#endif
+
 #include <lfp/socket.h>
 #include <lfp/fcntl.h>
 #include <lfp/unistd.h>
@@ -120,14 +124,16 @@ lfp_getpeereid(int sockfd, uid_t *euid, gid_t *egid)
 #if defined(HAVE_GETPEEREID)
     return getpeereid(sockfd, euid, egid);
 #elif defined(HAVE_GETPEERUCRED)
-    ucred_t stack_ucred;
-    ucred_t *ucred = &stack_ucred;
+    ucred_t **ucred = NULL;
+    int ret;
 
-    SYSGUARD(getpeerucred(sockfd, &ucred));
-    *euid = ucred_geteuid(ucred);
-    *egid = ucred_getegid(ucred);
+    SYSGUARD(getpeerucred(sockfd, ucred));
+    *euid = ucred_geteuid(*ucred);
+    *egid = ucred_getegid(*ucred);
 
-    return (*euid < 0 || *egid < 0) ? -1 : 0;
+    ret = (*euid < 0 || *egid < 0) ? -1 : 0;
+    ucred_free(*ucred);
+    return ret;
 #elif defined(SO_PEERCRED)
     struct ucred ucred;
     socklen_t len = sizeof(ucred);

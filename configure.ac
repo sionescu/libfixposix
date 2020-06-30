@@ -80,7 +80,7 @@ LFP_LDFLAGS="$LFP_LDFLAGS $LFS_LDFLAGS"
 LFP_LIBS="$LFP_LIBS $PTHREAD_LIBS $LFS_LIBS"
 
 dnl Checks for declarations
-LFP_REQUIRE_DECL([TIOCSCTTY], [sys/ioctl.h])
+LFP_REQUIRE_DECL([TIOCSCTTY], [sys/ioctl.h sys/termios.h])
 LFP_REQUIRE_DECL([NSIG], [sys/types.h sys/signal.h signal.h])
 LFP_REQUIRE_DECL([IP_HDRINCL], [sys/types.h sys/socket.h netinet/in.h])
 
