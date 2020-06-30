@@ -26,6 +26,10 @@
 #include <lfp/fcntl.h>
 #include <lfp/unistd.h>
 
+#if defined(HAVE_GETPEERUCRED)
+#include <ucred.h>
+#endif
+
 DSO_PUBLIC int
 lfp_socket(int domain, int type, int protocol, uint64_t flags)
 {
@@ -117,15 +121,16 @@ lfp_cmsg_data (struct cmsghdr* cmsg)
 DSO_PUBLIC int
 lfp_getpeereid(int sockfd, uid_t *euid, gid_t *egid)
 {
+    SYSCHECK(EINVAL, euid == NULL || egid == NULL);
 #if defined(HAVE_GETPEEREID)
     return getpeereid(sockfd, euid, egid);
 #elif defined(HAVE_GETPEERUCRED)
-    ucred_t stack_ucred;
-    ucred_t *ucred = &stack_ucred;
+    ucred_t **ucred = NULL;
 
-    SYSGUARD(getpeerucred(sockfd, &ucred));
-    *euid = ucred_geteuid(ucred);
-    *egid = ucred_getegid(ucred);
+    SYSGUARD(getpeerucred(sockfd, ucred));
+    *euid = ucred_geteuid(*ucred);
+    *egid = ucred_getegid(*ucred);
+    ucred_free(*ucred);
 
     return (*euid < 0 || *egid < 0) ? -1 : 0;
 #elif defined(SO_PEERCRED)
