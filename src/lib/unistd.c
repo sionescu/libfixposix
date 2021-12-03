@@ -79,6 +79,22 @@ _lfp_reset_environ(void)
     environ = NULL;
 # endif
 }
+
+static char**
+_lfp_copy_environ(void)
+{
+    char **env = lfp_get_environ();
+    if (env == NULL) return NULL;
+
+    int len = 1;
+    for(char **var = env; *var != NULL; var++) {
+        ++len;
+    }
+    char **copy_env = calloc(len, sizeof(char*));
+    memcpy(copy_env, env, len);
+
+    return copy_env;
+}
 #endif
 
 DSO_PUBLIC int
@@ -87,7 +103,7 @@ lfp_clearenv(void)
 #if defined(HAVE_CLEARENV)
     return clearenv();
 #else
-    char **env = lfp_get_environ();
+    char **env = _lfp_copy_environ();
     if (env == NULL) return 0;
 
     for(char **var = env; *var != NULL; var++) {
@@ -97,8 +113,8 @@ lfp_clearenv(void)
             free(tmp);
             return -1;
         } else {
-            eql = '\0';
-            unsetenv(eql);
+            *eql = '\0';
+            unsetenv(tmp);
             free(tmp);
         }
     }
