@@ -72,7 +72,7 @@ _randomize_template(uint32_t *seed, char *s)
 DSO_PUBLIC int
 lfp_mkstemp(char *template)
 {
-    return lfp_mkostemp(template, O_RDWR | O_CLOEXEC);
+    return lfp_mkostemp(template, O_CLOEXEC);
 }
 
 static inline uint32_t
@@ -87,6 +87,9 @@ _pid_seed(void)
 DSO_PUBLIC int
 lfp_mkostemp(char *template, uint64_t flags)
 {
+#if defined(HAVE_MKOSTEMP)
+    return mkostemp(template, flags);
+#else
     static uint32_t seed = 0;
 
     size_t len = strlen(template);
@@ -97,7 +100,7 @@ lfp_mkostemp(char *template, uint64_t flags)
 
     for (int i = 0; i < 1024; i++) {
         SYSGUARD(_randomize_template(&seed, x_start));
-        int fd = lfp_open(template, O_EXCL | O_CREAT | flags, S_IRUSR | S_IWUSR);
+        int fd = lfp_open(template, O_EXCL | O_CREAT | O_RDWR | flags, S_IRUSR | S_IWUSR);
         if (fd >= 0) {
             return fd;
         } else {
@@ -116,6 +119,7 @@ lfp_mkostemp(char *template, uint64_t flags)
         }
     }
     SYSERR(EEXIST);
+#endif
 }
 
 static bool
