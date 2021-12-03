@@ -108,6 +108,7 @@ lfp_clearenv(void)
 
     for(char **var = env; *var != NULL; var++) {
         char *tmp = strdup(*var);
+        if (tmp == NULL) return -1;
         char *eql = strchr(tmp, '=');
         if (eql == NULL) {
             free(tmp);
