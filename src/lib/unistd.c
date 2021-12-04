@@ -86,12 +86,12 @@ _lfp_copy_environ(void)
     char **env = lfp_get_environ();
     if (env == NULL) return NULL;
 
-    int len = 1;
+    size_t len = 1;
     for(char **var = env; *var != NULL; var++) {
         ++len;
     }
     char **copy_env = calloc(len, sizeof(char*));
-    memcpy(copy_env, env, len);
+    memcpy(copy_env, env, len * sizeof(char *));
 
     return copy_env;
 }
@@ -108,6 +108,7 @@ lfp_clearenv(void)
 
     for(char **var = env; *var != NULL; var++) {
         char *tmp = strdup(*var);
+        if (tmp == NULL) return -1;
         char *eql = strchr(tmp, '=');
         if (eql == NULL) {
             free(tmp);
