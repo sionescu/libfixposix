@@ -10,6 +10,9 @@ compiler:
   - gcc
   - clang
 
+matrix:
+  fast_finish: true
+
 notifications:
   email:
     on_success: change
@@ -35,11 +38,12 @@ before_script:
   - source config/travis.cflags.sh
 
 script:
-  - autoreconf -f -i
-  - tests=disable; if [ "$TRAVIS_OS_NAME" = "linux" ]; then tests=enable; fi
-  - env CFLAGS="${WERR_CFLAGS}" ./configure --${tests}-tests
-  - make -j2
-  - make check
+  - |
+      autoreconf -f -i
+      tests=disable; if [ "$TRAVIS_OS_NAME" = "linux" ]; then tests=enable; fi
+      env CFLAGS="${WERR_CFLAGS}" ./configure --${tests}-tests
+      make -j2
+      make check
 
 addons:
   coverity_scan:
