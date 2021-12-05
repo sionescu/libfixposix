@@ -3,6 +3,7 @@ branches:
     - master
 
 os:
+  - freebsd
   - linux
   - osx
 dist: focal
@@ -10,10 +11,6 @@ language: c
 compiler:
   - gcc
   - clang
-
-matrix:
-  allow_failures:
-    - os: osx
 
 notifications:
   email:
