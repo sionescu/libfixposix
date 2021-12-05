@@ -40,43 +40,56 @@ lfp_open (const char *pathname, uint64_t flags, ...)
         va_end(args);
     }
 
-    int newfd = 0;
-    errno = -lfp_open_k(&newfd, pathname, flags, mode);
-    if (errno != 0) { return -1; }
-    return newfd;
+    int fd = lfp_open_k(pathname, flags, mode);
+    if (fd < 0) {
+        errno = -fd;
+        return -1;
+    }
+    return fd;
 }
 
 DSO_PUBLIC int
-lfp_open_k (int *newfd, const char *pathname, uint64_t flags, mode_t mode)
+lfp_open_k (const char *pathname, uint64_t flags, mode_t mode)
 {
-    SYSCHECK_K(newfd == NULL, EINVAL);
-
     int fd = 0;
     if (flags & O_CREAT) {
-        fd = open(pathname, (int)flags & 0xFFFFFFFF, mode);
+        fd = open(pathname, (int)flags, mode);
     } else {
-        fd = open(pathname, (int)flags & 0xFFFFFFFF);
+        fd = open(pathname, (int)flags);
     }
 
     if (fd < 0) { return -errno; }
-    *newfd = fd;
-    return 0;
+    return fd;
 }
 
 DSO_PUBLIC int
 lfp_openpt (uint64_t flags)
 {
+    int fd = lfp_openpt_k(flags);
+    if (fd < 0) {
+        errno = -fd;
+        return -1;
+    }
+    return fd;
+}
+
+DSO_PUBLIC int
+lfp_openpt_k (uint64_t flags)
+{
     bool cloexec = flags & O_CLOEXEC;
     flags &= ~O_CLOEXEC;
 
-    int fd;
-    SYSGUARD(fd = posix_openpt((int)flags & 0xFFFFFFFF));
-    if (cloexec && lfp_set_fd_cloexec(fd, true) < 0) {
-        close(fd);
-        return -1;
-    } else {
-        return fd;
+    int fd = posix_openpt((int)flags);
+    if (fd < 0) { return -errno; }
+
+    if (cloexec) {
+        int err = lfp_set_fd_cloexec(fd, true);
+        if (err < 0) {
+            close(fd);
+            return err;
+        }
     }
+    return fd;
 }
 
 DSO_PUBLIC int
@@ -85,14 +98,32 @@ lfp_creat (const char *pathname, mode_t mode)
     return creat(pathname, mode);
 }
 
+DSO_PUBLIC int
+lfp_create_k (const char *pathname, mode_t mode)
+{
+    int fd = creat(pathname, mode);
+    if (fd < 0) { return -errno; }
+    return fd;
+}
 
 
 DSO_PUBLIC int
 lfp_is_fd_cloexec (int fd)
 {
+    int yesno = lfp_is_fd_cloexec_k(fd);
+    if (yesno < 0) {
+        errno = -yesno;
+        return -1;
+    }
+    return yesno;
+}
+
+DSO_PUBLIC int
+lfp_is_fd_cloexec_k (int fd)
+{
     int current_flags = fcntl(fd, F_GETFD);
     if (current_flags < 0) {
-        return -1;
+        return -errno;
     } else {
         return (current_flags & FD_CLOEXEC) ? true : false;
     }
@@ -101,26 +132,46 @@ lfp_is_fd_cloexec (int fd)
 DSO_PUBLIC int
 lfp_set_fd_cloexec (int fd, bool enabled)
 {
-    int current_flags = fcntl(fd, F_GETFD);
-    if (current_flags < 0) {
+    int ret = lfp_set_fd_cloexec_k(fd, enabled);
+    if (ret < 0) {
+        errno = -ret;
         return -1;
-    } else {
-        int new_flags = enabled ? current_flags | FD_CLOEXEC \
-                                : current_flags & ~FD_CLOEXEC;
-        if ( new_flags != current_flags ) {
-            return fcntl(fd, F_SETFD, new_flags);
-        } else {
-            return 0;
+    }
+    return 0;
+}
+
+DSO_PUBLIC int
+lfp_set_fd_cloexec_k (int fd, bool enabled)
+{
+    int current_flags = fcntl(fd, F_GETFD);
+    if (current_flags < 0) { return -errno; }
+    int new_flags = enabled ? current_flags | FD_CLOEXEC \
+                            : current_flags & ~FD_CLOEXEC;
+    if (new_flags != current_flags) {
+        if(fcntl(fd, F_SETFD, new_flags) < 0) {
+            return -errno;
         }
     }
+    return 0;
 }
 
 DSO_PUBLIC int
 lfp_is_fd_nonblock (int fd)
 {
+    int yesno = lfp_is_fd_nonblock_k(fd);
+    if (yesno < 0) {
+        errno = -yesno;
+        return -1;
+    }
+    return yesno;
+}
+
+DSO_PUBLIC int
+lfp_is_fd_nonblock_k (int fd)
+{
     int current_flags = fcntl(fd, F_GETFL);
     if (current_flags < 0) {
-        return -1;
+        return -errno;
     } else {
         return (current_flags & O_NONBLOCK) ? true : false;
     }
@@ -129,16 +180,25 @@ lfp_is_fd_nonblock (int fd)
 DSO_PUBLIC int
 lfp_set_fd_nonblock (int fd, bool enabled)
 {
-    int current_flags = fcntl(fd, F_GETFL);
-    if (current_flags < 0) {
+    int ret = lfp_set_fd_nonblock_k(fd, enabled);
+    if (ret < 0) {
+        errno = -ret;
         return -1;
-    } else {
-        int new_flags = enabled ? current_flags | O_NONBLOCK \
-                                : current_flags & ~O_NONBLOCK;
-        if ( new_flags != current_flags ) {
-            return fcntl(fd, F_SETFL, new_flags);
-        } else {
-            return 0;
+    }
+    return 0;
+}
+
+DSO_PUBLIC int
+lfp_set_fd_nonblock_k (int fd, bool enabled)
+{
+    int current_flags = fcntl(fd, F_GETFL);
+    if (current_flags < 0) { return -errno; }
+    int new_flags = enabled ? current_flags | O_NONBLOCK \
+                            : current_flags & ~O_NONBLOCK;
+    if (new_flags != current_flags) {
+        if(fcntl(fd, F_SETFL, new_flags) < 0) {
+            return -errno;
         }
     }
+    return 0;
 }

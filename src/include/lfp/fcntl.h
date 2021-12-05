@@ -44,19 +44,31 @@ LFP_BEGIN_DECLS
 
 int lfp_open(const char *pathname, uint64_t flags, ...);
 
-int lfp_open_k(int *newfd, const char *pathname, uint64_t flags, mode_t mode);
+int lfp_open_k(const char *pathname, uint64_t flags, mode_t mode);
 
 int lfp_openpt(uint64_t flags);
 
+int lfp_openpt_k(uint64_t flags);
+
 int lfp_creat(const char *pathname, mode_t mode);
+
+int lfp_creat_k(const char *pathname, mode_t mode);
 
 int lfp_is_fd_cloexec(int fd);
 
+int lfp_is_fd_cloexec_k(int fd);
+
 int lfp_set_fd_cloexec(int fd, bool enabled);
+
+int lfp_set_fd_cloexec_k(int fd, bool enabled);
 
 int lfp_is_fd_nonblock(int fd);
 
+int lfp_is_fd_nonblock_k(int fd);
+
 int lfp_set_fd_nonblock(int fd, bool enabled);
+
+int lfp_set_fd_nonblock_k(int fd, bool enabled);
 
 LFP_END_DECLS
 
