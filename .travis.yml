@@ -3,6 +3,8 @@ os:
   - linux
   - osx
 dist: focal
+osx_image: xcode13.1
+
 language: c
 compiler:
   - gcc
@@ -27,12 +29,15 @@ before_install:
 env:
   global:
     # Coverity Scan token
-    secure: "jJirBkZOyJ8KuYXMbjUpKem2FGaCsLBq7roP9oHs5mz8wIKENGB3i7pBe5USVLCwVAuqJ+TPjbfSo4nSnCIf5mLdJoNnyrq8FAYhSRzA/zl4COW6eN0Of9dgCOzcOriPY9rXUVbIapWoMogntnAS6MpmbiSxQCsq99VsIHq3TYk="
+    - secure: "jJirBkZOyJ8KuYXMbjUpKem2FGaCsLBq7roP9oHs5mz8wIKENGB3i7pBe5USVLCwVAuqJ+TPjbfSo4nSnCIf5mLdJoNnyrq8FAYhSRzA/zl4COW6eN0Of9dgCOzcOriPY9rXUVbIapWoMogntnAS6MpmbiSxQCsq99VsIHq3TYk="
+
+before_script:
+  - source config/travis.cflags.sh
 
 script:
   - autoreconf -f -i
   - tests=disable; if [ "$TRAVIS_OS_NAME" = "linux" ]; then tests=enable; fi
-  - ./configure --${tests}-tests
+  - env CFLAGS="${WERR_CFLAGS}" ./configure --${tests}-tests
   - make -j2
   - make check
 

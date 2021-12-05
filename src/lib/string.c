@@ -26,6 +26,7 @@
 #include <lfp/stdlib.h>
 #include <lfp/errno.h>
 
+#include <string.h>
 #include <limits.h>
 #include <inttypes.h>
 

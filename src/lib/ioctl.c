@@ -30,7 +30,7 @@
 #include <lfp/errno.h>
 
 #include <string.h>
-#include <sys/termios.h>
+#include <termios.h>
 
 DSO_PUBLIC int
 lfp_tty_attach(const char *path)
