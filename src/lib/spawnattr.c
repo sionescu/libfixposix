@@ -46,7 +46,8 @@
                              LFP_SPAWN_SETCWD        | \
                              LFP_SPAWN_SETSID        | \
                              LFP_SPAWN_SETCTTY       | \
-                             LFP_SPAWN_USEVFORK      )
+                             LFP_SPAWN_USEVFORK      | \
+                             LFP_SPAWN_SETUMASK      )
 
 DSO_PUBLIC int
 lfp_spawnattr_init(lfp_spawnattr_t *attr)
@@ -220,6 +221,23 @@ lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid)
     attr->gid = gid;
     return 0;
 }
+
+DSO_PUBLIC int
+lfp_spawnattr_getumask(lfp_spawnattr_t *attr, mode_t *umask)
+{
+    SYSCHECK(EINVAL, attr == NULL || umask == NULL);
+    *umask = attr->umask;
+    return 0;
+}
+
+DSO_PUBLIC int
+lfp_spawnattr_setumask(lfp_spawnattr_t *attr, const mode_t umask)
+{
+    SYSCHECK(EINVAL, attr == NULL);
+    attr->flags |= LFP_SPAWN_SETUMASK;
+    attr->umask = umask;
+    return 0;
+}
 
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
@@ -314,6 +332,9 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 #endif
             goto error_return;
         }
+
+    if (attr->flags & LFP_SPAWN_SETUMASK)
+        umask(attr->umask); // always success
 
     return 0;
   error_return:

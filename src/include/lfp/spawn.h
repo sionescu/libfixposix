@@ -33,6 +33,7 @@ LFP_BEGIN_DECLS
 #include <lfp/signal.h>
 
 #include <inttypes.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 
 typedef struct {
@@ -70,6 +71,7 @@ typedef struct {
     gid_t    gid;
     char    *chdir_path;
     char    *pts_path;
+    mode_t   umask;
 } lfp_spawnattr_t;
 
 typedef enum {
@@ -93,6 +95,8 @@ typedef enum {
 #define LFP_SPAWN_SETCTTY       ( 1 << 8 )
         LFP_SPAWN_USEVFORK      = 1 << 9,
 #define LFP_SPAWN_USEVFORK      ( 1 << 9 )
+        LFP_SPAWN_SETUMASK      = 1 << 10,
+#define LFP_SPAWN_SETUMASK      ( 1 << 10 )
 } lfp_spawnattr_flags;
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr);
@@ -123,6 +127,9 @@ int lfp_spawnattr_setuid(lfp_spawnattr_t *attr, const uid_t uid);
 
 int lfp_spawnattr_getgid(lfp_spawnattr_t *attr, gid_t *gid);
 int lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid);
+
+int lfp_spawnattr_getumask(lfp_spawnattr_t *attr, mode_t *umask);
+int lfp_spawnattr_setumask(lfp_spawnattr_t *attr, const mode_t umask);
 
 int lfp_spawn(pid_t *restrict pid,
               const char *restrict path,
