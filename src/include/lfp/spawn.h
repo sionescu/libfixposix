@@ -64,7 +64,7 @@ int lfp_spawn_file_actions_addkeep(lfp_spawn_file_actions_t *file_actions,
                                    int fd);
 
 int lfp_spawn_file_actions_setrlimit(lfp_spawn_file_actions_t *file_actions,
-                                   int resource, const struct rlimit *rlim);
+                                     int resource, const struct rlimit *rlim);
 
 typedef struct {
     uint32_t flags;
