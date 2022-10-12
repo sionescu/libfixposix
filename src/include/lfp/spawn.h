@@ -33,6 +33,7 @@ LFP_BEGIN_DECLS
 #include <lfp/signal.h>
 
 #include <inttypes.h>
+#include <sys/resource.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -61,6 +62,9 @@ int lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
 
 int lfp_spawn_file_actions_addkeep(lfp_spawn_file_actions_t *file_actions,
                                    int fd);
+
+int lfp_spawn_file_actions_setrlimit(lfp_spawn_file_actions_t *file_actions,
+                                   int resource, const struct rlimit *rlim);
 
 typedef struct {
     uint32_t flags;

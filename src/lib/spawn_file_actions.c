@@ -40,16 +40,25 @@
 typedef enum {
     LFP_SPAWN_FILE_ACTION_OPEN,
     LFP_SPAWN_FILE_ACTION_CLOSE,
-    LFP_SPAWN_FILE_ACTION_DUP2
+    LFP_SPAWN_FILE_ACTION_DUP2,
+    LFP_SPAWN_FILE_ACTION_SETRLIMIT,
 } lfp_spawn_action_type;
 
 typedef struct lfp_spawn_action {
     lfp_spawn_action_type type;
-    int fd;
-    int newfd;
-    const char *path;
-    uint64_t flags;
-    mode_t mode;
+    union {
+        struct lfp_spawn_action_fd {
+            int fd;
+            int newfd;
+            const char *path;
+            uint64_t flags;
+            mode_t mode;
+        } fds;
+        struct lfp_spawn_action_rlimit {
+            int resource;
+            struct rlimit rlim;
+        } rlim;
+    };
 } lfp_spawn_action;
 
 static inline int
@@ -76,7 +85,7 @@ lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, int initialized)
 {
     for (int i = 0; i < initialized; i++)
         if (actions[i].type == LFP_SPAWN_FILE_ACTION_OPEN)
-            free((void*)actions[i].path);
+            free((void*)actions[i].fds.path);
 }
 
 DSO_PUBLIC int
@@ -132,10 +141,10 @@ lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
     SYSCHECK(ENOMEM, !action);
 
     action->type = LFP_SPAWN_FILE_ACTION_OPEN;
-    action->fd = fd;
-    action->path = strdup(path);
-    action->flags = oflags;
-    action->mode = mode;
+    action->fds.fd = fd;
+    action->fds.path = strdup(path);
+    action->fds.flags = oflags;
+    action->fds.mode = mode;
 
     return 0;
 }
@@ -151,7 +160,7 @@ lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
     SYSCHECK(ENOMEM, !action);
 
     action->type = LFP_SPAWN_FILE_ACTION_CLOSE;
-    action->fd = fd;
+    action->fds.fd = fd;
 
     return 0;
 }
@@ -167,8 +176,8 @@ lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
     SYSCHECK(ENOMEM, !action);
 
     action->type = LFP_SPAWN_FILE_ACTION_DUP2;
-    action->fd = fd;
-    action->newfd = newfd;
+    action->fds.fd = fd;
+    action->fds.newfd = newfd;
 
     return 0;
 }
@@ -181,6 +190,26 @@ lfp_spawn_file_actions_addkeep(lfp_spawn_file_actions_t *file_actions,
     return bitset_insert(file_actions->kfd, fd);
 }
 
+DSO_PUBLIC int
+lfp_spawn_file_actions_setrlimit(lfp_spawn_file_actions_t *file_actions,
+                                 int resource, const struct rlimit *rlim)
+{
+    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EINVAL, rlim == NULL);
+
+    struct rlimit temp_rlim;
+    SYSGUARD(lfp_getrlimit(resource, &temp_rlim));
+
+    lfp_spawn_action *action = lfp_spawn_file_actions_allocate(file_actions);
+    SYSCHECK(ENOMEM, !action);
+
+    action->type = LFP_SPAWN_FILE_ACTION_SETRLIMIT;
+    action->rlim.resource = resource;
+    action->rlim.rlim = *rlim;
+
+    return 0;
+}
+
 static int
 lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 {
@@ -188,10 +217,10 @@ lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 
     switch (action->type) {
     case LFP_SPAWN_FILE_ACTION_OPEN:
-        fd = lfp_open(action->path, action->flags, action->mode);
+        fd = lfp_open(action->fds.path, action->fds.flags, action->fds.mode);
         if (fd == -1) { return lfp_errno(); }
-        if (fd != action->fd) {
-            int dup2_errno = GET_ERRNO(dup2(fd, action->fd));
+        if (fd != action->fds.fd) {
+            int dup2_errno = GET_ERRNO(dup2(fd, action->fds.fd));
             int close_errno = GET_ERRNO(close(fd));
             if (dup2_errno) {
                 return dup2_errno;
@@ -201,11 +230,15 @@ lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
         }
         return 0;
     case LFP_SPAWN_FILE_ACTION_CLOSE:
-        err = close(action->fd);
+        err = close(action->fds.fd);
         if (err == -1) { return errno; }
         return 0;
     case LFP_SPAWN_FILE_ACTION_DUP2:
-        err = dup2(action->fd, action->newfd);
+        err = dup2(action->fds.fd, action->fds.newfd);
+        if (err == -1) { return errno; }
+        return 0;
+    case LFP_SPAWN_FILE_ACTION_SETRLIMIT:
+        err = lfp_setrlimit(action->rlim.resource, &action->rlim.rlim);
         if (err == -1) { return errno; }
         return 0;
     default:
