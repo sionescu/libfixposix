@@ -63,6 +63,7 @@ LFP_INIT($PACKAGE_VERSION)
 
 dnl Checks for programs
 LFP_REQUIRE_PROG([GETCONF], [getconf])
+LFP_REQUIRE_PROG([PKGCONFIG], [pkg-config])
 
 dnl Set compiler & linker flags
 LFP_SYS_PLATFORM_SPECIFIC_DEFINITIONS
