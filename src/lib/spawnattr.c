@@ -53,8 +53,7 @@ DSO_PUBLIC int
 lfp_spawnattr_init(lfp_spawnattr_t *attr)
 {
     SYSCHECK(EINVAL, attr == NULL);
-    memset(attr, 0, sizeof(lfp_spawnattr_t));
-    sigemptyset(&attr->sigdefault);
+    *attr = (lfp_spawnattr_t) {0};
     return 0;
 }
 
@@ -62,14 +61,11 @@ DSO_PUBLIC int
 lfp_spawnattr_destroy(lfp_spawnattr_t *attr)
 {
     SYSCHECK(EINVAL, attr == NULL);
-    if (attr->chdir_path) {
+    if (attr->chdir_path)
         free(attr->chdir_path);
-        attr->chdir_path = NULL;
-    }
-    if (attr->pts_path) {
+    if (attr->pts_path)
         free(attr->pts_path);
-        attr->pts_path = NULL;
-    }
+    *attr = (lfp_spawnattr_t) {0};
     return 0;
 }
 
