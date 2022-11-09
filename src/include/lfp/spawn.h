@@ -91,10 +91,6 @@ typedef enum {
 #define LFP_SPAWN_SETPGROUP     ( 1 <<  2 )
         LFP_SPAWN_RESETIDS      = 1 <<  3,
 #define LFP_SPAWN_RESETIDS      ( 1 <<  3 )
-        LFP_SPAWN_SETUID        = 1 <<  4,
-#define LFP_SPAWN_SETUID        ( 1 <<  4 )
-        LFP_SPAWN_SETGID        = 1 <<  5,
-#define LFP_SPAWN_SETGID        ( 1 <<  5 )
         LFP_SPAWN_SETCWD        = 1 <<  6,
 #define LFP_SPAWN_SETCWD        ( 1 <<  6 )
         LFP_SPAWN_SETSID        = 1 <<  7,
@@ -131,12 +127,6 @@ int lfp_spawnattr_setctty(lfp_spawnattr_t *attr, const char *path);
 
 int lfp_spawnattr_getcwd(lfp_spawnattr_t *attr, char **path);
 int lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path);
-
-int lfp_spawnattr_getuid(lfp_spawnattr_t *attr, uid_t *uid);
-int lfp_spawnattr_setuid(lfp_spawnattr_t *attr, const uid_t uid);
-
-int lfp_spawnattr_getgid(lfp_spawnattr_t *attr, gid_t *gid);
-int lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid);
 
 int lfp_spawnattr_getumask(lfp_spawnattr_t *attr, mode_t *umask);
 int lfp_spawnattr_setumask(lfp_spawnattr_t *attr, const mode_t umask);

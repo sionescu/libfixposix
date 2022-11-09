@@ -41,8 +41,6 @@
                              LFP_SPAWN_SETSIGDEFAULT | \
                              LFP_SPAWN_SETPGROUP     | \
                              LFP_SPAWN_RESETIDS      | \
-                             LFP_SPAWN_SETUID        | \
-                             LFP_SPAWN_SETGID        | \
                              LFP_SPAWN_SETCWD        | \
                              LFP_SPAWN_SETSID        | \
                              LFP_SPAWN_SETCTTY       | \
@@ -189,40 +187,6 @@ lfp_spawnattr_setcwd(lfp_spawnattr_t *attr, const char *path)
 }
 
 DSO_PUBLIC int
-lfp_spawnattr_getuid(lfp_spawnattr_t *attr, uid_t *uid)
-{
-    SYSCHECK(EFAULT, attr == NULL || uid == NULL);
-    *uid = attr->uid;
-    return 0;
-}
-
-DSO_PUBLIC int
-lfp_spawnattr_setuid(lfp_spawnattr_t *attr, const uid_t uid)
-{
-    SYSCHECK(EFAULT, attr == NULL);
-    attr->flags |= LFP_SPAWN_SETUID;
-    attr->uid = uid;
-    return 0;
-}
-
-DSO_PUBLIC int
-lfp_spawnattr_getgid(lfp_spawnattr_t *attr, gid_t *gid)
-{
-    SYSCHECK(EFAULT, attr == NULL || gid == NULL);
-    *gid = attr->gid;
-    return 0;
-}
-
-DSO_PUBLIC int
-lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid)
-{
-    SYSCHECK(EFAULT, attr == NULL);
-    attr->flags |= LFP_SPAWN_SETGID;
-    attr->gid = gid;
-    return 0;
-}
-
-DSO_PUBLIC int
 lfp_spawnattr_getumask(lfp_spawnattr_t *attr, mode_t *umask)
 {
     SYSCHECK(EFAULT, attr == NULL || umask == NULL);
@@ -273,10 +237,6 @@ lfp_spawnattr_setrlimit(lfp_spawnattr_t *attr, const lfp_rlimit_t *rlim, size_t 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 {
     if (attr == NULL) return 0;
-
-    SYSCHECK(EINVAL, (attr->flags & LFP_SPAWN_RESETIDS) && \
-                     ((attr->flags & LFP_SPAWN_SETUID)  || \
-                      (attr->flags & LFP_SPAWN_SETGID)));
 
     if (attr->flags & LFP_SPAWN_SETSIGMASK)
         if (sigprocmask(SIG_SETMASK, &attr->sigmask, NULL) < 0) {
@@ -333,35 +293,19 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
         }
 
     if (attr->flags & LFP_SPAWN_RESETIDS) {
-        if (seteuid(getuid()) < 0) {
-#if !defined(NDEBUG)
-            perror("LFP_SPAWN_APPLY_ATTR:RESETIDS:seteuid");
-#endif
-            goto error_return;
-        }
         if (setegid(getgid()) < 0) {
 #if !defined(NDEBUG)
             perror("LFP_SPAWN_APPLY_ATTR:RESETIDS:setegid");
 #endif
             goto error_return;
         }
+        if (seteuid(getuid()) < 0) {
+#if !defined(NDEBUG)
+            perror("LFP_SPAWN_APPLY_ATTR:RESETIDS:seteuid");
+#endif
+            goto error_return;
+        }
     }
-
-    if (attr->flags & LFP_SPAWN_SETUID)
-        if (seteuid(attr->uid) < 0) {
-#if !defined(NDEBUG)
-            perror("LFP_SPAWN_APPLY_ATTR:SETUID:seteuid");
-#endif
-            goto error_return;
-        }
-
-    if (attr->flags & LFP_SPAWN_SETGID)
-        if (setegid(attr->gid) < 0) {
-#if !defined(NDEBUG)
-            perror("LFP_SPAWN_APPLY_ATTR:SETGID:setegid");
-#endif
-            goto error_return;
-        }
 
     if (attr->flags & LFP_SPAWN_SETUMASK)
         umask(attr->umask); // always success
