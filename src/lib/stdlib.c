@@ -25,18 +25,15 @@
 #include <lfp/stdlib.h>
 #include <lfp/string.h>
 #include <lfp/unistd.h>
+#include <lfp/stat.h>
 #include <lfp/fcntl.h>
 #include <lfp/errno.h>
-#include <lfp/time.h>
-#include <lfp/unistd.h>
 #include <lfp/time.h>
 #include "aux/inlines.h"
 
 #include <limits.h>
 #include <stdbool.h>
-#include <unistd.h>
 #include <pthread.h>
-#include <sys/stat.h>
 
 static char*
 _valid_template_p(char *s, size_t len)
