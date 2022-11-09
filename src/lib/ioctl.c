@@ -35,7 +35,7 @@
 DSO_PUBLIC int
 lfp_tty_attach(const char *path)
 {
-    SYSCHECK(EINVAL, path == NULL);
+    SYSCHECK(EFAULT, path == NULL);
     SYSCHECK(ENOENT, path[0] == '\0');
 
     int ttyfd;

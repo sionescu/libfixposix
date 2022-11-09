@@ -74,11 +74,10 @@ int _lfp_clock_getres(clock_id_t clk_id, struct timespec *tp)
 DSO_PUBLIC int
 lfp_clock_getres(clockid_t clk_id, struct timespec *res)
 {
+    SYSCHECK(EFAULT, res == NULL);
 #if HAVE_CLOCK_GETTIME
     return clock_getres(clk_id, res);
 #elif defined(__APPLE__)
-    SYSCHECK(EINVAL, res == NULL);
-
     switch (clk_id) {
     case CLOCK_REALTIME:
         return _lfp_clock_getres(CALENDAR_CLOCK, res);
@@ -125,11 +124,10 @@ int _lfp_clock_gettime(clock_id_t clk_id, struct timespec *tp)
 DSO_PUBLIC int
 lfp_clock_gettime(clockid_t clk_id, struct timespec *tp)
 {
+    SYSCHECK(EFAULT, tp == NULL);
 #if HAVE_CLOCK_GETTIME
     return clock_gettime(clk_id, tp);
 #elif defined(__APPLE__)
-    SYSCHECK(EINVAL, tp == NULL);
-
     switch (clk_id) {
     case CLOCK_REALTIME:
         return _lfp_clock_gettime(CALENDAR_CLOCK, tp);
@@ -163,11 +161,10 @@ int _lfp_clock_settime_realtime(struct timespec *tp)
 DSO_PUBLIC int
 lfp_clock_settime(clockid_t clk_id, struct timespec *tp)
 {
+    SYSCHECK(EFAULT, tp == NULL);
 #if HAVE_CLOCK_GETTIME
     return clock_settime(clk_id, tp);
 #elif defined(__APPLE__)
-    SYSCHECK(EINVAL, tp == NULL);
-
     switch (clk_id) {
     case CLOCK_REALTIME:
         return _lfp_clock_settime_realtime(tp);

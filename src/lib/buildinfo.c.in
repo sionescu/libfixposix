@@ -34,7 +34,7 @@
 DSO_PUBLIC int
 lfp_buildinfo(struct lfp_buildinfo *v)
 {
-    SYSCHECK(EINVAL, v == NULL);
+    SYSCHECK(EFAULT, v == NULL);
     v->release = (uint64_t) MAJOR__ | MINOR__ | MICRO__;
     memset(v->vcsid, 0, sizeof(v->vcsid));
     // TODO: Switch sources to C11 and use _Static_assert.

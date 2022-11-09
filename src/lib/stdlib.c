@@ -165,6 +165,7 @@ lfp_getpath(char *const envp[])
 DSO_PUBLIC int
 lfp_ptsname(int masterfd, char *buf, size_t buflen)
 {
+    SYSCHECK(EFAULT, buf == NULL);
 #if defined(HAVE_PTSNAME_R)
     return ptsname_r(masterfd, buf, buflen);
 #elif defined(HAVE_PTSNAME)

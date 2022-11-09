@@ -200,7 +200,7 @@ lfp_ftruncate(int fd, off_t length)
 DSO_PUBLIC int
 lfp_execve(const char *path, char *const argv[], char *const envp[])
 {
-    SYSCHECK(EINVAL, path == NULL);
+    SYSCHECK(EFAULT, path == NULL);
     SYSCHECK(ENOENT, path[0] == '\0');
 
     return execve(path, argv, envp);
@@ -209,7 +209,7 @@ lfp_execve(const char *path, char *const argv[], char *const envp[])
 DSO_PUBLIC int
 lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 {
-    SYSCHECK(EINVAL, file == NULL);
+    SYSCHECK(EFAULT, file == NULL);
     SYSCHECK(ENOENT, file[0] == '\0');
 
     if (strchr(file, '/'))
@@ -249,7 +249,7 @@ lfp_execvpe(const char *file, char *const argv[], char *const envp[])
 DSO_PUBLIC int
 lfp_nice_k (int incr, int *new_nice)
 {
-    SYSCHECK_K(new_nice == NULL, EINVAL);
+    SYSCHECK_K(new_nice == NULL, EFAULT);
     errno = 0;
     int ret = nice(incr);
     if (ret == -1 && errno != 0) { return -errno; }

@@ -121,7 +121,7 @@ lfp_cmsg_data (struct cmsghdr* cmsg)
 DSO_PUBLIC int
 lfp_getpeereid(int sockfd, uid_t *euid, gid_t *egid)
 {
-    SYSCHECK(EINVAL, euid == NULL || egid == NULL);
+    SYSCHECK(EFAULT, euid == NULL || egid == NULL);
 #if defined(HAVE_GETPEEREID)
     return getpeereid(sockfd, euid, egid);
 #elif defined(HAVE_GETPEERUCRED)

@@ -93,7 +93,8 @@ lfp_parse_memsize(const char *s, enum lfp_memsize_measure_unit default_unit)
 {
     int64_t default_multiplier, multiplier, amount;
 
-    SYSCHECK(EINVAL, s == NULL || *s == '\0');
+    SYSCHECK(EFAULT, s == NULL);
+    SYSCHECK(EINVAL, *s == '\0');
     SYSGUARD(default_multiplier = compute_multiplier(default_unit));
 
     char *endptr = NULL;

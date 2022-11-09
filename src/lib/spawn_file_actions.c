@@ -65,7 +65,7 @@ lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 {
     struct rlimit limit;
 
-    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EFAULT, file_actions == NULL);
     SYSGUARD(lfp_getrlimit(RLIMIT_NOFILE, &limit));
 
     return _lfp_spawn_file_actions_init(file_actions, limit.rlim_cur);
@@ -82,7 +82,7 @@ lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, int initialized)
 DSO_PUBLIC int
 lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 {
-    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EFAULT, file_actions == NULL);
     lfp_spawn_file_actions_free_paths(file_actions->actions, file_actions->initialized);
     if (file_actions->actions)
         free(file_actions->actions);
@@ -125,7 +125,7 @@ lfp_spawn_file_actions_addopen(lfp_spawn_file_actions_t *file_actions,
                                int fd, const char *path,
                                uint64_t oflags, mode_t mode)
 {
-    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EFAULT, file_actions == NULL);
     SYSCHECK(EBADF, INVALID_FD(fd));
 
     lfp_spawn_action *action = lfp_spawn_file_actions_allocate(file_actions);
@@ -144,7 +144,7 @@ DSO_PUBLIC int
 lfp_spawn_file_actions_addclose(lfp_spawn_file_actions_t *file_actions,
                                 int fd)
 {
-    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EFAULT, file_actions == NULL);
     SYSCHECK(EBADF, INVALID_FD(fd));
 
     lfp_spawn_action *action = lfp_spawn_file_actions_allocate(file_actions);
@@ -160,7 +160,7 @@ DSO_PUBLIC int
 lfp_spawn_file_actions_adddup2(lfp_spawn_file_actions_t *file_actions,
                                int fd, int newfd)
 {
-    SYSCHECK(EINVAL, file_actions == NULL);
+    SYSCHECK(EFAULT, file_actions == NULL);
     SYSCHECK(EBADF, INVALID_FD(fd) || INVALID_FD(newfd));
 
     lfp_spawn_action *action = lfp_spawn_file_actions_allocate(file_actions);
