@@ -1,4 +1,4 @@
-libfixposix.so.3 libfixposix3 #MINVER#
+libfixposix.so.4 libfixposix4 #MINVER#
  lfp_accept@Base 0.3.0
  lfp_buildinfo@Base 0.4.3
  lfp_clearenv@Base 0.3.0
@@ -44,7 +44,9 @@ libfixposix.so.3 libfixposix3 #MINVER#
  lfp_mkstemp@Base 0.3.0
  lfp_mmap@Base 0.3.0
  lfp_munmap@Base 0.3.0
+ lfp_nice_k@Base 0.5.0
  lfp_open@Base 0.3.0
+ lfp_open_k@Base 0.5.0
  lfp_opendir@Base 0.4.0
  lfp_openlog@Base 0.3.0
  lfp_openpt@Base 0.3.0
@@ -82,21 +84,21 @@ libfixposix.so.3 libfixposix3 #MINVER#
  lfp_spawnattr_getctty@Base 0.3.0
  lfp_spawnattr_getcwd@Base 0.3.0
  lfp_spawnattr_getflags@Base 0.3.0
- lfp_spawnattr_getgid@Base 0.3.0
  lfp_spawnattr_getpgroup@Base 0.3.0
+ lfp_spawnattr_getrlimit@Base 0.5.0
  lfp_spawnattr_getsigdefault@Base 0.3.0
  lfp_spawnattr_getsigmask@Base 0.3.0
- lfp_spawnattr_getuid@Base 0.3.0
+ lfp_spawnattr_getumask@Base 0.5.0
  lfp_spawnattr_init@Base 0.3.0
  lfp_spawnattr_setctty@Base 0.3.0
  lfp_spawnattr_setcwd@Base 0.3.0
  lfp_spawnattr_setflags@Base 0.3.0
- lfp_spawnattr_setgid@Base 0.3.0
  lfp_spawnattr_setpgroup@Base 0.3.0
+ lfp_spawnattr_setrlimit@Base 0.5.0
  lfp_spawnattr_setsid@Base 0.3.0
  lfp_spawnattr_setsigdefault@Base 0.3.0
  lfp_spawnattr_setsigmask@Base 0.3.0
- lfp_spawnattr_setuid@Base 0.3.0
+ lfp_spawnattr_setumask@Base 0.5.0
  lfp_spawnp@Base 0.3.0
  lfp_stat@Base 0.3.0
  lfp_strerror@Base 0.3.0

@@ -5,7 +5,7 @@ Release:  0
 License:  BSL-1.0
 Group:    Development/Libraries/C and C++
 URL:      https://github.com/sionescu/%{name}
-Source:   https://github.com/sionescu/%{name}/releases/download/v%{version}/%{name}_%{version}.tar.gz
+Source:   https://github.com/sionescu/%{name}/releases/download/v%{version}/%{name}_%{version}.tar.xz
 
 %define srcdir %{name}
 
@@ -15,18 +15,18 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 %description
 Thin wrapper over POSIX syscalls and some replacement functionality, most notably lfp_spawn().
 
-%package -n libfixposix3
+%package -n libfixposix4
 Summary:        Shared library for libfixposix
 Group:          Development/Libraries/C and C++
 
-%description -n libfixposix3
+%description -n libfixposix4
 Thin wrapper over POSIX syscalls.
 
 %package -n libfixposix-devel
 Summary:        Development files
 Group:          Development/Libraries/C and C++
 Requires:       glibc-devel
-Requires:       libfixposix3 = %{version}-%{release}
+Requires:       libfixposix4 = %{version}-%{release}
 Provides:       %{name}-static = %{version}-%{release}
 
 %description devel
@@ -36,7 +36,7 @@ Header files, static libraries and API documentation for using libfixposix.
 %setup -q -n %{srcdir}
 
 %build
-%configure --enable-static
+%configure --enable-static --enable-tests
 make %{?_smp_mflags}
 
 %check
@@ -46,10 +46,10 @@ make %{?_smp_mflags} check
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
 find %{buildroot} -type f -name "*.la" -delete -print
 
-%post -n libfixposix3 -p /sbin/ldconfig
-%postun -n libfixposix3 -p /sbin/ldconfig
+%post -n libfixposix4 -p /sbin/ldconfig
+%postun -n libfixposix4 -p /sbin/ldconfig
 
-%files -n libfixposix3
+%files -n libfixposix4
 %defattr(-,root,root)
 %{_libdir}/lib*so.*
 

@@ -2,18 +2,20 @@ Source: libfixposix
 Priority: optional
 Section: libdevel
 Maintainer: Stelian Ionescu <sionescu@cddr.org>
-Standards-Version: 4.1.4
+Standards-Version: 4.5.0
 Build-Depends: debhelper (>= 11), pkg-config, check (>= 0.10.0)
-Homepage: https://github.com/sionescu/libfixposix
+Homepage: https://common-lisp.net/project/iolib
+Vcs-Browser: https://github.com/sionescu/libfixposix
+Vcs-Git: https://github.com/sionescu/libfixposix.git
 
 Package: libfixposix-dev
 Architecture: any
-Depends: libfixposix3 (= ${binary:Version}), libc6-dev, ${misc:Depends}
+Depends: libfixposix4 (= ${binary:Version}), libc6-dev, ${misc:Depends}
 Description: Development files for LibFixPOSIX
  .
  This package contains header files and static archives.
 
-Package: libfixposix3
+Package: libfixposix4
 Section: libs
 Architecture: any
 Multi-Arch: same

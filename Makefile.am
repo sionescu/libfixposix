@@ -17,6 +17,7 @@ AM_CPPFLAGS = -include $(top_builddir)/config.h \
 
 EXTRA_DIST = \
 	LICENCE \
+	README.md \
 	VERSION \
 	libfixposix.spec \
 	debian \
