@@ -35,6 +35,7 @@ LFP_BEGIN_DECLS
 #include <inttypes.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/resource.h>
 
 typedef struct {
     uint initialized;
@@ -63,40 +64,49 @@ int lfp_spawn_file_actions_addkeep(lfp_spawn_file_actions_t *file_actions,
                                    int fd);
 
 typedef struct {
-    uint32_t flags;
-    sigset_t sigdefault;
-    sigset_t sigmask;
-    pid_t    pgroup;
-    uid_t    uid;
-    gid_t    gid;
-    char    *chdir_path;
-    char    *pts_path;
-    mode_t   umask;
+    int resource;
+    struct rlimit rlim;
+} lfp_rlimit_t;
+
+typedef struct {
+    uint32_t      flags;
+    sigset_t      sigdefault;
+    sigset_t      sigmask;
+    pid_t         pgroup;
+    uid_t         uid;
+    gid_t         gid;
+    char         *chdir_path;
+    char         *pts_path;
+    mode_t        umask;
+    lfp_rlimit_t *rlim;
+    unsigned      rlim_size;
 } lfp_spawnattr_t;
 
 typedef enum {
-        LFP_SPAWN_SETSIGMASK    = 1 << 0,
-#define LFP_SPAWN_SETSIGMASK    ( 1 << 0 )
-        LFP_SPAWN_SETSIGDEFAULT = 1 << 1,
-#define LFP_SPAWN_SETSIGDEFAULT ( 1 << 1 )
-        LFP_SPAWN_SETPGROUP     = 1 << 2,
-#define LFP_SPAWN_SETPGROUP     ( 1 << 2 )
-        LFP_SPAWN_RESETIDS      = 1 << 3,
-#define LFP_SPAWN_RESETIDS      ( 1 << 3 )
-        LFP_SPAWN_SETUID        = 1 << 4,
-#define LFP_SPAWN_SETUID        ( 1 << 4 )
-        LFP_SPAWN_SETGID        = 1 << 5,
-#define LFP_SPAWN_SETGID        ( 1 << 5 )
-        LFP_SPAWN_SETCWD        = 1 << 6,
-#define LFP_SPAWN_SETCWD        ( 1 << 6 )
-        LFP_SPAWN_SETSID        = 1 << 7,
-#define LFP_SPAWN_SETSID        ( 1 << 7 )
-        LFP_SPAWN_SETCTTY       = 1 << 8,
-#define LFP_SPAWN_SETCTTY       ( 1 << 8 )
-        LFP_SPAWN_USEVFORK      = 1 << 9,
-#define LFP_SPAWN_USEVFORK      ( 1 << 9 )
+        LFP_SPAWN_SETSIGMASK    = 1 <<  0,
+#define LFP_SPAWN_SETSIGMASK    ( 1 <<  0 )
+        LFP_SPAWN_SETSIGDEFAULT = 1 <<  1,
+#define LFP_SPAWN_SETSIGDEFAULT ( 1 <<  1 )
+        LFP_SPAWN_SETPGROUP     = 1 <<  2,
+#define LFP_SPAWN_SETPGROUP     ( 1 <<  2 )
+        LFP_SPAWN_RESETIDS      = 1 <<  3,
+#define LFP_SPAWN_RESETIDS      ( 1 <<  3 )
+        LFP_SPAWN_SETUID        = 1 <<  4,
+#define LFP_SPAWN_SETUID        ( 1 <<  4 )
+        LFP_SPAWN_SETGID        = 1 <<  5,
+#define LFP_SPAWN_SETGID        ( 1 <<  5 )
+        LFP_SPAWN_SETCWD        = 1 <<  6,
+#define LFP_SPAWN_SETCWD        ( 1 <<  6 )
+        LFP_SPAWN_SETSID        = 1 <<  7,
+#define LFP_SPAWN_SETSID        ( 1 <<  7 )
+        LFP_SPAWN_SETCTTY       = 1 <<  8,
+#define LFP_SPAWN_SETCTTY       ( 1 <<  8 )
+        LFP_SPAWN_USEVFORK      = 1 <<  9,
+#define LFP_SPAWN_USEVFORK      ( 1 <<  9 )
         LFP_SPAWN_SETUMASK      = 1 << 10,
 #define LFP_SPAWN_SETUMASK      ( 1 << 10 )
+        LFP_SPAWN_SETRLIMIT     = 1 << 11,
+#define LFP_SPAWN_SETRLIMIT     ( 1 << 11 )
 } lfp_spawnattr_flags;
 
 int lfp_spawnattr_init(lfp_spawnattr_t *attr);
@@ -130,6 +140,9 @@ int lfp_spawnattr_setgid(lfp_spawnattr_t *attr, const gid_t gid);
 
 int lfp_spawnattr_getumask(lfp_spawnattr_t *attr, mode_t *umask);
 int lfp_spawnattr_setumask(lfp_spawnattr_t *attr, const mode_t umask);
+
+int lfp_spawnattr_getrlimit(lfp_spawnattr_t *attr, lfp_rlimit_t **rlim, size_t *rlim_size);
+int lfp_spawnattr_setrlimit(lfp_spawnattr_t *attr, const lfp_rlimit_t *rlim, size_t rlim_size);
 
 int lfp_spawn(pid_t *restrict pid,
               const char *restrict path,

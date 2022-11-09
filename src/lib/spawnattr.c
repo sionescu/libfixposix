@@ -47,7 +47,8 @@
                              LFP_SPAWN_SETSID        | \
                              LFP_SPAWN_SETCTTY       | \
                              LFP_SPAWN_USEVFORK      | \
-                             LFP_SPAWN_SETUMASK      )
+                             LFP_SPAWN_SETUMASK      | \
+                             LFP_SPAWN_SETRLIMIT     )
 
 DSO_PUBLIC int
 lfp_spawnattr_init(lfp_spawnattr_t *attr)
@@ -65,6 +66,8 @@ lfp_spawnattr_destroy(lfp_spawnattr_t *attr)
         free(attr->chdir_path);
     if (attr->pts_path)
         free(attr->pts_path);
+    if (attr->rlim)
+        free(attr->rlim);
     *attr = (lfp_spawnattr_t) {0};
     return 0;
 }
@@ -234,6 +237,36 @@ lfp_spawnattr_setumask(lfp_spawnattr_t *attr, const mode_t umask)
     attr->umask = umask;
     return 0;
 }
+
+DSO_PUBLIC int
+lfp_spawnattr_getrlimit(lfp_spawnattr_t *attr, lfp_rlimit_t **rlim, size_t *rlim_size)
+{
+    SYSCHECK(EINVAL, attr == NULL || rlim == NULL || rlim_size == NULL);
+    SYSCHECK(EINVAL, *rlim != NULL);
+    size_t size = attr->rlim_size * sizeof(lfp_rlimit_t);
+    lfp_rlimit_t *copy = malloc(size);
+    if (copy == NULL) return -1;
+    memcpy(copy, attr->rlim, size);
+    *rlim = copy;
+    *rlim_size = attr->rlim_size;
+    return 0;
+}
+
+DSO_PUBLIC int
+lfp_spawnattr_setrlimit(lfp_spawnattr_t *attr, const lfp_rlimit_t *rlim, size_t rlim_size)
+{
+    SYSCHECK(EINVAL, attr == NULL || rlim == NULL);
+    SYSCHECK(EINVAL, rlim_size == 0);
+    attr->flags |= LFP_SPAWN_SETRLIMIT;
+    lfp_rlimit_t *copy = malloc(rlim_size);
+    if (copy == NULL) return -1;
+    memcpy(copy, rlim, rlim_size);
+    if (attr->rlim)
+        free(attr->rlim);
+    attr->rlim = copy;
+    attr->rlim_size = rlim_size;
+    return 0;
+}
 
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
@@ -331,6 +364,17 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 
     if (attr->flags & LFP_SPAWN_SETUMASK)
         umask(attr->umask); // always success
+
+    if (attr->flags & LFP_SPAWN_SETRLIMIT)
+        for (int i = 0; i < attr->rlim_size; i++) {
+            lfp_rlimit_t *lim = &attr->rlim[i];
+            if (setrlimit(lim->resource, &lim->rlim) < 0) {
+#if !defined(NDEBUG)
+                perror("LFP_SPAWN_APPLY_ATTR:SETRLIMIT:setrlimit");
+#endif
+                goto error_return;
+            }
+        }
 
     return 0;
   error_return:
