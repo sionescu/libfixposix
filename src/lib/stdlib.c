@@ -35,6 +35,8 @@
 #include <stdbool.h>
 #include <pthread.h>
 
+#if !defined(HAVE_MKOSTEMP)
+
 static char*
 _valid_template_p(char *s, size_t len)
 {
@@ -66,12 +68,6 @@ _randomize_template(uint32_t *seed, char *s)
     return retval;
 }
 
-DSO_PUBLIC int
-lfp_mkstemp(char *template)
-{
-    return lfp_mkostemp(template, O_CLOEXEC);
-}
-
 static inline uint32_t
 _pid_seed(void)
 { 
@@ -81,9 +77,12 @@ _pid_seed(void)
         return (ts.tv_nsec << 2) + getpid() + ts.tv_sec;
 }
 
+#endif // HAVE_MKOSTEMP
+
 DSO_PUBLIC int
 lfp_mkostemp(char *template, uint64_t flags)
 {
+    SYSCHECK(EFAULT, template == NULL);
 #if defined(HAVE_MKOSTEMP)
     return mkostemp(template, flags);
 #else
@@ -117,6 +116,12 @@ lfp_mkostemp(char *template, uint64_t flags)
     }
     SYSERR(EEXIST);
 #endif
+}
+
+DSO_PUBLIC int
+lfp_mkstemp(char *template)
+{
+    return lfp_mkostemp(template, O_CLOEXEC);
 }
 
 static bool
