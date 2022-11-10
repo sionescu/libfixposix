@@ -1,4 +1,7 @@
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/113/badge.svg)](https://scan.coverity.com/projects/sionescu-libfixposix)
+[![Build
+Status](https://app.travis-ci.com/sionescu/libfixposix.svg?branch=master)](https://app.travis-ci.com/sionescu/libfixposix)
+[![Coverity Scan Build
+Status](https://scan.coverity.com/projects/113/badge.svg)](https://scan.coverity.com/projects/sionescu-libfixposix)
 
 The purpose of libfixposix is to offer replacements for parts of POSIX
 whose behaviour is inconsistent across *NIX flavours.
