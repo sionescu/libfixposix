@@ -51,5 +51,5 @@ addons:
       name: sionescu/libfixposix
     build_command_prepend: autoreconf -f -i && ./configure --enable-tests
     build_command: make -j4
-    branch_pattern: coverity
+    branch_pattern: coverity_scan
     notification_email: sionescu@cddr.org
