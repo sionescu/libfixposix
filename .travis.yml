@@ -2,15 +2,15 @@ os:
   - freebsd
   - linux
   - osx
-dist: focal
-osx_image: xcode13.1
+dist: jammy
+osx_image: xcode14
 
 language: c
 compiler:
   - gcc
   - clang
 
-matrix:
+jobs:
   fast_finish: true
 
 notifications:
