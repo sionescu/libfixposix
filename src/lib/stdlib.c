@@ -142,16 +142,6 @@ _lfp_getenv(const char *name, size_t len, char *const envp[])
     return NULL;
 }
 
-// FIXME: add autoconf check that confstr(_CS_PATH) returns sane values
-static char*
-_lfp_default_path(void)
-{
-    size_t default_path_size = confstr(_CS_PATH, NULL, 0);
-    char *default_path = malloc(default_path_size);
-    confstr(_CS_PATH, default_path, default_path_size);
-    return default_path;
-}
-
 DSO_PUBLIC char*
 lfp_getpath(char *const envp[])
 {
@@ -160,7 +150,7 @@ lfp_getpath(char *const envp[])
     if (envpath != NULL) {
         return strdup(envpath);
     } else {
-        return _lfp_default_path();
+        return "/bin:/usr/bin";
     }
 }
 
