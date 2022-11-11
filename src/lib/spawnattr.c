@@ -223,16 +223,17 @@ lfp_spawnattr_setrlimit(lfp_spawnattr_t *attr, const lfp_rlimit_t *rlim, size_t 
     SYSCHECK(EFAULT, attr == NULL || rlim == NULL);
     SYSCHECK(EINVAL, rlim_size == 0);
     attr->flags |= LFP_SPAWN_SETRLIMIT;
-    lfp_rlimit_t *copy = malloc(rlim_size);
+    size_t size = rlim_size * sizeof(lfp_rlimit_t);
+    lfp_rlimit_t *copy = malloc(size);
     if (copy == NULL) return -1;
-    memcpy(copy, rlim, rlim_size);
+    memcpy(copy, rlim, size);
     if (attr->rlim)
         free(attr->rlim);
     attr->rlim = copy;
     attr->rlim_size = rlim_size;
     return 0;
 }
-
+
 
 int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
 {
