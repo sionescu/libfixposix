@@ -17,7 +17,7 @@ m4_include([VERSION])
 AC_INIT([LibFixPOSIX], m4_esyscmd_s([cat VERSION]),
         [iolib-devel@common-lisp.net],
         [libfixposix], [https://github.com/sionescu/libfixposix])
-AC_COPYRIGHT([Copyright © 2010-2020 Stelian Ionescu <sionescu@cddr.org>])
+AC_COPYRIGHT([Copyright © 2010-2022 Stelian Ionescu <sionescu@cddr.org>])
 
 AC_MSG_NOTICE([srcdir:   $srcdir])
 AC_MSG_NOTICE([builddir: $builddir])
@@ -39,7 +39,7 @@ AC_CONFIG_MACRO_DIR([config/m4])
 dnl Must come before AM_INIT_AUTOMAKE.
 AC_CONFIG_AUX_DIR([config/aux])
 
-AM_INIT_AUTOMAKE([1.10 foreign silent-rules subdir-objects
+AM_INIT_AUTOMAKE([1.12 foreign dist-xz silent-rules subdir-objects
                   color-tests parallel-tests])
 
 dnl Have Kbuild-like build output
@@ -109,7 +109,8 @@ LFP_TESTS_CHECK
 AC_SUBST([BATSPATH], [$srcdir/src/tests/lib])
 
 AC_CONFIG_FILES([Makefile
-                 libfixposix.spec
+                 distro/libfixposix.spec
+                 distro/PKGBUILD
                  src/libfixposix.pc
                  src/lib/buildinfo.c
                  src/include/lfp/time.h])

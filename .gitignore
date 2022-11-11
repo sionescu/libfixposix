@@ -1,4 +1,5 @@
 aclocal.m4
+.autom4te.cache/
 autom4te.cache/
 config/aux/
 config/m4/libtool.m4

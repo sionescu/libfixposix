@@ -1,0 +1,25 @@
+# Maintainer: Stelian Ionescu <sionescu@cddr.org>
+pkgname=libfixposix
+pkgver=@PACKAGE_VERSION@
+pkgrel=1
+pkgdesc='Thin wrapper over POSIX syscalls'
+arch=('i686' 'x86_64')
+url='https://github.com/sionescu/libfixposix'
+license=('BSL-1.0')
+depends=('glibc' 'gcc-libs' 'pkg-config' 'check')
+makedepends=('make')
+options=('!libtool')
+source=("${pkgname}_${pkgver}.tar.xz")
+sha256sums=('')
+
+build() {
+  cd "${srcdir}/${pkgname}"
+  ./configure --prefix=/usr --enable-static --with-pic --enable-tests
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}"
+  make DESTDIR="${pkgdir}" install
+  install -D -m644 LICENCE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

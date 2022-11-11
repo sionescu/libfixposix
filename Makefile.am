@@ -19,8 +19,10 @@ EXTRA_DIST = \
 	LICENCE \
 	README.md \
 	VERSION \
-	libfixposix.spec \
-	debian \
+	distro/debian \
+	distro/libfixposix.spec \
+	distro/libfixposix.rpmlintrc \
+	distro/PKGBUILD \
 	src/tests/lib \
 	$(wildcard $(top_srcdir)/src/tests/*.in)
 

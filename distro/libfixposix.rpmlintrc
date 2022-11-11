@@ -1,0 +1,3 @@
+addFilter("libfixposix.* missing-call-to-setgroups-before-setuid")
+addFilter("libfixposix.* description-shorter-than-summary")
+addFilter("libfixposix.* no-changelogname-tag")
