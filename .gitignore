@@ -6,6 +6,7 @@ config/m4/libtool.m4
 config/m4/lt*.m4
 build/
 configure
+configure~
 config.h.in*
 Makefile.in
 TAGS

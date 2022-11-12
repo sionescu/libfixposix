@@ -157,19 +157,19 @@ TESTS		= ${run_tests} ${check_SCRIPTS}
 XFAIL_TESTS	=
 
 src_tests_buildinfo_SOURCES = src/tests/buildinfo.c
-src_tests_buildinfo_CFLAGS  = @CHECK_CFLAGS@
+src_tests_buildinfo_CFLAGS  = @CHECK_CFLAGS@ $(LFP_CFLAGS)
 src_tests_buildinfo_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
 src_tests_spawn_SOURCES = src/tests/spawn.c
-src_tests_spawn_CFLAGS  = @CHECK_CFLAGS@
+src_tests_spawn_CFLAGS  = @CHECK_CFLAGS@ $(LFP_CFLAGS)
 src_tests_spawn_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
 src_tests_select_SOURCES = src/tests/select.c
-src_tests_select_CFLAGS  = @CHECK_CFLAGS@
+src_tests_select_CFLAGS  = @CHECK_CFLAGS@ $(LFP_CFLAGS)
 src_tests_select_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
 src_tests_mkstemp_SOURCES = src/tests/mkstemp.c
-src_tests_mkstemp_CFLAGS  = @CHECK_CFLAGS@
+src_tests_mkstemp_CFLAGS  = @CHECK_CFLAGS@ $(LFP_CFLAGS)
 src_tests_mkstemp_LDADD   = @CHECK_LIBS@ $(top_builddir)/src/lib/libfixposix.la
 
 endif

@@ -9,7 +9,7 @@ dnl WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 dnl Minimum Autoconf version required.
-AC_PREREQ([2.67])
+AC_PREREQ([2.69])
 
 dnl Ensures that ./configure will be automatically re-run when VERSION changes.
 m4_include([VERSION])
@@ -45,15 +45,15 @@ AM_INIT_AUTOMAKE([1.12 foreign dist-xz silent-rules subdir-objects
 dnl Have Kbuild-like build output
 AM_SILENT_RULES([yes])
 
-dnl Contains replacement functions
-dnl AC_CONFIG_LIBOBJ_DIR([lib])
-
 AC_LANG([C])
 
-dnl Checks for programs.
-dnl We need a C compiler.
-AC_PROG_CC_C99
-AC_PROG_AWK
+dnl We need a C11 compiler.
+AC_PROG_CC
+AS_IF([test "${ac_cv_prog_cc_c11}" = "no"], [
+    AC_MSG_ERROR([C11 compiler is required for build])
+])
+CFLAGS="$CFLAGS --std=c11"
+
 dnl And we need libtool for building the shared library
 LT_INIT([pic-only disable-static disable-fast-install])
 LT_PREREQ([2.2.6])
