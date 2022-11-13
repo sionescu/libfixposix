@@ -42,14 +42,14 @@ script:
       autoreconf -f -i
       tests=disable; if [ "$TRAVIS_OS_NAME" = "linux" ]; then tests=enable; fi
       env CFLAGS="${WERR_CFLAGS}" ./configure --${tests}-tests
-      make -j2
-      make check
+      make -j2 V=1
+      make check V=1
 
 addons:
   coverity_scan:
     project:
       name: sionescu/libfixposix
     build_command_prepend: autoreconf -f -i && ./configure --enable-tests
-    build_command: make -j4
+    build_command: make -j4 V=1
     branch_pattern: coverity_scan
     notification_email: sionescu@cddr.org
