@@ -140,7 +140,7 @@ lfp_pipe (int pipefd[2], uint64_t flags)
 #if defined(HAVE_PIPE2)
     // We assume that if pipe2() is defined then O_CLOEXEC too
     // exists, which means that it's in the lower part of "flags"
-    return pipe2(pipefd, (int)flags & 0xFFFFFFFF);
+    return pipe2(pipefd, (int)(flags & 0xFFFFFFFF));
 #else
     if (pipe(pipefd) < 0) {
         goto error_return;

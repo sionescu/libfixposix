@@ -32,11 +32,11 @@
 DSO_PUBLIC int
 lfp_open (const char *pathname, uint64_t flags, ...)
 {
-    int mode = 0;
+    mode_t mode = 0;
     if (flags & O_CREAT) {
         va_list args;
         va_start(args, flags);
-        mode = va_arg(args, int);
+        mode = (mode_t) va_arg(args, int);
         va_end(args);
     }
 
@@ -53,9 +53,9 @@ lfp_open_k (int *newfd, const char *pathname, uint64_t flags, mode_t mode)
 
     int fd = 0;
     if (flags & O_CREAT) {
-        fd = open(pathname, (int)flags & 0xFFFFFFFF, mode);
+        fd = open(pathname, (int)(flags & 0xFFFFFFFF), mode);
     } else {
-        fd = open(pathname, (int)flags & 0xFFFFFFFF);
+        fd = open(pathname, (int)(flags & 0xFFFFFFFF));
     }
 
     if (fd < 0) { return -errno; }
@@ -66,11 +66,11 @@ lfp_open_k (int *newfd, const char *pathname, uint64_t flags, mode_t mode)
 DSO_PUBLIC int
 lfp_openpt (uint64_t flags)
 {
-    bool cloexec = flags & O_CLOEXEC;
-    flags &= ~O_CLOEXEC;
+    bool cloexec = flags & (uint64_t)O_CLOEXEC;
+    flags &= ~(uint64_t)O_CLOEXEC;
 
     int fd;
-    SYSGUARD(fd = posix_openpt((int)flags & 0xFFFFFFFF));
+    SYSGUARD(fd = posix_openpt((int)(flags & 0xFFFFFFFF)));
     if (cloexec && lfp_set_fd_cloexec(fd, true) < 0) {
         close(fd);
         return -1;

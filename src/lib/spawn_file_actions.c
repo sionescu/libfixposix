@@ -95,10 +95,10 @@ lfp_spawn_file_actions_destroy(lfp_spawn_file_actions_t *file_actions)
 static lfp_spawn_action*
 lfp_spawn_file_actions_allocate(lfp_spawn_file_actions_t *file_actions)
 {
-    int init_index = file_actions->initialized++;
-    int allocated = file_actions->allocated;
+    size_t init_index = file_actions->initialized++;
+    size_t allocated = file_actions->allocated;
     lfp_spawn_action *actions = file_actions->actions;
-    int new_allocated;
+    size_t new_allocated;
     lfp_spawn_action *new_actions;
 
     if (init_index >= allocated) {
@@ -178,7 +178,8 @@ lfp_spawn_file_actions_addkeep(lfp_spawn_file_actions_t *file_actions,
                                int fd)
 {
     file_actions->keep_descriptors = true;
-    return bitset_insert(file_actions->kfd, fd);
+    bitset_insert(file_actions->kfd, (size_t)fd);
+    return 0;
 }
 
 static int
@@ -217,9 +218,9 @@ static int
 _lfp_spawn_close_descriptors(const lfp_spawn_file_actions_t *file_actions)
 {
     for (size_t i = 0; i < file_actions->kfd_size; i++)
-        if (!bitset_contains(file_actions->kfd, i)) {
+        if (!bitset_contains(file_actions->kfd, (size_t)i)) {
             // Ignore EBADF
-            int ret = lfp_set_fd_cloexec(i, true);
+            int ret = lfp_set_fd_cloexec((int)i, true);
             if(ret < 0 && lfp_errno() != EBADF)
                 return -1;
         }

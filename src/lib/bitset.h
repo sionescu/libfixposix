@@ -25,14 +25,16 @@
 #if !defined(_LFP_BITSET_H_)
 # define _LFP_BITSET_H_
 
+#include <lfp/spawn.h>
+
 #include <stdbool.h>
 
-int bitset_alloc(int **bitset, size_t size);
+int bitset_alloc(lfp_bitset_t *bitset, size_t size);
 
-int bitset_insert(int *bitset, int i);
+void bitset_insert(lfp_bitset_t bitset, size_t i);
 
-int bitset_delete(int *bitset, int i);
+void bitset_delete(lfp_bitset_t bitset, size_t i);
 
-bool bitset_contains(int *bitset, int i);
+bool bitset_contains(lfp_bitset_t bitset, size_t i);
 
 #endif // _LFP_BITSET_H_

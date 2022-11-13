@@ -35,7 +35,7 @@ typedef int (*execfun)(const char*, char *const[], char *const[]);
 static void
 child_exit(int pipefd, int child_errno)
 {
-    int noctets = write(pipefd, &child_errno, sizeof(int));
+    ssize_t noctets = write(pipefd, &child_errno, sizeof(int));
     if (noctets == sizeof(int))
         _exit(255);
     else
@@ -82,7 +82,7 @@ handle_parent(pid_t child_pid,
 {
     close(pipes[1]);
     int status, child_errno;
-    int noctets = read(pipes[0], &child_errno, sizeof(int));
+    ssize_t noctets = read(pipes[0], &child_errno, sizeof(int));
     int read_errno = lfp_errno();
     close(pipes[0]);
     switch (noctets) {

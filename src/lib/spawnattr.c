@@ -37,7 +37,8 @@
 
 #include "spawn.h"
 
-#define LFP_SPAWN_ALLATTRS ( LFP_SPAWN_SETSIGMASK    | \
+#define LFP_SPAWN_ALLATTRS (uint32_t) \
+                           ( LFP_SPAWN_SETSIGMASK    | \
                              LFP_SPAWN_SETSIGDEFAULT | \
                              LFP_SPAWN_SETPGROUP     | \
                              LFP_SPAWN_RESETIDS      | \
@@ -250,7 +251,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
     if (attr->flags & LFP_SPAWN_SETSIGDEFAULT) {
         struct sigaction sa = { .sa_flags   = 0,
                                 .sa_handler = SIG_DFL };
-        for (size_t i = 1; i <= NSIG; i++)
+        for (int i = 1; i <= NSIG; i++)
             if (sigismember(&attr->sigdefault, i))
                 if (sigaction(i, &sa, NULL) < 0) {
 #if !defined(NDEBUG)

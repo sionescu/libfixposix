@@ -28,10 +28,10 @@
 
 #include "bitset.h"
 
-#define NBITS (sizeof(int) * 8)
+#define NBITS (uint8_t)(sizeof(uint64_t) * 8)
 
 int
-bitset_alloc(int **bitset, size_t size)
+bitset_alloc(lfp_bitset_t *bitset, size_t size)
 {
     size_t alloc_size = (size / 8) + ((size % 8) ? 1 : 0);
     if (posix_memalign((void**)bitset, sizeof(uint64_t), alloc_size) < 0 )
@@ -40,22 +40,20 @@ bitset_alloc(int **bitset, size_t size)
     return 0;
 }
 
-int
-bitset_insert(int *bitset, int i)
+void
+bitset_insert(lfp_bitset_t bitset, size_t i)
 {
     bitset[i / NBITS] |= (1 << (i % NBITS));
-    return 0;
 }
 
-int
-bitset_delete(int *bitset, int i)
+void
+bitset_delete(lfp_bitset_t bitset, size_t i)
 {
-    bitset[i / NBITS] &= ~(1 << (i % NBITS));
-    return 0;
+    bitset[i / NBITS] &= ~((uint64_t)1 << (i % NBITS));
 }
 
 bool
-bitset_contains(int *bitset, int i)
+bitset_contains(lfp_bitset_t bitset, size_t i)
 {
     return bitset[i / NBITS] & (1 << (i % NBITS)) ? true : false;
 }

@@ -55,13 +55,13 @@ lfp_telldir(DIR *dirp)
 DSO_PUBLIC void
 lfp_seekdir(DIR *dirp, long offset)
 {
-    return seekdir(dirp, offset);
+    seekdir(dirp, offset);
 }
 
 DSO_PUBLIC void
 lfp_rewinddir(DIR *dirp)
 {
-    return rewinddir(dirp);
+    rewinddir(dirp);
 }
 
 DSO_PUBLIC int

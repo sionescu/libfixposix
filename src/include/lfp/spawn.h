@@ -37,12 +37,14 @@ LFP_BEGIN_DECLS
 #include <sys/types.h>
 #include <sys/resource.h>
 
+typedef uint64_t* lfp_bitset_t;
+
 typedef struct {
     size_t initialized;
     size_t allocated;
     struct lfp_spawn_action *actions;
     bool keep_descriptors;
-    int *kfd;
+    lfp_bitset_t kfd;
     size_t kfd_size;
 } lfp_spawn_file_actions_t;
 

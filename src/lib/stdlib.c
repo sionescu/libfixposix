@@ -84,7 +84,7 @@ lfp_mkostemp(char *template, uint64_t flags)
 {
     SYSCHECK(EFAULT, template == NULL);
 #if defined(HAVE_MKOSTEMP)
-    return mkostemp(template, flags);
+    return mkostemp(template, (int)flags);
 #else
     static uint32_t seed = 0;
 
