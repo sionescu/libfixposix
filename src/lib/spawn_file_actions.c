@@ -72,9 +72,9 @@ lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions)
 }
 
 static void
-lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, int initialized)
+lfp_spawn_file_actions_free_paths(lfp_spawn_action *actions, size_t initialized)
 {
-    for (int i = 0; i < initialized; i++)
+    for (size_t i = 0; i < initialized; i++)
         if (actions[i].type == LFP_SPAWN_FILE_ACTION_OPEN)
             free((void*)actions[i].path);
 }
@@ -216,7 +216,7 @@ lfp_spawn_apply_one_file_action(const lfp_spawn_action *action)
 static int
 _lfp_spawn_close_descriptors(const lfp_spawn_file_actions_t *file_actions)
 {
-    for (int i = 0; i < file_actions->kfd_size; i++)
+    for (size_t i = 0; i < file_actions->kfd_size; i++)
         if (!bitset_contains(file_actions->kfd, i)) {
             // Ignore EBADF
             int ret = lfp_set_fd_cloexec(i, true);
@@ -237,7 +237,7 @@ lfp_spawn_apply_file_actions(const lfp_spawn_file_actions_t *file_actions)
     lfp_spawn_action *action = file_actions->actions;
     int err;
 
-    for ( int count = file_actions->initialized; count > 0; count-- ) {
+    for (size_t count = file_actions->initialized; count > 0; count--) {
         err = lfp_spawn_apply_one_file_action (action++);
         if (err) { return err; }
     }

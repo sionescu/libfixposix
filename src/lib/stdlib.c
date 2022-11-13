@@ -94,7 +94,7 @@ lfp_mkostemp(char *template, uint64_t flags)
     char *x_start = _valid_template_p(template, len);
     SYSCHECK(EINVAL, x_start == NULL);
 
-    for (int i = 0; i < 1024; i++) {
+    for (size_t i = 0; i < 1024; i++) {
         SYSGUARD(_randomize_template(&seed, x_start));
         int fd = lfp_open(template, O_EXCL | O_CREAT | O_RDWR | flags, S_IRUSR | S_IWUSR);
         if (fd >= 0) {

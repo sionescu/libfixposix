@@ -250,7 +250,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
     if (attr->flags & LFP_SPAWN_SETSIGDEFAULT) {
         struct sigaction sa = { .sa_flags   = 0,
                                 .sa_handler = SIG_DFL };
-        for (int i = 1; i <= NSIG; i++)
+        for (size_t i = 1; i <= NSIG; i++)
             if (sigismember(&attr->sigdefault, i))
                 if (sigaction(i, &sa, NULL) < 0) {
 #if !defined(NDEBUG)
@@ -312,7 +312,7 @@ int lfp_spawn_apply_attributes(const lfp_spawnattr_t *attr)
         umask(attr->umask); // always success
 
     if (attr->flags & LFP_SPAWN_SETRLIMIT)
-        for (int i = 0; i < attr->rlim_size; i++) {
+        for (size_t i = 0; i < attr->rlim_size; i++) {
             lfp_rlimit_t *lim = &attr->rlim[i];
             if (setrlimit(lim->resource, &lim->rlim) < 0) {
 #if !defined(NDEBUG)

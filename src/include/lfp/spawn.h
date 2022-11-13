@@ -38,12 +38,12 @@ LFP_BEGIN_DECLS
 #include <sys/resource.h>
 
 typedef struct {
-    uint initialized;
-    uint allocated;
+    size_t initialized;
+    size_t allocated;
     struct lfp_spawn_action *actions;
     bool keep_descriptors;
     int *kfd;
-    int kfd_size;
+    size_t kfd_size;
 } lfp_spawn_file_actions_t;
 
 int lfp_spawn_file_actions_init(lfp_spawn_file_actions_t *file_actions);
@@ -79,7 +79,7 @@ typedef struct {
     char         *pts_path;
     mode_t        umask;
     lfp_rlimit_t *rlim;
-    unsigned      rlim_size;
+    size_t        rlim_size;
 } lfp_spawnattr_t;
 
 typedef enum {
