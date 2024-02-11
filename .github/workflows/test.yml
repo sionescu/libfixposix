@@ -13,7 +13,7 @@ jobs:
       - name: Install build deps
         run: sudo apt-get install check
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Autoconf
         run: autoreconf -f -i
       - name: Configure
